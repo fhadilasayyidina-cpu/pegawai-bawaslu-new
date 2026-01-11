@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('pegawai'); //roles: admin, operator, pegawai
+            $table->string('access_scope')->nullable(); //akses berdasarkan nama wilayah dan hanya terisi untuk role 'operator'
             $table->rememberToken();
             $table->timestamps();
         });
