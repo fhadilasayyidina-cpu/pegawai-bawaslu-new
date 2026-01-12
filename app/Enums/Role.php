@@ -9,5 +9,5 @@ enum Role: string
     case PEGAWAI = 'pegawai';
 
     // Opsional: Buat label untuk tampilan di UI/Dropdown
-    
+
 }
