@@ -4,14 +4,14 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Enums\Role;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginResponse;
-use App\Enums\Role;
+use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -19,26 +19,27 @@ class FortifyServiceProvider extends ServiceProvider
      * Register any application services.
      */
     public function register(): void
-{
-    // Gunakan Singleton untuk menimpa LoginResponse bawaan Fortify
-    $this->app->singleton(LoginResponse::class, function ($app) {
-        return new class implements LoginResponse {
-            public function toResponse($request)
+    {
+        // Gunakan Singleton untuk menimpa LoginResponse bawaan Fortify
+        $this->app->singleton(LoginResponse::class, function ($app) {
+            return new class implements LoginResponse
             {
-                $user = $request->user();
+                public function toResponse($request)
+                {
+                    $user = $request->user();
 
-                $url = match ($user->role) {
-                    Role::ADMIN    => '/admin/dashboard',
-                    Role::OPERATOR => '/operator/dashboard',
-                    Role::PEGAWAI  => '/pegawai/dashboard',
-                    default        => 'hh/dashboard',
-                };
+                    $url = match ($user->role) {
+                        Role::ADMIN => '/admin/dashboard',
+                        Role::OPERATOR => '/operator/dashboard',
+                        Role::PEGAWAI => '/pegawai/dashboard',
+                        default => 'hh/dashboard',
+                    };
 
-                return redirect()->intended($url);
-            }
-        };
-    });
-}
+                    return redirect()->intended($url);
+                }
+            };
+        });
+    }
 
     /**
      * Bootstrap any application services.
@@ -48,7 +49,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
-       
+
     }
 
     /**
