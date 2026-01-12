@@ -2,26 +2,53 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Gunakan create() supaya fitur 'hashed' di Model tetap jalan
+        // Dan Enum Role kamu tervalidasi otomatis
 
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => 'password',
-                'email_verified_at' => now(),
-            ]
-        );
+        // 1. Admin Pusat
+        User::create([
+            'name' => 'Super Admin Bawaslu',
+            'email' => 'admin@gmail.com',
+            'password' => 'password', // Otomatis di-hash oleh Model Casts
+            'role' => Role::ADMIN,
+            'access_scope' => null,
+        ]);
+
+        // 2. Operator Wilayah A
+        User::create([
+            'name' => 'Operator Makassar',
+            'email' => 'operator_mks@gmail.com',
+            'password' => 'password',
+            'role' => Role::OPERATOR,
+            'access_scope' => 'Makassar',
+        ]);
+
+        // 3. Operator Wilayah B
+        User::create([
+            'name' => 'Operator Jakarta',
+            'email' => 'operator_jkt@gmail.com',
+            'password' => 'password',
+            'role' => Role::OPERATOR,
+            'access_scope' => 'Jakarta',
+        ]);
+
+        // 4. Pegawai Biasa
+        User::create([
+            'name' => 'Budi Pegawai',
+            'email' => 'pegawai@gmail.com',
+            'password' => 'password',
+            'role' => Role::PEGAWAI,
+            'access_scope' => null,
+        ]);
+
     }
 }
