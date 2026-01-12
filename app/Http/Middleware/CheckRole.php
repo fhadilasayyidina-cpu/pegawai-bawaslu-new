@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CheckRole
 {
@@ -16,14 +17,14 @@ class CheckRole
     public function handle(Request $request, Closure $next, string $role): Response
     {
         // Jika user belum login
-        if (! auth()->check()) {
+        if (! Auth::user()->check()) {
             return redirect()->route('login');
         }
 
         // Cek apakah role user cocok dengan role yang dibutuhkan
-        if (auth()->user()->role->value !== $role) {
+        if (Auth::user()->role->value !== $role) {
             // Redirect ke dashboard yang sesuai dengan role user
-            $dashboard = match (auth()->user()->role->value) {
+            $dashboard = match (Auth::user()->role->value) {
                 'admin' => '/admin/dashboard',
                 'operator' => '/operator/dashboard',
                 'pegawai' => '/pegawai/dashboard',
