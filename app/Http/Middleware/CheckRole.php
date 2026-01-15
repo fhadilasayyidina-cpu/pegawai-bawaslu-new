@@ -14,24 +14,19 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         // Jika user belum login
-        if (! Auth::user()->check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
 
-        // Cek apakah role user cocok dengan role yang dibutuhkan
-        if (Auth::user()->role->value !== $role) {
-            // Redirect ke dashboard yang sesuai dengan role user
-            $dashboard = match (Auth::user()->role->value) {
-                'admin' => '/admin/dashboard',
-                'operator' => '/operator/dashboard',
-                'pegawai' => '/pegawai/dashboard',
-                default => '/dashboard',
-            };
+        // Ambil role user
+        $userRole = Auth::user()->role->value;
 
-            return redirect($dashboard);
+        // Jika role user tidak ada di daftar role yang diizinkan
+        if (! in_array($userRole, $roles, true)) {
+            abort(403, 'Forbidden');
         }
 
         return $next($request);

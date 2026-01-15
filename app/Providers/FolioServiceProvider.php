@@ -21,8 +21,16 @@ class FolioServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Folio::path(resource_path('views/pages'))->middleware([
+            // Semua halaman di folder 'admin' wajib login & role admin
+            '/admin/*' => [
+                'auth',
+                'verified',
+                'role:admin',
+            ],
+            
+            // Halaman lainnya cukup auth saja
             '*' => [
-                //
+                
             ],
         ]);
     }

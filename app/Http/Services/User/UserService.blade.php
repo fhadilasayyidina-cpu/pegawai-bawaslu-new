@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Services;
+namespace App\Services\User;
 
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -39,10 +39,20 @@ class UserService
         }
         return false;
     }
-    
-   public function getAllUser(?string $role = null): Collection
+
+   public function getAllUser(?string $nameOrEmail = null, ?string $role = null, ?string $accessScope = null): Collection
     {
         $query = User::query();
+        if($nameOrEmail){
+            $query->where(function($q) use ($nameOrEmail) {
+                $q->where('name', 'like', '%' . $nameOrEmail . '%')
+                  ->orWhere('email', 'like', '%' . $nameOrEmail . '%');
+            });
+        }
+
+        if($accessScope){
+            $query->where('access_scope', $accessScope);
+        }
 
         if ($role) {
             $query->where('role', $role);

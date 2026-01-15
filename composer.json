@@ -15,12 +15,12 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.9.0",
-        "livewire/livewire": "*",
-        "livewire/volt": "*",
-        "robsontenorio/mary": "*"
+        "livewire/livewire": "^3.7",
+        "livewire/volt": "^1.10",
+        "robsontenorio/mary": "^2.5"
     },
     "require-dev": {
-        "barryvdh/laravel-ide-helper": "*",
+        "barryvdh/laravel-ide-helper": "^3.6",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "*",
         "laravel-lang/common": "^6.7",
@@ -30,6 +30,7 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
+        "nunomaduro/larastan": "^3.8",
         "pestphp/pest": "^4.3",
         "pestphp/pest-plugin-laravel": "^4.0"
     },

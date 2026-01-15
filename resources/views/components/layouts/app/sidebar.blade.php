@@ -1,3 +1,50 @@
+<?php
+use App\Enums\Role;
+use Illuminate\Support\Facades\Auth;
+
+ $user = Auth::user();
+
+
+ $map = [];
+
+ if($user->role == Role::ADMIN){
+    $map = [
+        [
+        'label' => 'Platform',
+            'items' =>
+             [
+                [
+                    'icon' => 'home',
+                    'label' => 'Dashboard ',
+                    'route' => 'admin/dashboard',
+                ],
+                [
+                    'icon' => 'home',
+                    'label' => 'Manajemen User',
+                    'route' => 'admin/users',
+                ],
+                // [
+
+                //     'icon' => 'home',
+                //     'label' => 'Manajemen Produk',
+                //     'route' => '/#',
+                // ],
+                
+            ]
+        ]
+    ];
+
+ 
+ }else if($user->role == Role::OPERATOR){
+
+ }else if($user->role == Role::USER){
+
+ }else{
+    abort(403);
+ }
+
+?>
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
@@ -11,24 +58,39 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:sidebar.item>
-                </flux:sidebar.group>
+                @foreach ($map as $navGroup)
+                    <flux:sidebar.group :heading="__($navGroup['label'])" class="grid">
+                        @foreach ($navGroup['items'] as $item)
+                            <flux:sidebar.item
+                                :icon="$item['icon']"
+                                :href="url($item['route'])"
+                                :current="request()->is($item['route'])"
+                                wire:navigate
+                                class="mb-1"
+                            >
+                                {{ __($item['label']) }}
+                            </flux:sidebar.item>
+                        @endforeach
+                    </flux:sidebar.group>
+                @endforeach
             </flux:sidebar.nav>
+
+            
+            {{-- <flux:sidebar.nav>
+                <flux:sidebar.group :heading="__('Platform')" class="grid">
+                  
+                    <flux:sidebar.item icon="home" :href="route('users')" :current="request()->routeIs('users')" wire:navigate>
+                        {{ __('Manajemen User') }}
+                    </flux:sidebar.item>
+                   
+                    
+                </flux:sidebar.group>
+                
+            </flux:sidebar.nav> --}}
 
             <flux:spacer />
 
-            <flux:sidebar.nav>
-                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    {{ __('Repository') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                    {{ __('Documentation') }}
-                </flux:sidebar.item>
-            </flux:sidebar.nav>
+           
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
