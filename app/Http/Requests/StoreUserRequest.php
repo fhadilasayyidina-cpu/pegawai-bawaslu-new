@@ -12,14 +12,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-
-        $user = Auth::user();
-
-        if (!$user || $user->role != 'admin') {
-            return false;
-        }
-
-        return true;
+        return Auth::check() && Auth::user()->role === \App\Enums\Role::ADMIN;
     }
 
     /**
@@ -32,9 +25,22 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-            'role' => 'required|in:admin,staf,pimpinan',
-            'access_scope' => 'nullable',
+            'password' => 'required|min:8|confirmed',
+            'role' => 'required|in:operator,pegawai',
+            'access_scope' => 'nullable|string|max:255',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'role.in' => 'Role harus berupa operator atau pegawai.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ];
     }
 }

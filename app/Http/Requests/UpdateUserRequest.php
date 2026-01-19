@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-use Illuminate\Support\Facades\Auth;
+
 use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -12,18 +13,14 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $targetUser = $this->route('users');
         $user = Auth::user();
-        
+
         if (! $user) {
             return false;
         }
 
-        if ($user->role == Role::ADMIN || $user->id == $targetUser->id || $user->role == Role::OPERATOR) {
-            return true;
-        }
-
-        return false;
+        // Hanya admin yang bisa update user lain
+        return $user->role === Role::ADMIN;
     }
 
     /**
@@ -33,14 +30,27 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-
         $targetUser = $this->route('user');
 
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$targetUser->id,
-            'password' => 'nullable|min:8',
-            'role' => 'required|in:admin,staf,pimpinan',
+            'password' => 'nullable|min:8|confirmed',
+            'role' => 'required|in:admin,operator,pegawai',
+            'access_scope' => 'nullable|string|max:255',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'role.in' => 'Role harus berupa admin, operator, atau pegawai.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ];
     }
 }
