@@ -77,7 +77,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-
     public function getAccessScopeAttribute($value)
     {
         if ($this->role->value === 'admin') {
@@ -92,9 +91,8 @@ class User extends Authenticatable
         // parse tanggalnya, set bahasa ke Indonesia, lalu format
         return \Carbon\Carbon::parse($value)
             ->locale('id')
-            ->translatedFormat('d F Y'); 
+            ->translatedFormat('d F Y');
     }
-
 
     /**
      * Get the attributes that should be cast.
