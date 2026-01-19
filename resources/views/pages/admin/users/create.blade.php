@@ -37,22 +37,31 @@
             app(\App\Services\User\UserService::class)
                 ->createUser($validated);
 
-            // MaryUI Toast (FQN via trait bawaan Volt)
-            $this->success(
-                'Berhasil!',
-                'User baru berhasil ditambahkan.',
-                position: 'toast-bottom toast-end',
-                timeout: 3000,
-            );
+            // Notyf Toast (dari app.js)
+            
+            $this->dispatch('notyf:show', [
+                'type' => 'success',
+                'message' => 'User baru berhasil ditambahkan.'
+            ]);
+           
 
-            return $this->redirect('/admin/users', navigate: true);
+
+            return $this->redirect('/admin/users');
         }
+        // public function test(){
+        //      $this->dispatch('notyf:show', [
+        //         'type' => 'success',
+        //         'message' => 'Ini adalah pesan notyf!'
+        //     ]);
+        //     return;
+        // }
     };
     ?>
 
     <div>
         {{-- Header Page --}}
         <x-header-page title="Tambah User Baru" :breadcrumbs="$breadcrumbs" />
+         <!-- <x-mary-button label="Test Notyf Toast" wire:click="test" class="btn-secondary mb-4" /> -->
 
         {{-- Form Section --}}
         <div class="max-w-2xl">
@@ -122,10 +131,10 @@
                         />
                         <x-mary-button
                             label="Simpan User"
-                            type="submit"
                             class="btn-primary"
                             icon="o-check"
                             spinner="save"
+                            wire:click="save"
                         />
                     </x-slot:actions>
 

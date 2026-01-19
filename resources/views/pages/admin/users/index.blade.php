@@ -4,11 +4,9 @@
     // 1. Semua Import diletakkan tepat di sini
     use Livewire\Volt\Component;
     use App\Services\User\UserService;
-    use Mary\Traits\Toast;
 
     // 2. Deklarasi Class Anonim
     new class extends Component {
-        use Toast; // Trait dari MaryUI untuk notifikasi
 
         // State / Properties
         public ?string $search = '';
@@ -24,11 +22,18 @@
             ['label' => 'User Management', 'link' => '#'],
         ];
 
+        public function test(){
+             $this->dispatch('notyf:show', [
+                'type' => 'success',
+                'message' => 'Ini adalah pesan notyf!'
+            ]);
+            return;
+        }
+
         // Method untuk ambil data (Reaktif terhadap $search)
         public function users()
         {
-            // Karena ini Teknik Komputer, kita pakai Dependency Injection via app()
-            return app(UserService::class)->getAllUser(
+            return app(\App\Services\User\UserService::class)->getAllUser(
                 nameOrEmail: $this->search
             );
         }
@@ -36,8 +41,11 @@
         // Contoh Aksi
         public function delete($id)
         {
-            app(UserService::class)->deleteUser($id);
-            $this->success('User berhasil dihapus!');
+            app(\App\Services\User\UserService::class)->deleteUser($id);
+            $this->dispatch('notyf:show', [
+                'type' => 'success',
+                'message' => 'User berhasil dihapus!'
+            ]);
         }
     };
     ?>
@@ -59,6 +67,7 @@
                 icon="o-magnifying-glass" 
             />
         </div>
+        <x-mary-button label="Test Notyf Toast" wire:click="test" class="btn-secondary mb-4" />
 
         {{-- Tabel Utama --}}
         <x-mary-table 
@@ -73,5 +82,9 @@
             @endscope
         </x-mary-table>
     </div>
+    
+    
+
+
     @endvolt
 </x-layouts.app>

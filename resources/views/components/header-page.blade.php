@@ -23,6 +23,7 @@
                 {{ $actions }}
             </div>
         @endif
+        
     </div>
 
     {{-- Garis pemisah opsional untuk estetika --}}
