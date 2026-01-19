@@ -95,3 +95,7 @@ select:focus[data-flux-control] {
 .mary-table-pagination button {
     @apply cursor-pointer
 }
+
+.mary-table-pagination {
+    @apply p-4
+}
