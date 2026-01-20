@@ -67,6 +67,20 @@ class PegawaiStatisticService
         ];
     }
 
+    public function getJenisJabatanChart(?string $kabKota = null): array
+    {
+        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+            ->selectRaw('jenis_jabatan_nama, COUNT(*) as total')
+            ->groupBy('jenis_jabatan_nama')
+            ->orderByDesc('total')
+            ->pluck('total', 'jenis_jabatan_nama');
+
+        return [
+            'labels' => $data->keys()->toArray(),
+            'values' => $data->values()->toArray(),
+        ];
+    }
+
     public function getAllStats(?string $kabKota = null): array
     {
         return [
@@ -77,6 +91,7 @@ class PegawaiStatisticService
             'ppnpn' => $this->getPegawaiPPNPN($kabKota),
             'jenis_kelamin_chart' => $this->getJenisKelaminChart($kabKota),
             'pendidikan_chart' => $this->getTingkatPendidikanChart($kabKota),
+            'jenis_jabatan_chart' => $this->getJenisJabatanChart($kabKota),
         ];
     }
 }

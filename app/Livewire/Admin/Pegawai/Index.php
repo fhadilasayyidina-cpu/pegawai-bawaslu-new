@@ -27,6 +27,7 @@ class Index extends Component
         ['key' => 'id', 'label' => 'ID', 'link' => true, 'hidden' => true],
         ['key' => 'nip_baru', 'label' => 'NIP'],
         ['key' => 'nama', 'label' => 'Nama'],
+        ['key' => 'jenis_jabatan_nama', 'label' => 'Jenis Jabatan'],
         ['key' => 'jabatan_nama', 'label' => 'Jabatan'],
         ['key' => 'kab_kota', 'label' => 'Kabupaten Kota'],
     ];

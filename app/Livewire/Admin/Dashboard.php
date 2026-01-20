@@ -76,11 +76,35 @@ class Dashboard extends Component
             $pendidikanPieChart->addSlice($label, $this->statistics['pendidikan_chart']['values'][$index] ?? 0, $color);
         }
 
+        // Jenis Jabatan - Column Chart
+        $jenisJabatanColumnChart = (new ColumnChartModel)
+            ->setTitle('Distribusi Jenis Jabatan')
+            ->setAnimated(true);
+
+        foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
+            $color = $colors[$index % count($colors)];
+            $displayLabel = $label ?: 'Tidak Teridentifikasi';
+            $jenisJabatanColumnChart->addColumn($displayLabel, $this->statistics['jenis_jabatan_chart']['values'][$index] ?? 0, $color);
+        }
+
+        // Jenis Jabatan - Pie Chart
+        $jenisJabatanPieChart = (new PieChartModel)
+            ->setTitle('Persentase Jenis Jabatan')
+            ->setAnimated(true);
+
+        foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
+            $color = $colors[$index % count($colors)];
+            $displayLabel = $label ?: 'Tidak Teridentifikasi';
+            $jenisJabatanPieChart->addSlice($displayLabel, $this->statistics['jenis_jabatan_chart']['values'][$index] ?? 0, $color);
+        }
+
         return view('livewire.admin.dashboard', compact(
             'jenisKelaminColumnChart',
             'jenisKelaminPieChart',
             'pendidikanColumnChart',
             'pendidikanPieChart',
+            'jenisJabatanColumnChart',
+            'jenisJabatanPieChart',
         ));
     }
 }

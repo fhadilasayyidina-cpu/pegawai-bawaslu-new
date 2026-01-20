@@ -101,6 +101,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- Section 3: Jenis Jabatan -->
+        <div>
+            <h2 class="text-xl font-bold mb-4">Distribusi Jenis Jabatan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Column Chart -->
+                <div class="card bg-base-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-sm">Column Chart</h3>
+                        <div style="height: 20rem;">
+                            <livewire:livewire-column-chart :column-chart-model="$jenisJabatanColumnChart" :key="'jj-col-'.$kabKota" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="card bg-base-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-sm">Pie Chart</h3>
+                        <div style="height: 20rem;">
+                            <livewire:livewire-pie-chart :pie-chart-model="$jenisJabatanPieChart" :key="'jj-pie-'.$kabKota" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @livewireChartsScripts

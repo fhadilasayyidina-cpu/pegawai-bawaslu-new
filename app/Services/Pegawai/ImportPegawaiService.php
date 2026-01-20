@@ -35,6 +35,14 @@ class ImportPegawaiService
                     continue;
                 }
 
+                // Skip jika status tidak AKTIF
+                if (empty($pegawaiData['status_kepegwaian']) || $pegawaiData['status_kepegwaian'] !== 'AKTIF') {
+                    $this->result['skipped']++;
+                    $this->result['errors'][] = 'Baris '.($index + 2).': Status tidak AKTIF, data dilewati';
+
+                    continue;
+                }
+
                 Pegawai::updateOrCreate(
                     ['nip_baru' => $pegawaiData['nip_baru']],
                     $pegawaiData
@@ -154,6 +162,22 @@ class ImportPegawaiService
         return 'Tidak Teridentifikasi';
     }
 
+    protected function normalizeStatusKepegwaian(?string $value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        $normalized = strtoupper(trim($value));
+
+        // Only accept valid status values
+        if (in_array($normalized, ['AKTIF', 'TIDAK AKTIF'])) {
+            return $normalized;
+        }
+
+        return null;
+    }
+
     protected function validateFile($file): void
     {
         $allowedExtensions = ['xlsx', 'xls', 'csv'];
@@ -244,7 +268,7 @@ class ImportPegawaiService
 
             // Status
             'jenis_pegawai' => $row['jenis_pegawai'] ?? null,
-            'status_kepegwaian' => $row['status_kepegwaian'] ?? null,
+            'status_kepegwaian' => $this->normalizeStatusKepegwaian($row['status_kepegwaian'] ?? null),
         ];
     }
 
