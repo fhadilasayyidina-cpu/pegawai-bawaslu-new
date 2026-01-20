@@ -23,12 +23,12 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'Manajemen User',
                     'route' => 'admin/users',
                 ],
-                // [
+                [
 
-                //     'icon' => 'home',
-                //     'label' => 'Manajemen Produk',
-                //     'route' => '/#',
-                // ],
+                    'icon' => 'home',
+                    'label' => 'Data Pegawai',
+                    'route' => 'admin/pegawais',
+                ],
                 
             ]
         ]
