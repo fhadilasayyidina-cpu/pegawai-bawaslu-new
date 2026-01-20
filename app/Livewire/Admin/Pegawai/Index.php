@@ -24,6 +24,7 @@ class Index extends Component
 
     public array $tableHeaders = [
         ['key' => 'nomor', 'label' => 'No', 'class' => 'w-1'],
+        ['key' => 'id', 'label' => 'ID', 'link' => true, 'hidden' => true],
         ['key' => 'nip_baru', 'label' => 'NIP'],
         ['key' => 'nama', 'label' => 'Nama'],
         ['key' => 'jabatan_nama', 'label' => 'Jabatan'],

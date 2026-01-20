@@ -54,6 +54,7 @@
         :rows="$this->pegawais"
         striped
         with-pagination
+        link="/admin/pegawais/{id}/details"
     >
         @scope('cell_nomor', $pegawai)
             {{ ($this->pegawais->currentPage() - 1) * $this->pegawais->perPage() + $loop->iteration }}
