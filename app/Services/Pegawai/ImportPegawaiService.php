@@ -61,6 +61,27 @@ class ImportPegawaiService
         })->toArray();
     }
 
+    protected function normalizeJenisKelamin(?string $value): string
+    {
+        if (empty($value)) {
+            return 'Tidak Teridentifikasi';
+        }
+
+        $normalized = strtolower(trim($value));
+
+        // Pria variants
+        if (in_array($normalized, ['l', 'laki-laki', 'm', 'pria', 'male'])) {
+            return 'Pria';
+        }
+
+        // Wanita variants
+        if (in_array($normalized, ['p', 'perempuan', 'f', 'wanita', 'female'])) {
+            return 'Wanita';
+        }
+
+        return 'Tidak Teridentifikasi';
+    }
+
     protected function validateFile($file): void
     {
         $allowedExtensions = ['xlsx', 'xls', 'csv'];
@@ -81,7 +102,7 @@ class ImportPegawaiService
             'gelar_depan' => $row['gelar_depan'] ?? null,
             'gelar_blk' => $row['gelar_blk'] ?? null,
             'tempat_lahir_nama' => $row['tempat_lahir_nama'] ?? null,
-            'jenis_kelamin' => $row['jenis_kelamin'] ?? null,
+            'jenis_kelamin' => $this->normalizeJenisKelamin($row['jenis_kelamin'] ?? null),
             'gol_darah' => $row['gol_darah'] ?? null,
             'agama_nama' => $row['agama_nama'] ?? null,
             'jenis_kawin_nama' => $row['jenis_kawin_nama'] ?? null,
