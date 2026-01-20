@@ -82,6 +82,78 @@ class ImportPegawaiService
         return 'Tidak Teridentifikasi';
     }
 
+    protected function normalizeTingkatPendidikan(?string $value): string
+    {
+        if (empty($value) || in_array(trim($value), ['-', '.', ''])) {
+            return 'Tidak Teridentifikasi';
+        }
+
+        $normalized = strtolower(trim($value));
+
+        // Handle compound values like "S1-S2" -> ambil tertinggi
+        if (str_contains($normalized, '-s2') || str_contains($normalized, '/s2')) {
+            return 'S2';
+        }
+        if (str_contains($normalized, '-s3') || str_contains($normalized, '/s3')) {
+            return 'S3';
+        }
+
+        // Clean up suffixes like "DIII Administrasi Bisnis" -> "DIII"
+        $normalized = preg_replace('/\s+.+$/', '', $normalized);
+
+        // SD
+        if (in_array($normalized, ['sd', 'sekolah dasar'])) {
+            return 'SD';
+        }
+
+        // SMP
+        if (in_array($normalized, ['smp', 'sltp', 'sekolah menengah pertama'])) {
+            return 'SMP';
+        }
+
+        // SMA/SMK
+        if (in_array($normalized, ['sma', 'smk', 'slta', 'smu', 'sekolah menengah atas', 'slta kejuruan'])) {
+            return 'SMA/SMK';
+        }
+
+        // D1
+        if (in_array($normalized, ['d1', 'di', 'd-1', 'diploma 1', 'diploma i'])) {
+            return 'D1';
+        }
+
+        // D2
+        if (in_array($normalized, ['d2', 'dii', 'd-2', 'diploma 2', 'diploma ii'])) {
+            return 'D2';
+        }
+
+        // D3
+        if (in_array($normalized, ['d3', 'd-3', 'diii', 'd-iii', 'diploma 3', 'diploma iii'])) {
+            return 'D3';
+        }
+
+        // D4
+        if (in_array($normalized, ['d4', 'd-4', 'div', 'd-iv', 'diploma 4', 'diploma iv', 'sarjana terapan'])) {
+            return 'D4';
+        }
+
+        // S1
+        if (in_array($normalized, ['s1', 's-1', 's.1', 'sarjana', 'strata 1'])) {
+            return 'S1';
+        }
+
+        // S2
+        if (in_array($normalized, ['s2', 's-2', 's.2', 'magister', 'strata 2'])) {
+            return 'S2';
+        }
+
+        // S3
+        if (in_array($normalized, ['s3', 's-3', 's.3', 'doktor', 'strata 3'])) {
+            return 'S3';
+        }
+
+        return 'Tidak Teridentifikasi';
+    }
+
     protected function validateFile($file): void
     {
         $allowedExtensions = ['xlsx', 'xls', 'csv'];
@@ -150,7 +222,7 @@ class ImportPegawaiService
             'proyeksi_jf' => $row['proyeksi_jf'] ?? null,
 
             // Pendidikan
-            'tingkat_pendidikan_nama' => $row['tingkat_pendidikan_nama'] ?? null,
+            'tingkat_pendidikan_nama' => $this->normalizeTingkatPendidikan($row['tingkat_pendidikan_nama'] ?? null),
             'pendidikan_nama' => $row['pendidikan_nama'] ?? null,
             'tahun_lulus' => $row['tahun_lulus'] ?? null,
             'riwayat_diklatpim' => $row['riwayat_diklatpim'] ?? null,
