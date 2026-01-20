@@ -81,6 +81,21 @@ class PegawaiStatisticService
         ];
     }
 
+    public function getRangeUmurChart(?string $kabKota = null): array
+    {
+        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+            ->selectRaw('range_umur, COUNT(*) as total')
+            ->whereNotNull('range_umur')
+            ->groupBy('range_umur')
+            ->orderBy('range_umur')
+            ->pluck('total', 'range_umur');
+
+        return [
+            'labels' => $data->keys()->toArray(),
+            'values' => $data->values()->toArray(),
+        ];
+    }
+
     public function getAllStats(?string $kabKota = null): array
     {
         return [
@@ -92,6 +107,7 @@ class PegawaiStatisticService
             'jenis_kelamin_chart' => $this->getJenisKelaminChart($kabKota),
             'pendidikan_chart' => $this->getTingkatPendidikanChart($kabKota),
             'jenis_jabatan_chart' => $this->getJenisJabatanChart($kabKota),
+            'range_umur_chart' => $this->getRangeUmurChart($kabKota),
         ];
     }
 }

@@ -178,6 +178,47 @@ class ImportPegawaiService
         return null;
     }
 
+    protected function calculateUsia(\DateTimeInterface|string|null $tgl_lahir): ?int
+    {
+        if (empty($tgl_lahir)) {
+            return null;
+        }
+
+        try {
+            // Jika sudah DateTime object, gunakan langsung
+            if ($tgl_lahir instanceof \DateTimeInterface) {
+                $birthDate = \Carbon\Carbon::instance($tgl_lahir);
+            } else {
+                // Jika string, parse dulu
+                $birthDate = \Carbon\Carbon::parse($tgl_lahir);
+            }
+
+            $today = \Carbon\Carbon::now();
+
+            return $birthDate->diffInYears($today);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    protected function calculateRangeUmur(?int $usia): ?string
+    {
+        if ($usia === null) {
+            return null;
+        }
+
+        // Range per 10 tahun: 20-29, 30-39, 40-49, dst
+        $start = intdiv($usia, 10) * 10;
+        $end = $start + 9;
+
+        // Handle usia di bawah 20 tahun
+        if ($usia < 20) {
+            return '< 20';
+        }
+
+        return "{$start}-{$end}";
+    }
+
     protected function validateFile($file): void
     {
         $allowedExtensions = ['xlsx', 'xls', 'csv'];
@@ -207,8 +248,8 @@ class ImportPegawaiService
             'email' => $row['email'] ?? null,
             'email_gov' => $row['email_gov'] ?? null,
             'alamat' => $row['alamat'] ?? null,
-            // 'tgl_lahir' => $row['tgl_lahir'] ?? null,  // date
-            // 'usia' => $row['usia'] ?? null,  // integer
+            'tgl_lahir' => $row['tgl_lahir'] ?? null,  // date
+            'usia' => $this->calculateUsia($row['tgl_lahir'] ?? null),  // integer
 
             // Administrasi
             'npwp_nomor' => $row['npwp_nomor'] ?? null,
@@ -260,7 +301,7 @@ class ImportPegawaiService
             'eselon' => $row['eselon'] ?? null,
             'divisi' => $row['divisi'] ?? null,
             'ukm' => $row['ukm'] ?? null,
-            'range_umur' => $row['range_umur'] ?? null,
+            'range_umur' => $this->calculateRangeUmur($this->calculateUsia($row['tgl_lahir'] ?? null)),
 
             // Lokasi
             'provinsi' => $row['provinsi'] ?? null,

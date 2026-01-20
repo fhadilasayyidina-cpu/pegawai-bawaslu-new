@@ -98,6 +98,28 @@ class Dashboard extends Component
             $jenisJabatanPieChart->addSlice($displayLabel, $this->statistics['jenis_jabatan_chart']['values'][$index] ?? 0, $color);
         }
 
+        // Range Umur - Column Chart
+        $rangeUmurColumnChart = (new ColumnChartModel)
+            ->setTitle('Distribusi Range Umur')
+            ->setAnimated(true);
+
+        foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
+            $color = $colors[$index % count($colors)];
+            $displayLabel = $label ?: 'Tidak Teridentifikasi';
+            $rangeUmurColumnChart->addColumn($displayLabel, $this->statistics['range_umur_chart']['values'][$index] ?? 0, $color);
+        }
+
+        // Range Umur - Pie Chart
+        $rangeUmurPieChart = (new PieChartModel)
+            ->setTitle('Persentase Range Umur')
+            ->setAnimated(true);
+
+        foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
+            $color = $colors[$index % count($colors)];
+            $displayLabel = $label ?: 'Tidak Teridentifikasi';
+            $rangeUmurPieChart->addSlice($displayLabel, $this->statistics['range_umur_chart']['values'][$index] ?? 0, $color);
+        }
+
         return view('livewire.admin.dashboard', compact(
             'jenisKelaminColumnChart',
             'jenisKelaminPieChart',
@@ -105,6 +127,8 @@ class Dashboard extends Component
             'pendidikanPieChart',
             'jenisJabatanColumnChart',
             'jenisJabatanPieChart',
+            'rangeUmurColumnChart',
+            'rangeUmurPieChart',
         ));
     }
 }
