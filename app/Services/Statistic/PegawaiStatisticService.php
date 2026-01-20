@@ -40,6 +40,33 @@ class PegawaiStatisticService
             ->count();
     }
 
+    public function getJenisKelaminChart(?string $kabKota = null): array
+    {
+        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+            ->selectRaw('jenis_kelamin, COUNT(*) as total')
+            ->groupBy('jenis_kelamin')
+            ->pluck('total', 'jenis_kelamin');
+
+        return [
+            'labels' => $data->keys()->toArray(),
+            'values' => $data->values()->toArray(),
+        ];
+    }
+
+    public function getTingkatPendidikanChart(?string $kabKota = null): array
+    {
+        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+            ->selectRaw('tingkat_pendidikan_nama, COUNT(*) as total')
+            ->groupBy('tingkat_pendidikan_nama')
+            ->orderByDesc('total')
+            ->pluck('total', 'tingkat_pendidikan_nama');
+
+        return [
+            'labels' => $data->keys()->toArray(),
+            'values' => $data->values()->toArray(),
+        ];
+    }
+
     public function getAllStats(?string $kabKota = null): array
     {
         return [
@@ -48,6 +75,8 @@ class PegawaiStatisticService
             'organik' => $this->getPegawaiOrganik($kabKota),
             'dpk' => $this->getPegawaiDPK($kabKota),
             'ppnpn' => $this->getPegawaiPPNPN($kabKota),
+            'jenis_kelamin_chart' => $this->getJenisKelaminChart($kabKota),
+            'pendidikan_chart' => $this->getTingkatPendidikanChart($kabKota),
         ];
     }
 }

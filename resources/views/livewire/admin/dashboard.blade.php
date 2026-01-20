@@ -47,4 +47,61 @@
             color="secondary"
         />
     </div>
+
+    <!-- Charts Section -->
+    <div class="space-y-6 mt-6">
+        <!-- Section 1: Jenis Kelamin -->
+        <div>
+            <h2 class="text-xl font-bold mb-4">Distribusi Jenis Kelamin</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Column Chart -->
+                <div class="card bg-base-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-sm">Column Chart</h3>
+                        <div style="height: 20rem;">
+                            <livewire:livewire-column-chart :column-chart-model="$jenisKelaminColumnChart" :key="'jk-col-'.$kabKota" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="card bg-base-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-sm">Pie Chart</h3>
+                        <div style="height: 20rem;">
+                            <livewire:livewire-pie-chart :pie-chart-model="$jenisKelaminPieChart" :key="'jk-pie-'.$kabKota" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Tingkat Pendidikan -->
+        <div>
+            <h2 class="text-xl font-bold mb-4">Distribusi Tingkat Pendidikan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Column Chart -->
+                <div class="card bg-base-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-sm">Column Chart</h3>
+                        <div style="height: 20rem;">
+                            <livewire:livewire-column-chart :column-chart-model="$pendidikanColumnChart" :key="'pend-col-'.$kabKota" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="card bg-base-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title text-sm">Pie Chart</h3>
+                        <div style="height: 20rem;">
+                            <livewire:livewire-pie-chart :pie-chart-model="$pendidikanPieChart" :key="'pend-pie-'.$kabKota" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @livewireChartsScripts
 </div>
