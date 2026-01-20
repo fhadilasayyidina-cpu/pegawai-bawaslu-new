@@ -75,6 +75,7 @@
             :rows="$this->users()" 
             striped 
             with-pagination
+            
         >
             {{-- Slot untuk aksi per baris --}}
             @scope('actions', $user)
