@@ -55,6 +55,10 @@
         striped
         with-pagination
     >
+        @scope('cell_nomor', $pegawai)
+            {{ ($this->pegawais->currentPage() - 1) * $this->pegawais->perPage() + $loop->iteration }}
+        @endscope
+
         @scope('actions', $pegawai)
             <x-mary-button
                 icon="o-trash"

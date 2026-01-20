@@ -6,10 +6,11 @@ use App\Services\Pegawai\ImportPegawaiService;
 use App\Services\Pegawai\PegawaiService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     public ?string $search = null;
 
@@ -22,7 +23,7 @@ class Index extends Component
     public bool $myModal3 = false;
 
     public array $tableHeaders = [
-        ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
+        ['key' => 'nomor', 'label' => 'No', 'class' => 'w-1'],
         ['key' => 'nip_baru', 'label' => 'NIP'],
         ['key' => 'nama', 'label' => 'Nama'],
         ['key' => 'jabatan_nama', 'label' => 'Jabatan'],
