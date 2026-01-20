@@ -4,7 +4,6 @@ namespace App\Services\Pegawai;
 
 use App\Models\Pegawai;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ImportPegawaiService
@@ -16,70 +15,50 @@ class ImportPegawaiService
         'errors' => [],
     ];
 
-    public function import($file): array
+    public function import(string $filePath): array
     {
-        // Validate file
-        $this->validateFile($file);
-
-        try {
-            DB::beginTransaction();
-
-            $collection = FastExcel::import($file);
-
-            $imported = 0;
-            $skipped = 0;
-            $errors = [];
-
-            foreach ($collection as $row) {
-                try {
-                    // Map Excel columns to database fields
-                    $data = $this->mapRowToPegawai($row);
-
-                    // Check if pegawai already exists (by NIP)
-                    $existing = null;
-                    if (! empty($data['nip_baru'])) {
-                        $existing = Pegawai::where('nip_baru', $data['nip_baru'])->first();
-                    } elseif (! empty($data['nik'])) {
-                        $existing = Pegawai::where('nik', $data['nik'])->first();
-                    }
-
-                    if ($existing) {
-                        // Update existing
-                        $existing->update($data);
-                        $skipped++;
-                    } else {
-                        // Create new
-                        Pegawai::create($data);
-                        $imported++;
-                    }
-                } catch (Exception $e) {
-                    $errors[] = 'Row error: '.$e->getMessage();
-                    $this->result['failed']++;
-                }
-            }
-
-            DB::commit();
-
-            return [
-                'success' => true,
-                'imported' => $imported,
-                'skipped' => $skipped,
-                'failed' => $this->result['failed'],
-                'errors' => $errors,
-                'message' => "Berhasil mengimport {$imported} data pegawai".($skipped > 0 ? ", {$skipped} data di-skip" : '').($this->result['failed'] > 0 ? ", {$this->result['failed']} gagal" : ''),
-            ];
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return [
-                'success' => false,
-                'imported' => 0,
-                'skipped' => 0,
-                'failed' => 0,
-                'errors' => [$e->getMessage()],
-                'message' => 'Import gagal: '.$e->getMessage(),
-            ];
+        if (! file_exists($filePath)) {
+            throw new Exception('File tidak ditemukan');
         }
+
+        $rows = FastExcel::import($filePath);
+
+        foreach ($rows as $index => $row) {
+            try {
+                $normalizedRow = $this->normalizeRow($row);
+                $pegawaiData = $this->mapRowToPegawai($normalizedRow);
+
+                if (empty($pegawaiData['nip_baru'])) {
+                    $this->result['skipped']++;
+                    $this->result['errors'][] = 'Baris '.($index + 2).': NIP baru kosong, data dilewati';
+
+                    continue;
+                }
+
+                Pegawai::updateOrCreate(
+                    ['nip_baru' => $pegawaiData['nip_baru']],
+                    $pegawaiData
+                );
+
+                $this->result['imported']++;
+            } catch (Exception $e) {
+                $this->result['failed']++;
+                $this->result['errors'][] = 'Baris '.($index + 2).': '.$e->getMessage();
+            }
+        }
+
+        return $this->result;
+    }
+
+    protected function normalizeRow(array $row): array
+    {
+        return collect($row)->mapWithKeys(function ($value, $key) {
+            $key = strtolower(trim($key));
+            $key = str_replace([' ', '.', '/', '-'], '_', $key);
+            $key = preg_replace('/_+/', '_', $key);
+
+            return [$key => $value];
+        })->toArray();
     }
 
     protected function validateFile($file): void
@@ -94,79 +73,110 @@ class ImportPegawaiService
 
     protected function mapRowToPegawai(array $row): array
     {
-        // Map Excel column headers to database fields
-        // Adjust mapping based on your actual Excel file structure
         return [
-            'nip_baru' => $row['nip_baru'] ?? $row['NIP Baru'] ?? $row['nip'] ?? null,
-            'nip_lama' => $row['nip_lama'] ?? $row['NIP Lama'] ?? null,
-            'nama' => $row['nama'] ?? $row['Nama'] ?? $row['NAMA'] ?? null,
-            'gelar_depan' => $row['gelar_depan'] ?? $row['Gelar Depan'] ?? null,
-            'gelar_blk' => $row['gelar_blk'] ?? $row['Gelar Belakang'] ?? null,
-            'keterangan' => $row['keterangan'] ?? $row['Keterangan'] ?? null,
-            'tempat_lahir_nama' => $row['tempat_lahir_nama'] ?? $row['Tempat Lahir'] ?? null,
-            'tgl_lahir' => $this->parseDate($row['tgl_lahir'] ?? $row['Tanggal Lahir'] ?? null),
-            'jenis_kelamin' => $row['jenis_kelamin'] ?? $row['Jenis Kelamin'] ?? null,
-            'agama_nama' => $row['agama_nama'] ?? $row['Agama'] ?? null,
-            'jenis_kawin_nama' => $row['jenis_kawin_nama'] ?? $row['Status Kawin'] ?? null,
-            'nik' => $row['nik'] ?? $row['NIK'] ?? null,
-            'nomor_hp' => $row['nomor_hp'] ?? $row['No HP'] ?? $row['Telepon'] ?? null,
-            'email' => $row['email'] ?? $row['Email'] ?? null,
-            'email_gov' => $row['email_gov'] ?? $row['Email Gov'] ?? null,
-            'alamat' => $row['alamat'] ?? $row['Alamat'] ?? null,
-            'npwp_nomor' => $row['npwp_nomor'] ?? $row['NPWP'] ?? null,
-            'bpjs' => $row['bpjs'] ?? $row['No BPJS'] ?? null,
-            'kartu_pegawai' => $row['kartu_pegawai'] ?? $row['No Kartu Pegawai'] ?? null,
-            'nomor_sk_cpns' => $row['nomor_sk_cpns'] ?? $row['No SK CPNS'] ?? null,
-            'tgl_sk_cpns' => $this->parseDate($row['tgl_sk_cpns'] ?? $row['Tanggal SK CPNS'] ?? null),
-            'tmt_cpns' => $this->parseDate($row['tmt_cpns'] ?? $row['TMT CPNS'] ?? null),
-            'nomor_sk_pns' => $row['nomor_sk_pns'] ?? $row['No SK PNS'] ?? null,
-            'tgl_sk_pns' => $this->parseDate($row['tgl_sk_pns'] ?? $row['Tanggal SK PNS'] ?? null),
-            'tmt_pns' => $this->parseDate($row['tmt_pns'] ?? $row['TMT PNS'] ?? null),
-            'gol_awal_nama' => $row['gol_awal_nama'] ?? $row['Golongan Awal'] ?? null,
-            'gol_nama' => $row['gol_nama'] ?? $row['Golongan'] ?? null,
-            'tmt_golongan' => $this->parseDate($row['tmt_golongan'] ?? $row['TMT Golongan'] ?? null),
-            'jenis_jabatan_nama' => $row['jenis_jabatan_nama'] ?? $row['Jenis Jabatan'] ?? null,
-            'jabatan_nama' => $row['jabatan_nama'] ?? $row['Jabatan'] ?? null,
-            'tmt_jabatan' => $this->parseDate($row['tmt_jabatan'] ?? $row['TMT Jabatan'] ?? null),
-            'unor_nama' => $row['unor_nama'] ?? $row['Unit Organisasi'] ?? null,
-            'instansi_induk_nama' => $row['instansi_induk_nama'] ?? $row['Instansi Induk'] ?? null,
-            'eselon' => $row['eselon'] ?? $row['Eselon'] ?? null,
+            // Identitas
+            'nip_baru' => $row['nip_baru'] ?? null,
+            'nip_lama' => $row['nip_lama'] ?? null,
+            'nama' => $row['nama'] ?? null,
+            'gelar_depan' => $row['gelar_depan'] ?? null,
+            'gelar_blk' => $row['gelar_blk'] ?? null,
+            'tempat_lahir_nama' => $row['tempat_lahir_nama'] ?? null,
+            'jenis_kelamin' => $row['jenis_kelamin'] ?? null,
+            'gol_darah' => $row['gol_darah'] ?? null,
+            'agama_nama' => $row['agama_nama'] ?? null,
+            'jenis_kawin_nama' => $row['jenis_kawin_nama'] ?? null,
+            'nik' => $row['nik'] ?? null,
+            'nomor_hp' => $row['nomor_hp'] ?? null,
+            'email' => $row['email'] ?? null,
+            'email_gov' => $row['email_gov'] ?? null,
+            'alamat' => $row['alamat'] ?? null,
+            // 'tgl_lahir' => $row['tgl_lahir'] ?? null,  // date
+            // 'usia' => $row['usia'] ?? null,  // integer
+
+            // Administrasi
+            'npwp_nomor' => $row['npwp_nomor'] ?? null,
+            'bpjs' => $row['bpjs'] ?? null,
+            'kartu_pegawai' => $row['kartu_pegawai'] ?? null,
+            'nomor_sk_cpns' => $row['nomor_sk_cpns'] ?? null,
+            // 'tgl_sk_cpns' => $row['tgl_sk_cpns'] ?? null,  // date
+            // 'tmt_cpns' => $row['tmt_cpns'] ?? null,  // date
+            'nomor_sk_pns' => $row['nomor_sk_pns'] ?? null,
+            // 'tgl_sk_pns' => $row['tgl_sk_pns'] ?? null,  // date
+            // 'tmt_pns' => $row['tmt_pns'] ?? null,  // date
+            'no_sk_dpk_penugasan_kontrak' => $row['no_sk_dpk_penugasan_kontrak'] ?? null,
+            // 'tgl_sk_dpk_penugasan_kontrak' => $row['tgl_sk_dpk_penugasan_kontrak'] ?? null,  // date
+            'keterangan' => $row['keterangan'] ?? null,
+            'keterangan_status' => $row['keterangan_status'] ?? null,
+
+            // Golongan & Jabatan
+            'gol_awal_nama' => $row['gol_awal_nama'] ?? null,
+            'gol_nama' => $row['gol_nama'] ?? null,
+            // 'tmt_golongan' => $row['tmt_golongan'] ?? null,  // date
+            // 'mkgol' => $row['mkgol'] ?? null,  // integer
+            'jenis_jabatan_nama' => $row['jenis_jabatan_nama'] ?? null,
+            'jabatan_nama' => $row['jabatan_nama'] ?? null,
+            // 'tmt_jabatan' => $row['tmt_jabatan'] ?? null,  // date
+            'jabatan_non_definitif' => $row['jabatan_non_definitif'] ?? null,
+            'jabatan_non_definitif_1' => $row['jabatan_non_definitif_1'] ?? null,
+            // 'mkjab' => $row['mkjab'] ?? null,  // integer
+            // 'jumlah' => $row['jumlah'] ?? null,  // integer
+            'kelas' => $row['kelas'] ?? null,
+            'kelas_jabatan' => $row['kelas_jabatan'] ?? null,
             'kelompok_jabatan' => $row['kelompok_jabatan'] ?? null,
-            'nm_kelompok_jabatan' => $row['nm_kelompok_jabatan'] ?? $row['Kelompok Jabatan'] ?? null,
-            'range_umur' => $row['range_umur'] ?? $row['Range Umur'] ?? null,
-            'kelas_jabatan' => $row['kelas_jabatan'] ?? $row['Kelas Jabatan'] ?? null,
-            'keterangan_status' => $row['keterangan_status'] ?? $row['Status'] ?? null,
-            'tingkat_pendidikan_nama' => $row['tingkat_pendidikan_nama'] ?? $row['Pendidikan'] ?? null,
-            'satuan_kerja' => $row['satuan_kerja'] ?? $row['Satuan Kerja'] ?? null,
-            'provinsi' => $row['provinsi'] ?? $row['Provinsi'] ?? null,
-            'kab_kota' => $row['kab_kota'] ?? $row['Kabupaten/Kota'] ?? null,
-            'jenis_pegawai' => $row['jenis_pegawai'] ?? $row['Jenis Pegawai'] ?? null,
-            'status_kepegwaian' => $row['status_kepegwaian'] ?? $row['Status Kepegawaian'] ?? null,
+            'nm_kelompok_jabatan' => $row['nm_kelompok_jabatan'] ?? null,
+            'nama_kelompok_jabatan' => $row['nama_kelompok_jabatan'] ?? null,
+            'pangkat' => $row['pangkat'] ?? null,
+            'proyeksi_jf' => $row['proyeksi_jf'] ?? null,
+
+            // Pendidikan
+            'tingkat_pendidikan_nama' => $row['tingkat_pendidikan_nama'] ?? null,
+            'pendidikan_nama' => $row['pendidikan_nama'] ?? null,
+            'tahun_lulus' => $row['tahun_lulus'] ?? null,
+            'riwayat_diklatpim' => $row['riwayat_diklatpim'] ?? null,
+
+            // Unit & Organisasi
+            'satuan_kerja' => $row['satuan_kerja'] ?? null,
+            'unit_kerja' => $row['unit_kerja'] ?? null,
+            'unit_organisasi' => $row['unit_organisasi'] ?? null,
+            'unor_nama' => $row['unor_nama'] ?? null,
+            'instansi_induk_nama' => $row['instansi_induk_nama'] ?? null,
+            'eselon' => $row['eselon'] ?? null,
+            'divisi' => $row['divisi'] ?? null,
+            'ukm' => $row['ukm'] ?? null,
+            'range_umur' => $row['range_umur'] ?? null,
+
+            // Lokasi
+            'provinsi' => $row['provinsi'] ?? null,
+            'kab_kota' => $row['kab_kota'] ?? null,
+
+            // Status
+            'jenis_pegawai' => $row['jenis_pegawai'] ?? null,
+            'status_kepegwaian' => $row['status_kepegwaian'] ?? null,
         ];
     }
 
-    protected function parseDate($value): ?string
-    {
-        if (empty($value)) {
-            return null;
-        }
+    // protected function parseDate($value): ?string
+    // {
+    //     if (empty($value)) {
+    //         return null;
+    //     }
 
-        // Handle Excel serial date format
-        if (is_numeric($value)) {
-            return \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)->format('Y-m-d');
-        }
+    //     // Handle Excel serial date format
+    //     if (is_numeric($value)) {
+    //         return \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)->format('Y-m-d');
+    //     }
 
-        // Handle string date format
-        if (is_string($value)) {
-            try {
-                return date('Y-m-d', strtotime($value));
-            } catch (Exception $e) {
-                return null;
-            }
-        }
+    //     // Handle string date format
+    //     if (is_string($value)) {
+    //         try {
+    //             return date('Y-m-d', strtotime($value));
+    //         } catch (Exception $e) {
+    //             return null;
+    //         }
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     public function getResult(): array
     {
