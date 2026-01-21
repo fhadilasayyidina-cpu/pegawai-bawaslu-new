@@ -27,6 +27,20 @@ class IdentitasForm extends Form
 
     public $alamat;
 
+    public $gelar_depan;
+
+    public $gelar_blk;
+
+    public $gol_darah;
+
+    public $agama_nama;
+
+    public $jenis_kawin_nama;
+
+    public $email_gov;
+
+    public $usia;
+
     public function setPegawai($pegawai)
     {
 
