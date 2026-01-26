@@ -18,10 +18,6 @@ class PendidikanForm extends Form
 
     public ?string $tahun_lulus = '';
 
-    public ?string $gelar_depan = '';
-
-    public ?string $gelar_blk = '';
-
     public function setPegawai(\App\Models\Pegawai $pegawai): void
     {
         $this->pegawai_id = $pegawai->id;
@@ -31,7 +27,5 @@ class PendidikanForm extends Form
         $this->nama_sekolah = $pegawai->nama_sekolah ?? '';
         $this->nomor_ijazah = $pegawai->nomor_ijazah ?? '';
         $this->tahun_lulus = $pegawai->tahun_lulus ?? '';
-        $this->gelar_depan = $pegawai->gelar_depan ?? '';
-        $this->gelar_blk = $pegawai->gelar_blk ?? '';
     }
 }

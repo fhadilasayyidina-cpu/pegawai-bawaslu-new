@@ -101,12 +101,40 @@
                     <x-mary-input label="Nama Sekolah" wire:model="pendidikanForm.nama_sekolah" />
                     <x-mary-input label="Nomor Ijazah" wire:model="pendidikanForm.nomor_ijazah" />
                     <x-mary-input label="Tahun Lulus" wire:model="pendidikanForm.tahun_lulus" />
-                    <x-mary-input label="Gelar Depan" wire:model="pendidikanForm.gelar_depan" />
-                    <x-mary-input label="Gelar Belakang" wire:model="pendidikanForm.gelar_blk" />
                 </div>
 
                 <x-slot:actions>
                     <x-mary-button label="Simpan Pendidikan" type="submit" class="btn-primary" spinner="savePendidikan" />
+                </x-slot:actions>
+            </x-mary-form>
+        </x-mary-tab>
+
+        <!-- Tab 5: Unit & Organisasi -->
+        <x-mary-tab name="unit-organisasi-tab" label="Unit & Organisasi" icon="o-building-office">
+            <x-mary-form wire:submit="saveUnitOrganisasi">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Unit & Organisasi -->
+                    <x-mary-input label="Satuan Kerja" wire:model="unitOrganisasiForm.satuan_kerja" />
+                    <x-mary-input label="Unit Kerja" wire:model="unitOrganisasiForm.unit_kerja" />
+                    <x-mary-input label="Unit Organisasi" wire:model="unitOrganisasiForm.unit_organisasi" />
+                    <x-mary-input label="Nama Unor" wire:model="unitOrganisasiForm.unor_nama" />
+                    <x-mary-input label="Instansi Induk" wire:model="unitOrganisasiForm.instansi_induk_nama" />
+                    <x-mary-input label="Eselon" wire:model="unitOrganisasiForm.eselon" />
+                    <x-mary-input label="Divisi" wire:model="unitOrganisasiForm.divisi" />
+                    <x-mary-input label="UKM" wire:model="unitOrganisasiForm.ukm" />
+                    <x-mary-input label="Range Umur" wire:model="unitOrganisasiForm.range_umur" />
+
+                    <!-- Lokasi -->
+                    <x-mary-input label="Provinsi" wire:model="unitOrganisasiForm.provinsi" />
+                    <x-mary-input label="Kab/Kota" wire:model="unitOrganisasiForm.kab_kota" />
+
+                    <!-- Status Pegawai -->
+                    <x-mary-input label="Jenis Pegawai" wire:model="unitOrganisasiForm.jenis_pegawai" />
+                    <x-mary-input label="Status Kepegawaian" wire:model="unitOrganisasiForm.status_kepegwaian" />
+                </div>
+
+                <x-slot:actions>
+                    <x-mary-button label="Simpan Unit & Organisasi" type="submit" class="btn-primary" spinner="saveUnitOrganisasi" />
                 </x-slot:actions>
             </x-mary-form>
         </x-mary-tab>

@@ -6,6 +6,7 @@ use App\Livewire\Forms\Pegawai\AdministrasiForm;
 use App\Livewire\Forms\Pegawai\IdentitasForm;
 use App\Livewire\Forms\Pegawai\JabatanForm;
 use App\Livewire\Forms\Pegawai\PendidikanForm;
+use App\Livewire\Forms\Pegawai\UnitOrganisasiForm;
 use App\Models\Pegawai;
 use Livewire\Component;
 
@@ -20,6 +21,8 @@ class Details extends Component
     public AdministrasiForm $administrasiForm;
 
     public PendidikanForm $pendidikanForm;
+
+    public UnitOrganisasiForm $unitOrganisasiForm;
 
     public string $selectedTab = 'identitas-tab';
 
@@ -38,6 +41,7 @@ class Details extends Component
         $this->jabatanForm->setPegawai($this->pegawai);
         $this->administrasiForm->setPegawai($this->pegawai);
         $this->pendidikanForm->setPegawai($this->pegawai);
+        $this->unitOrganisasiForm->setPegawai($this->pegawai);
 
     }
 
@@ -71,6 +75,14 @@ class Details extends Component
         $this->pegawai->update($this->pendidikanForm->all());
 
         $this->success('Data pendidikan berhasil diperbarui!');
+    }
+
+    public function saveUnitOrganisasi()
+    {
+        $this->unitOrganisasiForm->validate();
+        $this->pegawai->update($this->unitOrganisasiForm->all());
+
+        $this->success('Data unit & organisasi berhasil diperbarui!');
     }
 
     public function render()
