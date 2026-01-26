@@ -8,6 +8,7 @@
             <x-mary-form wire:submit="saveIdentitas">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-mary-input label="NIP" wire:model="identitasForm.nip_baru" readonly />
+                    <x-mary-input label="NIP Lama" wire:model="identitasForm.nip_lama" />
                     <x-mary-input label="Nama" wire:model="identitasForm.nama" />
                     <x-mary-input label="NIK" wire:model="identitasForm.nik" />
                     <x-mary-input label="Gelar Depan" wire:model="identitasForm.gelar_depan" />
@@ -96,11 +97,14 @@
         <x-mary-tab name="pendidikan-tab" label="Pendidikan" icon="o-academic-cap">
             <x-mary-form wire:submit="savePendidikan">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <x-mary-input label="Tingkat Pendidikan" wire:model="pendidikanForm.tingkat_pendidikan_nama" />
+                    <x-mary-input label="Pendidikan" wire:model="pendidikanForm.pendidikan_nama" />
                     <x-mary-input label="Pendidikan Tertinggi" wire:model="pendidikanForm.pendidikan_tertinggi_nama" />
                     <x-mary-input label="Jurusan" wire:model="pendidikanForm.jurusan" />
                     <x-mary-input label="Nama Sekolah" wire:model="pendidikanForm.nama_sekolah" />
                     <x-mary-input label="Nomor Ijazah" wire:model="pendidikanForm.nomor_ijazah" />
                     <x-mary-input label="Tahun Lulus" wire:model="pendidikanForm.tahun_lulus" />
+                    <x-mary-textarea label="Riwayat Diklatpim" wire:model="pendidikanForm.riwayat_diklatpim" rows="3" class="md:col-span-2" />
                 </div>
 
                 <x-slot:actions>

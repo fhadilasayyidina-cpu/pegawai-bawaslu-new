@@ -13,6 +13,8 @@ class IdentitasForm extends Form
     #[Validate('required')]
     public $nip_baru = '';
 
+    public $nip_lama;
+
     public $nik;
 
     public $tempat_lahir_nama;
