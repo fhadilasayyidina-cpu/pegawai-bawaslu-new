@@ -93,13 +93,13 @@ class Pegawai extends Model
     ];
 
     protected $casts = [
-        'tgl_lahir' => 'date',
+        'tgl_lahir' => 'date:Y-m-d',
         'tgl_sk_cpns' => 'date',
         'tmt_cpns' => 'date',
         'tgl_sk_pns' => 'date',
         'tmt_pns' => 'date',
         'tgl_sk_dpk_penugasan_kontrak' => 'date',
-        'tmt_golongan' => 'date',
-        'tmt_jabatan' => 'date',
+        'tmt_golongan' => 'date:Y-m-d',
+        'tmt_jabatan' => 'date:Y-m-d',
     ];
 }

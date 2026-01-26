@@ -17,8 +17,8 @@
                     <x-mary-input label="Usia" wire:model="identitasForm.usia" readonly />
                     <flux:select label="Jenis Kelamin" wire:model="identitasForm.jenis_kelamin">
                         <flux:select.option value="">Pilih</flux:select.option>
-                        <flux:select.option value="Laki-laki">Laki-laki</flux:select.option>
-                        <flux:select.option value="Perempuan">Perempuan</flux:select.option>
+                        <flux:select.option value="Pria">Laki-laki</flux:select.option>
+                        <flux:select.option value="Wanita">Perempuan</flux:select.option>
                     </flux:select>
                     <flux:select label="Golongan Darah" wire:model="identitasForm.gol_darah">
                         <flux:select.option value="">Pilih</flux:select.option>
