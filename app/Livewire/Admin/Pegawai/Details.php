@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Pegawai;
 use App\Livewire\Forms\Pegawai\AdministrasiForm;
 use App\Livewire\Forms\Pegawai\IdentitasForm;
 use App\Livewire\Forms\Pegawai\JabatanForm;
+use App\Livewire\Forms\Pegawai\PendidikanForm;
 use App\Models\Pegawai;
 use Livewire\Component;
 
@@ -17,6 +18,8 @@ class Details extends Component
     public JabatanForm $jabatanForm;
 
     public AdministrasiForm $administrasiForm;
+
+    public PendidikanForm $pendidikanForm;
 
     public string $selectedTab = 'identitas-tab';
 
@@ -34,6 +37,7 @@ class Details extends Component
         $this->identitasForm->setPegawai($this->pegawai);
         $this->jabatanForm->setPegawai($this->pegawai);
         $this->administrasiForm->setPegawai($this->pegawai);
+        $this->pendidikanForm->setPegawai($this->pegawai);
 
     }
 
@@ -59,6 +63,14 @@ class Details extends Component
         $this->pegawai->update($this->administrasiForm->all());
 
         $this->success('Data administrasi berhasil diperbarui!');
+    }
+
+    public function savePendidikan()
+    {
+        $this->pendidikanForm->validate();
+        $this->pegawai->update($this->pendidikanForm->all());
+
+        $this->success('Data pendidikan berhasil diperbarui!');
     }
 
     public function render()

@@ -91,5 +91,24 @@
                 </x-slot:actions>
             </x-mary-form>
         </x-mary-tab>
+
+        <!-- Tab 4: Pendidikan -->
+        <x-mary-tab name="pendidikan-tab" label="Pendidikan" icon="o-academic-cap">
+            <x-mary-form wire:submit="savePendidikan">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <x-mary-input label="Pendidikan Tertinggi" wire:model="pendidikanForm.pendidikan_tertinggi_nama" />
+                    <x-mary-input label="Jurusan" wire:model="pendidikanForm.jurusan" />
+                    <x-mary-input label="Nama Sekolah" wire:model="pendidikanForm.nama_sekolah" />
+                    <x-mary-input label="Nomor Ijazah" wire:model="pendidikanForm.nomor_ijazah" />
+                    <x-mary-input label="Tahun Lulus" wire:model="pendidikanForm.tahun_lulus" />
+                    <x-mary-input label="Gelar Depan" wire:model="pendidikanForm.gelar_depan" />
+                    <x-mary-input label="Gelar Belakang" wire:model="pendidikanForm.gelar_blk" />
+                </div>
+
+                <x-slot:actions>
+                    <x-mary-button label="Simpan Pendidikan" type="submit" class="btn-primary" spinner="savePendidikan" />
+                </x-slot:actions>
+            </x-mary-form>
+        </x-mary-tab>
     </x-mary-tabs>
 </div>
