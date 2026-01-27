@@ -8,10 +8,14 @@ use App\Livewire\Forms\Pegawai\JabatanForm;
 use App\Livewire\Forms\Pegawai\PendidikanForm;
 use App\Livewire\Forms\Pegawai\UnitOrganisasiForm;
 use App\Models\Pegawai;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Details extends Component
 {
+    use WithFileUploads;
+
     public Pegawai $pegawai;
 
     public IdentitasForm $identitasForm;
@@ -48,9 +52,31 @@ class Details extends Component
     public function saveIdentitas()
     {
         $this->identitasForm->validate();
-        $this->pegawai->update($this->identitasForm->all());
 
+        $data = $this->identitasForm->except(['foto']);
+
+        if ($this->identitasForm->foto) {
+            if ($this->pegawai->foto) {
+                Storage::disk('public')->delete($this->pegawai->foto);
+            }
+
+            $path = $this->identitasForm->foto->store('pegawai/foto/'.$this->pegawai->id, 'public');
+            $data['foto'] = $path;
+        }
+
+        $this->pegawai->update($data);
         $this->success('Data identitas berhasil diperbarui!');
+    }
+
+    public function deleteFoto()
+    {
+        if ($this->pegawai->foto) {
+            Storage::disk('public')->delete($this->pegawai->foto);
+            $this->pegawai->update(['foto' => null]);
+            $this->identitasForm->foto = null;
+        }
+
+        $this->success('Foto berhasil dihapus!');
     }
 
     public function saveJabatan()

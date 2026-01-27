@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Pegawai extends Model
 {
@@ -28,6 +29,7 @@ class Pegawai extends Model
         'email',
         'email_gov',
         'alamat',
+        'foto',
         'tgl_lahir',
         'usia',
 
@@ -44,6 +46,7 @@ class Pegawai extends Model
         'no_sk_dpk_penugasan_kontrak',
         'tgl_sk_dpk_penugasan_kontrak',
         'keterangan',
+        'tgl_kgb_terakhir',
         'keterangan_status',
 
         // Golongan & Jabatan
@@ -101,5 +104,29 @@ class Pegawai extends Model
         'tgl_sk_dpk_penugasan_kontrak' => 'date',
         'tmt_golongan' => 'date:Y-m-d',
         'tmt_jabatan' => 'date:Y-m-d',
+        'tgl_kgb_terakhir' => 'date',
     ];
+
+    public function getFotoUrlAttribute(): string
+    {
+        if ($this->foto) {
+            return Storage::disk('public')->url($this->foto);
+        }
+
+        return '';
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        $words = explode(' ', trim($this->nama ?? ''));
+        $initials = '';
+        foreach ($words as $word) {
+            $initials .= mb_substr($word, 0, 1, 'UTF-8');
+            if (strlen($initials) >= 2) {
+                break;
+            }
+        }
+
+        return strtoupper($initials ?: '??');
+    }
 }

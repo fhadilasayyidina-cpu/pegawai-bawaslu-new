@@ -41,6 +41,8 @@ class IdentitasForm extends Form
 
     public $email_gov;
 
+    public $foto;
+
     public $usia;
 
     public function setPegawai($pegawai)

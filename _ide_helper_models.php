@@ -29,6 +29,7 @@ namespace App\Models{
  * @property string|null $email
  * @property string|null $email_gov
  * @property string|null $alamat
+ * @property string|null $foto
  * @property \Illuminate\Support\Carbon|null $tgl_lahir
  * @property int|null $usia
  * @property string|null $npwp_nomor
@@ -43,6 +44,7 @@ namespace App\Models{
  * @property string|null $no_sk_dpk_penugasan_kontrak
  * @property \Illuminate\Support\Carbon|null $tgl_sk_dpk_penugasan_kontrak
  * @property string|null $keterangan
+ * @property \Illuminate\Support\Carbon|null $tgl_kgb_terakhir
  * @property string|null $keterangan_status
  * @property string|null $gol_awal_nama
  * @property string|null $gol_nama
@@ -81,6 +83,8 @@ namespace App\Models{
  * @property string|null $status_kepegwaian
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $foto_url
+ * @property-read string $initials
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai query()
@@ -92,6 +96,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereEmailGov($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereEselon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereFoto($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereGelarBlk($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereGelarDepan($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereGolAwalNama($value)
@@ -137,6 +142,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereStatusKepegwaian($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereTahunLulus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereTempatLahirNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereTglKgbTerakhir($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereTglLahir($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereTglSkCpns($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Pegawai whereTglSkDpkPenugasanKontrak($value)

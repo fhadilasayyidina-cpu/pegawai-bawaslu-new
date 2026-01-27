@@ -6,6 +6,53 @@
         <!-- Tab 1: Identitas -->
         <x-mary-tab name="identitas-tab" label="Identitas" icon="o-user">
             <x-mary-form wire:submit="saveIdentitas">
+                <!-- Foto Profil Section -->
+                <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="flex items-start gap-6">
+                        <!-- Photo Display -->
+                        <div class="flex-shrink-0">
+                            @if($pegawai->foto)
+                                <img
+                                    src="{{ $pegawai->foto_url }}"
+                                    alt="Foto {{ $pegawai->nama }}"
+                                    class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-700"
+                                />
+                            @else
+                                <flux:avatar
+                                    :name="$pegawai->nama"
+                                    size="lg"
+                                    class="w-32 h-32 rounded-lg border-2 border-gray-200 dark:border-gray-700"
+                                />
+                            @endif
+                        </div>
+
+                        <!-- Upload Controls -->
+                        <div class="flex-1">
+                            <flux:heading size="lg">Foto Profil</flux:heading>
+                            <flux:text class="mb-3 text-sm">
+                                Upload foto pegawai (format: JPG, PNG, max 2MB)
+                            </flux:text>
+
+                            <flux:input
+                                type="file"
+                                wire:model="identitasForm.foto"
+                                accept="image/*"
+                                class="mb-2"
+                            />
+
+                            @if($pegawai->foto)
+                                <flux:button
+                                    variant="danger"
+                                    size="sm"
+                                    wire:click="deleteFoto"
+                                >
+                                    Hapus Foto
+                                </flux:button>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-mary-input label="NIP" wire:model="identitasForm.nip_baru" readonly />
                     <x-mary-input label="NIP Lama" wire:model="identitasForm.nip_lama" />
@@ -85,6 +132,11 @@
                     <x-mary-input label="No SK DPK Penugasan Kontrak" wire:model="administrasiForm.no_sk_dpk_penugasan_kontrak" />
                     <flux:input label="Tanggal SK DPK" type="date" wire:model="administrasiForm.tgl_sk_dpk_penugasan_kontrak" />
                     <x-mary-textarea label="Keterangan" wire:model="administrasiForm.keterangan" rows="3" />
+                    <flux:input
+                        label="Tanggal KGB Terakhir"
+                        type="date"
+                        wire:model="administrasiForm.tgl_kgb_terakhir"
+                    />
                 </div>
 
                 <x-slot:actions>

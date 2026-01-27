@@ -30,6 +30,8 @@ class AdministrasiForm extends Form
 
     public $keterangan;
 
+    public $tgl_kgb_terakhir;
+
     public function setPegawai($pegawai)
     {
         $this->fill($pegawai->toArray());
