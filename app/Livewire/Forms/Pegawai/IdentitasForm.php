@@ -45,6 +45,8 @@ class IdentitasForm extends Form
 
     public $usia;
 
+    public $range_umur;
+
     public function setPegawai($pegawai)
     {
 

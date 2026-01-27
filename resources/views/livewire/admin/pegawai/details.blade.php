@@ -63,6 +63,7 @@
                     <x-mary-input label="Tempat Lahir" wire:model="identitasForm.tempat_lahir_nama" />
                     <flux:input label="Tanggal Lahir" type="date" wire:model="identitasForm.tgl_lahir" />
                     <x-mary-input label="Usia" wire:model="identitasForm.usia" readonly />
+                    <x-mary-input label="Range Umur" wire:model="identitasForm.range_umur" />
                     <flux:select label="Jenis Kelamin" wire:model="identitasForm.jenis_kelamin">
                         <flux:select.option value="">Pilih</flux:select.option>
                         <flux:select.option value="Pria">Laki-laki</flux:select.option>
@@ -178,7 +179,6 @@
                     <x-mary-input label="Eselon" wire:model="unitOrganisasiForm.eselon" />
                     <x-mary-input label="Divisi" wire:model="unitOrganisasiForm.divisi" />
                     <x-mary-input label="UKM" wire:model="unitOrganisasiForm.ukm" />
-                    <x-mary-input label="Range Umur" wire:model="unitOrganisasiForm.range_umur" />
 
                     <!-- Lokasi -->
                     <x-mary-input label="Provinsi" wire:model="unitOrganisasiForm.provinsi" />

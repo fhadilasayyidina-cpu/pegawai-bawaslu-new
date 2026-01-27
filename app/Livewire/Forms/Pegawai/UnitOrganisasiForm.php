@@ -24,8 +24,6 @@ class UnitOrganisasiForm extends Form
 
     public ?string $ukm = '';
 
-    public ?string $range_umur = '';
-
     public ?string $provinsi = '';
 
     public ?string $kab_kota = '';
@@ -46,7 +44,6 @@ class UnitOrganisasiForm extends Form
         $this->eselon = $pegawai->eselon ?? '';
         $this->divisi = $pegawai->divisi ?? '';
         $this->ukm = $pegawai->ukm ?? '';
-        $this->range_umur = $pegawai->range_umur ?? '';
         $this->provinsi = $pegawai->provinsi ?? '';
         $this->kab_kota = $pegawai->kab_kota ?? '';
         $this->jenis_pegawai = $pegawai->jenis_pegawai ?? '';
