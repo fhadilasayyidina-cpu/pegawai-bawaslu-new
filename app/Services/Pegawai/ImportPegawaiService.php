@@ -248,36 +248,36 @@ class ImportPegawaiService
             'email' => $row['email'] ?? null,
             'email_gov' => $row['email_gov'] ?? null,
             'alamat' => $row['alamat'] ?? null,
-            'tgl_lahir' => $row['tgl_lahir'] ?? null,  // date
-            'usia' => $this->calculateUsia($row['tgl_lahir'] ?? null),  // integer
+            'tgl_lahir' => $this->parseDateOrNull($row['tgl_lahir'] ?? null),
+            'usia' => $this->calculateUsia($this->parseDateOrNull($row['tgl_lahir'] ?? null)),
 
             // Administrasi
             'npwp_nomor' => $row['npwp_nomor'] ?? null,
             'bpjs' => $row['bpjs'] ?? null,
             'kartu_pegawai' => $row['kartu_pegawai'] ?? null,
             'nomor_sk_cpns' => $row['nomor_sk_cpns'] ?? null,
-            // 'tgl_sk_cpns' => $row['tgl_sk_cpns'] ?? null,  // date
-            // 'tmt_cpns' => $row['tmt_cpns'] ?? null,  // date
+            'tgl_sk_cpns' => $this->parseDateOrNull($row['tgl_sk_cpns'] ?? null),
+            'tmt_cpns' => $this->parseDateOrNull($row['tmt_cpns'] ?? null),
             'nomor_sk_pns' => $row['nomor_sk_pns'] ?? null,
-            // 'tgl_sk_pns' => $row['tgl_sk_pns'] ?? null,  // date
-            // 'tmt_pns' => $row['tmt_pns'] ?? null,  // date
+            'tgl_sk_pns' => $this->parseDateOrNull($row['tgl_sk_pns'] ?? null),
+            'tmt_pns' => $this->parseDateOrNull($row['tmt_pns'] ?? null),
             'no_sk_dpk_penugasan_kontrak' => $row['no_sk_dpk_penugasan_kontrak'] ?? null,
-            // 'tgl_sk_dpk_penugasan_kontrak' => $row['tgl_sk_dpk_penugasan_kontrak'] ?? null,  // date
+            'tgl_sk_dpk_penugasan_kontrak' => $this->parseDateOrNull($row['tgl_sk_dpk_penugasan_kontrak'] ?? null),
             'keterangan' => $row['keterangan'] ?? null,
             'keterangan_status' => $row['keterangan_status'] ?? null,
 
             // Golongan & Jabatan
             'gol_awal_nama' => $row['gol_awal_nama'] ?? null,
             'gol_nama' => $row['gol_nama'] ?? null,
-            // 'tmt_golongan' => $row['tmt_golongan'] ?? null,  // date
-            // 'mkgol' => $row['mkgol'] ?? null,  // integer
+            'tmt_golongan' => $this->parseDateOrNull($row['tmt_golongan'] ?? null),
+            'mkgol' => $this->parseIntegerOrNull($row['mkgol'] ?? null),
             'jenis_jabatan_nama' => $row['jenis_jabatan_nama'] ?? null,
             'jabatan_nama' => $row['jabatan_nama'] ?? null,
-            // 'tmt_jabatan' => $row['tmt_jabatan'] ?? null,  // date
+            'tmt_jabatan' => $this->parseDateOrNull($row['tmt_jabatan'] ?? null),
             'jabatan_non_definitif' => $row['jabatan_non_definitif'] ?? null,
             'jabatan_non_definitif_1' => $row['jabatan_non_definitif_1'] ?? null,
-            // 'mkjab' => $row['mkjab'] ?? null,  // integer
-            // 'jumlah' => $row['jumlah'] ?? null,  // integer
+            'mkjab' => $this->parseIntegerOrNull($row['mkjab'] ?? null),
+            'jumlah' => $this->parseIntegerOrNull($row['jumlah'] ?? null),
             'kelas' => $row['kelas'] ?? null,
             'kelas_jabatan' => $row['kelas_jabatan'] ?? null,
             'kelompok_jabatan' => $row['kelompok_jabatan'] ?? null,
@@ -289,7 +289,7 @@ class ImportPegawaiService
             // Pendidikan
             'tingkat_pendidikan_nama' => $this->normalizeTingkatPendidikan($row['tingkat_pendidikan_nama'] ?? null),
             'pendidikan_nama' => $row['pendidikan_nama'] ?? null,
-            'tahun_lulus' => $row['tahun_lulus'] ?? null,
+            'tahun_lulus' => $this->parseIntegerOrNull($row['tahun_lulus'] ?? null),
             'riwayat_diklatpim' => $row['riwayat_diklatpim'] ?? null,
 
             // Unit & Organisasi
@@ -301,7 +301,7 @@ class ImportPegawaiService
             'eselon' => $row['eselon'] ?? null,
             'divisi' => $row['divisi'] ?? null,
             'ukm' => $row['ukm'] ?? null,
-            'range_umur' => $this->calculateRangeUmur($this->calculateUsia($row['tgl_lahir'] ?? null)),
+            'range_umur' => $this->calculateRangeUmur($this->calculateUsia($this->parseDateOrNull($row['tgl_lahir'] ?? null))),
 
             // Lokasi
             'provinsi' => $row['provinsi'] ?? null,
@@ -313,28 +313,82 @@ class ImportPegawaiService
         ];
     }
 
-    // protected function parseDate($value): ?string
-    // {
-    //     if (empty($value)) {
-    //         return null;
-    //     }
+    protected function parseDateOrNull($value): ?string
+    {
+        if (empty($value)) {
+            return null;
+        }
 
-    //     // Handle Excel serial date format
-    //     if (is_numeric($value)) {
-    //         return \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value)->format('Y-m-d');
-    //     }
+        try {
+            // Handle Excel serial date format (OpenSpout/Spout format)
+            if (is_numeric($value)) {
+                // Excel base date: 1 = January 1, 1900 (Excel 1900 date system)
+                // OpenSpout returns the raw Excel serial number
+                $excelEpoch = new \DateTime('1900-01-01');
+                $daysToAdd = intval($value) - 2; // -2 because Excel treats 1900 as a leap year (bug) and 1-based index
+                $excelEpoch->add(new \DateInterval("P{$daysToAdd}D"));
 
-    //     // Handle string date format
-    //     if (is_string($value)) {
-    //         try {
-    //             return date('Y-m-d', strtotime($value));
-    //         } catch (Exception $e) {
-    //             return null;
-    //         }
-    //     }
+                $date = $excelEpoch;
 
-    //     return null;
-    // }
+                // Validasi: pastikan tahun reasonable (1900-2100)
+                $year = (int) $date->format('Y');
+                if ($year < 1900 || $year > 2100) {
+                    return null;
+                }
+
+                return $date->format('Y-m-d');
+            }
+
+            // Handle string date format
+            if (is_string($value)) {
+                // Cek apakah string bisa di-parse menjadi tanggal valid
+                $date = \Carbon\Carbon::parse($value);
+
+                // Validasi: pastikan tahun reasonable (1900-2100)
+                $year = $date->year;
+                if ($year < 1900 || $year > 2100) {
+                    return null;
+                }
+
+                return $date->format('Y-m-d');
+            }
+
+            // Handle DateTime object
+            if ($value instanceof \DateTimeInterface) {
+                return $value->format('Y-m-d');
+            }
+
+            return null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    protected function parseIntegerOrNull($value): ?int
+    {
+        if (empty($value) && $value !== 0 && $value !== '0') {
+            return null;
+        }
+
+        // Jika sudah integer, return langsung
+        if (is_int($value)) {
+            return $value;
+        }
+
+        // Cek apakah numeric
+        if (is_numeric($value)) {
+            $intValue = (int) $value;
+
+            // Validasi: pastikan nilai reasonable (0-150 untuk usia/tahun, 0-100 untuk mk)
+            if ($intValue < 0 || $intValue > 999) {
+                return null;
+            }
+
+            return $intValue;
+        }
+
+        return null;
+    }
 
     public function getResult(): array
     {
