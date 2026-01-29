@@ -65,7 +65,6 @@ class Details extends Component
         }
 
         $this->pegawai->update($data);
-        $this->success('Data identitas berhasil diperbarui!');
     }
 
     public function deleteFoto()
@@ -75,40 +74,30 @@ class Details extends Component
             $this->pegawai->update(['foto' => null]);
             $this->identitasForm->foto = null;
         }
-
-        $this->success('Foto berhasil dihapus!');
     }
 
     public function saveJabatan()
     {
         $this->jabatanForm->validate();
         $this->pegawai->update($this->jabatanForm->all());
-
-        $this->success('Data jabatan berhasil diperbarui!');
     }
 
     public function saveAdministrasi()
     {
         $this->administrasiForm->validate();
         $this->pegawai->update($this->administrasiForm->all());
-
-        $this->success('Data administrasi berhasil diperbarui!');
     }
 
     public function savePendidikan()
     {
         $this->pendidikanForm->validate();
         $this->pegawai->update($this->pendidikanForm->all());
-
-        $this->success('Data pendidikan berhasil diperbarui!');
     }
 
     public function saveUnitOrganisasi()
     {
         $this->unitOrganisasiForm->validate();
         $this->pegawai->update($this->unitOrganisasiForm->all());
-
-        $this->success('Data unit & organisasi berhasil diperbarui!');
     }
 
     public function render()

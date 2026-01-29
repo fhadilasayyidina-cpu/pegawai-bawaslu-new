@@ -2,34 +2,48 @@
 
 namespace App\Livewire\Forms\Pegawai;
 
+use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class UnitOrganisasiForm extends Form
 {
+    #[Validate('nullable')]
     public ?int $pegawai_id = null;
 
+    #[Validate('nullable')]
     public ?string $satuan_kerja = '';
 
+    #[Validate('nullable')]
     public ?string $unit_kerja = '';
 
+    #[Validate('nullable')]
     public ?string $unit_organisasi = '';
 
+    #[Validate('nullable')]
     public ?string $unor_nama = '';
 
+    #[Validate('nullable')]
     public ?string $instansi_induk_nama = '';
 
+    #[Validate('nullable')]
     public ?string $eselon = '';
 
+    #[Validate('nullable')]
     public ?string $divisi = '';
 
+    #[Validate('nullable')]
     public ?string $ukm = '';
 
+    #[Validate('nullable')]
     public ?string $provinsi = '';
 
+    #[Validate('nullable')]
     public ?string $kab_kota = '';
 
+    #[Validate('nullable')]
     public ?string $jenis_pegawai = '';
 
+    #[Validate('nullable')]
     public ?string $status_kepegwaian = '';
 
     public function setPegawai(\App\Models\Pegawai $pegawai): void

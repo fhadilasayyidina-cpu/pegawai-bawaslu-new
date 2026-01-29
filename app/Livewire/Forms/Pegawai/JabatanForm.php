@@ -2,39 +2,55 @@
 
 namespace App\Livewire\Forms\Pegawai;
 
+use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class JabatanForm extends Form
 {
-    public $gol_awal_nama;
+    #[Validate('nullable')]
+    public ?string $gol_awal_nama = null;
 
-    public $gol_nama;
+    #[Validate('nullable')]
+    public ?string $gol_nama = null;
 
-    public $tmt_golongan;
+    #[Validate('nullable')]
+    public ?string $tmt_golongan = null;
 
-    public $mkgol;
+    #[Validate('nullable')]
+    public ?string $mkgol = null;
 
-    public $jenis_jabatan_nama;
+    #[Validate('nullable')]
+    public ?string $jenis_jabatan_nama = null;
 
-    public $jabatan_nama;
+    #[Validate('nullable')]
+    public ?string $jabatan_nama = null;
 
-    public $tmt_jabatan;
+    #[Validate('nullable')]
+    public ?string $tmt_jabatan = null;
 
-    public $jabatan_non_definitif;
+    #[Validate('nullable')]
+    public ?string $jabatan_non_definitif = null;
 
-    public $jabatan_non_definitif_1;
+    #[Validate('nullable')]
+    public ?string $jabatan_non_definitif_1 = null;
 
-    public $mkjab;
+    #[Validate('nullable')]
+    public ?string $mkjab = null;
 
-    public $kelas_jabatan;
+    #[Validate('nullable')]
+    public ?string $kelas_jabatan = null;
 
-    public $kelompok_jabatan;
+    #[Validate('nullable')]
+    public ?string $kelompok_jabatan = null;
 
-    public $pangkat;
+    #[Validate('nullable')]
+    public ?string $pangkat = null;
 
-    public $proyeksi_jf;
+    #[Validate('nullable')]
+    public ?string $proyeksi_jf = null;
 
-    public $keterangan_status;
+    #[Validate('nullable')]
+    public ?string $keterangan_status = null;
 
     public function setPegawai($pegawai)
     {

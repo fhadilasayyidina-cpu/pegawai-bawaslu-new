@@ -13,38 +13,55 @@ class IdentitasForm extends Form
     #[Validate('required')]
     public $nip_baru = '';
 
+    #[Validate('nullable')]
     public $nip_lama;
 
+    #[Validate('nullable')]
     public $nik;
 
+    #[Validate('nullable')]
     public $tempat_lahir_nama;
 
+    #[Validate('nullable')]
     public $tgl_lahir;
 
+    #[Validate('nullable')]
     public $jenis_kelamin;
 
+    #[Validate('nullable')]
     public $nomor_hp;
 
+    #[Validate('nullable')]
     public $email;
 
+    #[Validate('nullable')]
     public $alamat;
 
+    #[Validate('nullable')]
     public $gelar_depan;
 
+    #[Validate('nullable')]
     public $gelar_blk;
 
+    #[Validate('nullable')]
     public $gol_darah;
 
+    #[Validate('nullable')]
     public $agama_nama;
 
+    #[Validate('nullable')]
     public $jenis_kawin_nama;
 
+    #[Validate('nullable')]
     public $email_gov;
 
+    #[Validate('nullable')]
     public $foto;
 
+    #[Validate('nullable')]
     public $usia;
 
+    #[Validate('nullable')]
     public $range_umur;
 
     public function setPegawai($pegawai)

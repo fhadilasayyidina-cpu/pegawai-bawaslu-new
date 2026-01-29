@@ -2,26 +2,36 @@
 
 namespace App\Livewire\Forms\Pegawai;
 
+use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class PendidikanForm extends Form
 {
+    #[Validate('nullable')]
     public ?int $pegawai_id = null;
 
+    #[Validate('nullable')]
     public ?string $tingkat_pendidikan_nama = '';
 
+    #[Validate('nullable')]
     public ?string $pendidikan_nama = '';
 
+    #[Validate('nullable')]
     public ?string $pendidikan_tertinggi_nama = '';
 
+    #[Validate('nullable')]
     public ?string $jurusan = '';
 
+    #[Validate('nullable')]
     public ?string $nama_sekolah = '';
 
+    #[Validate('nullable')]
     public ?string $nomor_ijazah = '';
 
+    #[Validate('nullable')]
     public ?string $tahun_lulus = '';
 
+    #[Validate('nullable')]
     public ?string $riwayat_diklatpim = '';
 
     public function setPegawai(\App\Models\Pegawai $pegawai): void

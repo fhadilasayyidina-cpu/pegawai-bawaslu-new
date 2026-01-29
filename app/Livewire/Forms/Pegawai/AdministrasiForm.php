@@ -2,35 +2,49 @@
 
 namespace App\Livewire\Forms\Pegawai;
 
+use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class AdministrasiForm extends Form
 {
-    public $npwp_nomor;
+    #[Validate('nullable')]
+    public ?string $npwp_nomor = null;
 
-    public $bpjs;
+    #[Validate('nullable')]
+    public ?string $bpjs = null;
 
-    public $kartu_pegawai;
+    #[Validate('nullable')]
+    public ?string $kartu_pegawai = null;
 
-    public $nomor_sk_cpns;
+    #[Validate('nullable')]
+    public ?string $nomor_sk_cpns = null;
 
-    public $tgl_sk_cpns;
+    #[Validate('nullable')]
+    public ?string $tgl_sk_cpns = null;
 
-    public $tmt_cpns;
+    #[Validate('nullable')]
+    public ?string $tmt_cpns = null;
 
-    public $nomor_sk_pns;
+    #[Validate('nullable')]
+    public ?string $nomor_sk_pns = null;
 
-    public $tgl_sk_pns;
+    #[Validate('nullable')]
+    public ?string $tgl_sk_pns = null;
 
-    public $tmt_pns;
+    #[Validate('nullable')]
+    public ?string $tmt_pns = null;
 
-    public $no_sk_dpk_penugasan_kontrak;
+    #[Validate('nullable')]
+    public ?string $no_sk_dpk_penugasan_kontrak = null;
 
-    public $tgl_sk_dpk_penugasan_kontrak;
+    #[Validate('nullable')]
+    public ?string $tgl_sk_dpk_penugasan_kontrak = null;
 
-    public $keterangan;
+    #[Validate('nullable')]
+    public ?string $keterangan = null;
 
-    public $tgl_kgb_terakhir;
+    #[Validate('nullable')]
+    public ?string $tgl_kgb_terakhir = null;
 
     public function setPegawai($pegawai)
     {
