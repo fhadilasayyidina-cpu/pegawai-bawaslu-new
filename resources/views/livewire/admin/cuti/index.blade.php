@@ -22,69 +22,64 @@
             </div>
 
             <!-- Table -->
-            <x-mary-table>
-                <x-slot:thead>
-                    <x-mary-tr>
-                        <x-mary-th>Pegawai</x-mary-th>
-                        <x-mary-th>NIP</x-mary-th>
-                        <x-mary-th>Jenis Cuti</x-mary-th>
-                        <x-mary-th>Tanggal</x-mary-th>
-                        <x-mary-th>Lama</x-mary-th>
-                        <x-mary-th>Aksi</x-mary-th>
-                    </x-mary-tr>
-                </x-slot:thead>
-
-                <x-slot:tbody>
-                    @forelse($cutis as $cuti)
-                        <x-mary-tr>
-                            <x-mary-td>{{ $cuti->pegawai->nama }}</x-mary-td>
-                            <x-mary-td>{{ $cuti->pegawai->nip_baru }}</x-mary-td>
-                            <x-mary-td>
-                                <flux:badge variant="primary">
-                                    {{ ucfirst($cuti->jenis_cuti) }}
-                                </flux:badge>
-                            </x-mary-td>
-                            <x-mary-td>
-                                {{ $cuti->tanggal_mulai->format('d/m/Y') }} -
-                                {{ $cuti->tanggal_selesai->format('d/m/Y') }}
-                            </x-mary-td>
-                            <x-mary-td>{{ $cuti->lama_hari }} hari</x-mary-td>
-                            <x-mary-td>
-                                <flux:dropdown>
-                                    <flux:button icon="ellipsis-horizontal" variant="ghost" />
-                                    <flux:dropdown.menu>
-                                        <flux:dropdown.menu.item
-                                            href="/admin/cutis/{{ $cuti->id }}"
-                                            icon="eye"
-                                        >
-                                            Lihat
-                                        </flux:dropdown.menu.item>
-                                        <flux:dropdown.menu.item
-                                            href="/admin/cutis/{{ $cuti->id }}/edit"
-                                            icon="pencil"
-                                        >
-                                            Edit
-                                        </flux:dropdown.menu.item>
-                                        <flux:dropdown.menu.item
-                                            wire:click="delete({{ $cuti->id }})"
-                                            icon="trash"
-                                            style="danger"
-                                        >
-                                            Hapus
-                                        </flux:dropdown.menu.item>
-                                    </flux:dropdown.menu>
-                                </flux:dropdown>
-                            </x-mary-td>
-                        </x-mary-tr>
-                    @empty
-                        <x-mary-tr>
-                            <x-mary-td colspan="6" class="text-center text-gray-500 py-8">
-                                Belum ada data cuti
-                            </x-mary-td>
-                        </x-mary-tr>
-                    @endforelse
-                </x-slot:tbody>
-            </x-mary-table>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                    <thead>
+                        <tr>
+                            <th>Pegawai</th>
+                            <th>NIP</th>
+                            <th>Jenis Cuti</th>
+                            <th>Tanggal</th>
+                            <th>Lama</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($cutis as $cuti)
+                            <tr>
+                                <td>{{ $cuti->pegawai->nama }}</td>
+                                <td>{{ $cuti->pegawai->nip_baru }}</td>
+                                <td>
+                                    <flux:badge variant="primary">
+                                        {{ ucfirst($cuti->jenis_cuti) }}
+                                    </flux:badge>
+                                </td>
+                                <td>
+                                    {{ $cuti->tanggal_mulai->format('d/m/Y') }} -
+                                    {{ $cuti->tanggal_selesai->format('d/m/Y') }}
+                                </td>
+                                <td>{{ $cuti->lama_hari }} hari</td>
+                                <td>
+                                    <flux:dropdown>
+                                        <flux:button icon="ellipsis-horizontal" variant="ghost" />
+                                        <flux:menu>
+                                            <flux:menu.item :href="'/admin/cutis/' . $cuti->id . '/details'" icon="eye">
+                                                Lihat
+                                            </flux:menu.item>
+                                            <flux:menu.item :href="'/admin/cutis/' . $cuti->id . '/edit'" icon="pencil">
+                                                Edit
+                                            </flux:menu.item>
+                                            <flux:menu.item
+                                                wire:click="delete({{ $cuti->id }})"
+                                                icon="trash"
+                                                class="text-red-500"
+                                            >
+                                                Hapus
+                                            </flux:menu.item>
+                                        </flux:menu>
+                                    </flux:dropdown>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-gray-500 py-8">
+                                    Belum ada data cuti
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </x-mary-card>
     </div>
 </div>

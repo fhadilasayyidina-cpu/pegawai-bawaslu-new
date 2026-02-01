@@ -2,6 +2,13 @@
     <x-header-page title="Detail Cuti" :breadcrumbs="$breadcrumbs">
         <x-slot:actions>
             <x-mary-button
+                label="Cetak PDF"
+                icon="o-document-arrow-down"
+                :link="route('cuti.pdf', ['id' => $cuti->id])"
+                target="_blank"
+                variant="primary"
+            />
+            <x-mary-button
                 label="Edit"
                 icon="o-pencil"
                 link="/admin/cutis/{{ $cuti->id }}/edit"
