@@ -91,51 +91,58 @@
         </x-header-page>
 
         {{-- Form Section --}}
-        <div class="max-w-2xl ">
+        <div class="max-w-4xl">
             <x-mary-card class="">
                 <x-mary-form wire:submit="update">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Nama -->
+                        <x-mary-input
+                            label="Nama"
+                            wire:model="nama"
+                            placeholder="Masukkan nama lengkap"
+                            required
+                            icon="o-user"
+                        />
 
-                    <x-mary-input
-                        label="Nama"
-                        wire:model="nama"
-                        placeholder="Masukkan nama lengkap"
-                        required
-                        icon="o-user"
-                    />
+                        <!-- Jabatan -->
+                        <x-mary-select
+                            label="Jabatan"
+                            wire:model="jabatan"
+                            :options="$jabatanOptions"
+                            placeholder="Pilih jabatan"
+                            required
+                            icon="o-user-group"
+                        />
 
-                    <x-mary-select
-                        label="Jabatan"
-                        wire:model="jabatan"
-                        :options="$jabatanOptions"
-                        placeholder="Pilih jabatan"
-                        required
-                        icon="o-user-group"
-                    />
+                        <!-- Kabupaten/Kota -->
+                        <x-mary-select
+                            label="Kabupaten/Kota"
+                            wire:model="kab_kota"
+                            :options="$this->kabKotaOptions"
+                            placeholder="Pilih kabupaten/kota"
+                            required
+                            searchable
+                            icon="o-map-pin"
+                        />
 
-                    <x-mary-select
-                        label="Kabupaten/Kota"
-                        wire:model="kab_kota"
-                        :options="$this->kabKotaOptions"
-                        placeholder="Pilih kabupaten/kota"
-                        required
-                        searchable
-                        icon="o-map-pin"
-                    />
+                        <!-- Email -->
+                        <x-mary-input
+                            label="Email"
+                            wire:model="email"
+                            type="email"
+                            placeholder="Masukkan alamat email"
+                            icon="o-envelope"
+                        />
 
-                    <x-mary-input
-                        label="Email"
-                        wire:model="email"
-                        type="email"
-                        placeholder="Masukkan alamat email"
-                        icon="o-envelope"
-                    />
-
-                    <x-mary-input
-                        label="No HP"
-                        wire:model="no_hp"
-                        placeholder="Masukkan nomor HP"
-                        icon="o-phone"
-                    />
+                        <!-- No HP -->
+                        <x-mary-input
+                            label="No HP"
+                            wire:model="no_hp"
+                            placeholder="Masukkan nomor HP"
+                            icon="o-phone"
+                            class="md:col-span-2"
+                        />
+                    </div>
 
                     <x-slot:actions>
                         <x-mary-button
