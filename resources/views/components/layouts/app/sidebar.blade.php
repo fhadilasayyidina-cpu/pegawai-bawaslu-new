@@ -29,6 +29,11 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'Data Pegawai',
                     'route' => 'admin/pegawais',
                 ],
+                [
+                    'icon' => 'user-group',
+                    'label' => 'Data Pimpinan',
+                    'route' => 'admin/pimpinans',
+                ],
                 
             ]
         ]
