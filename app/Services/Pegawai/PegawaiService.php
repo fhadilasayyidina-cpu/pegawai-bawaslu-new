@@ -52,4 +52,16 @@ class PegawaiService
             ->orderBy('kab_kota')
             ->get();
     }
+
+    public function getAllForSelect(): array
+    {
+        return Pegawai::query()
+            ->orderBy('nama')
+            ->get()
+            ->map(fn ($p) => [
+                'id' => $p->id,
+                'name' => "{$p->nama} - {$p->nip_baru}",
+            ])
+            ->toArray();
+    }
 }

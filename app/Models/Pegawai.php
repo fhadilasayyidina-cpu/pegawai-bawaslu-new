@@ -129,4 +129,9 @@ class Pegawai extends Model
 
         return strtoupper($initials ?: '??');
     }
+
+    public function cutis()
+    {
+        return $this->hasMany(\App\Models\Cuti::class);
+    }
 }

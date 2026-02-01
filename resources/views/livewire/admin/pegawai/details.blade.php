@@ -1,5 +1,13 @@
 <div>
     <x-header-page title="Detail Pegawai" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Pegawai', 'href' => '/admin/pegawais'], ['label' => 'Detail']]">
+        <x-slot:actions>
+            <x-mary-button
+                label="Cuti"
+                icon="o-calendar"
+                link="/admin/cutis/create?pegawai_id={{ $pegawai->id }}"
+                variant="secondary"
+            />
+        </x-slot:actions>
     </x-header-page>
 
     <x-mary-tabs wire:model="selectedTab" selected="ringkasan-tab">
