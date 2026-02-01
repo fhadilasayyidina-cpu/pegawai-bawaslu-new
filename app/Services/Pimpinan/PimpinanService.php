@@ -52,4 +52,9 @@ class PimpinanService
             ->orderBy('kab_kota')
             ->get();
     }
+
+    public function createPimpinan(array $data): Pimpinan
+    {
+        return Pimpinan::create($data);
+    }
 }
