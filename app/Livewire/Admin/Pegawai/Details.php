@@ -28,7 +28,16 @@ class Details extends Component
 
     public UnitOrganisasiForm $unitOrganisasiForm;
 
-    public string $selectedTab = 'identitas-tab';
+    public string $selectedTab = 'ringkasan-tab';
+
+    public function getNextKgbDateProperty(): ?\Carbon\Carbon
+    {
+        if (! $this->pegawai->tgl_kgb_terakhir) {
+            return null;
+        }
+
+        return $this->pegawai->tgl_kgb_terakhir->addYears(2);
+    }
 
     // Harus terima $id dari Folio
     public function mount($id)

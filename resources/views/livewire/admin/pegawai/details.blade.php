@@ -2,7 +2,126 @@
     <x-header-page title="Detail Pegawai" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Pegawai', 'href' => '/admin/pegawais'], ['label' => 'Detail']]">
     </x-header-page>
 
-    <x-mary-tabs wire:model="selectedTab" selected="identitas-tab">
+    <x-mary-tabs wire:model="selectedTab" selected="ringkasan-tab">
+        <!-- Tab 0: Ringkasan -->
+        <x-mary-tab name="ringkasan-tab" label="Ringkasan" icon="o-home">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Left: Foto Profil -->
+                <div class="lg:col-span-1">
+                    <x-mary-card>
+                        <div class="flex flex-col items-center p-6">
+                            @if($pegawai->foto)
+                                <img
+                                    src="{{ $pegawai->foto_url }}"
+                                    alt="Foto {{ $pegawai->nama }}"
+                                    class="w-48 h-48 object-cover rounded-full border-4 border-gray-200 dark:border-gray-700 shadow-lg"
+                                />
+                            @else
+                                <flux:avatar
+                                    :name="$pegawai->nama"
+                                    size="full"
+                                    class="w-48 h-48 rounded-full border-4 border-gray-200 dark:border-gray-700 shadow-lg text-6xl"
+                                />
+                            @endif
+
+                            <flux:heading size="xl" class="mt-4 text-center">
+                                {{ $pegawai->nama }}
+                            </flux:heading>
+
+                            @if($pegawai->gelar_depan || $pegawai->gelar_blk)
+                                <flux:text class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ $pegawai->gelar_depan }} {{ $pegawai->gelar_blk }}
+                                </flux:text>
+                            @endif
+
+                            <flux:badge variant="primary" class="mt-2">
+                                {{ $pegawai->nip_baru }}
+                            </flux:badge>
+                        </div>
+                    </x-mary-card>
+                </div>
+
+                <!-- Right: Info Cards -->
+                <div class="lg:col-span-2 space-y-4">
+                    <!-- Jabatan & Golongan -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <x-mary-card>
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                                    <flux:icon name="briefcase" class="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                </div>
+                                <div>
+                                    <flux:text class="text-sm text-gray-500 dark:text-gray-400">Jabatan</flux:text>
+                                    <flux:heading size="sm">{{ $pegawai->jabatan_nama ?: '-' }}</flux:heading>
+                                </div>
+                            </div>
+                        </x-mary-card>
+
+                        <x-mary-card>
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
+                                    <flux:icon name="book-open" class="w-6 h-6 text-green-600 dark:text-green-400" />
+                                </div>
+                                <div>
+                                    <flux:text class="text-sm text-gray-500 dark:text-gray-400">Golongan</flux:text>
+                                    <flux:heading size="sm">{{ $pegawai->gol_nama ?: '-' }}</flux:heading>
+                                </div>
+                            </div>
+                        </x-mary-card>
+                    </div>
+
+                    <!-- Unit Kerja -->
+                    <x-mary-card>
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
+                                <flux:icon name="building-office" class="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                            </div>
+                            <div>
+                                <flux:text class="text-sm text-gray-500 dark:text-gray-400">Unit Kerja</flux:text>
+                                <flux:heading size="sm">{{ $pegawai->unit_kerja ?: '-' }}</flux:heading>
+                            </div>
+                        </div>
+                    </x-mary-card>
+
+                    <!-- KGB Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <x-mary-card>
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-orange-100 dark:bg-orange-900 rounded-lg">
+                                    <flux:icon name="calendar-date-range" class="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                                </div>
+                                <div>
+                                    <flux:text class="text-sm text-gray-500 dark:text-gray-400">KGB Terakhir</flux:text>
+                                    @if($pegawai->tgl_kgb_terakhir)
+                                        <flux:heading size="sm">{{ $pegawai->tgl_kgb_terakhir->format('d F Y') }}</flux:heading>
+                                    @else
+                                        <flux:text class="text-gray-400">Belum ada data</flux:text>
+                                    @endif
+                                </div>
+                            </div>
+                        </x-mary-card>
+
+                        <x-mary-card>
+                            <div class="flex items-center gap-3">
+                                <div class="p-3 bg-red-100 dark:bg-red-900 rounded-lg">
+                                    <flux:icon name="calendar-days" class="w-6 h-6 text-red-600 dark:text-red-400" />
+                                </div>
+                                <div>
+                                    <flux:text class="text-sm text-gray-500 dark:text-gray-400">Perkiraan KGB Berikutnya</flux:text>
+                                    @if($this->nextKgbDate)
+                                        <flux:heading size="sm">{{ $this->nextKgbDate->format('d F Y') }}</flux:heading>
+                                        <flux:text class="text-xs text-gray-500">(+2 tahun dari KGB terakhir)</flux:text>
+                                    @else
+                                        <flux:text class="text-gray-400">Belum dapat dihitung</flux:text>
+                                    @endif
+                                </div>
+                            </div>
+                        </x-mary-card>
+                    </div>
+                </div>
+            </div>
+        </x-mary-tab>
+
         <!-- Tab 1: Identitas -->
         <x-mary-tab name="identitas-tab" label="Identitas" icon="o-user">
             <x-mary-form wire:submit="saveIdentitas">
