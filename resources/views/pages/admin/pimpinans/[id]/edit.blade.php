@@ -1,4 +1,4 @@
-<x-layouts.app title="Tambah Pimpinan Baru">
+<x-layouts.app title="Edit Pimpinan">
     @volt
     <?php
 
@@ -7,22 +7,41 @@
         // ========================
         // State / Properties
         // ========================
+        public int $id;
+        public \App\Models\Pimpinan $pimpinan;
+
         public string $nama = '';
         public string $jabatan = '';
         public string $kab_kota = '';
         public ?string $email = null;
         public ?string $no_hp = null;
 
-        public array $breadcrumbs = [
-            ['label' => 'Dashboard', 'link' => '/admin'],
-            ['label' => 'Data Pimpinan', 'link' => '/admin/pimpinans'],
-            ['label' => 'Tambah Pimpinan', 'link' => '#'],
-        ];
+        public array $breadcrumbs = [];
 
         public array $jabatanOptions = [
             ['id' => 'ketua', 'name' => 'Ketua'],
             ['id' => 'anggota', 'name' => 'Anggota'],
         ];
+
+        // ========================
+        // Lifecycle Hooks
+        // ========================
+        public function mount(int $id): void
+        {
+            $this->pimpinan = \App\Models\Pimpinan::findOrFail($id);
+
+            $this->nama = $this->pimpinan->nama;
+            $this->jabatan = $this->pimpinan->jabatan->value;
+            $this->kab_kota = $this->pimpinan->kab_kota;
+            $this->email = $this->pimpinan->email;
+            $this->no_hp = $this->pimpinan->no_hp;
+
+            $this->breadcrumbs = [
+                ['label' => 'Dashboard', 'link' => '/admin'],
+                ['label' => 'Data Pimpinan', 'link' => '/admin/pimpinans'],
+                ['label' => 'Edit Pimpinan', 'link' => '#'],
+            ];
+        }
 
         // ========================
         // Computed Properties
@@ -35,7 +54,7 @@
         // ========================
         // Actions
         // ========================
-        public function save()
+        public function update()
         {
             $validated = $this->validate([
                 'nama' => ['required', 'string', 'max:255'],
@@ -45,29 +64,36 @@
                 'no_hp' => ['nullable', 'string', 'max:20'],
             ]);
 
-            // FULLY QUALIFIED NAME
             app(\App\Services\Pimpinan\PimpinanService::class)
-                ->createPimpinan($validated);
+                ->updatePimpinan($this->pimpinan->id, $validated);
 
-            // Notyf Toast (dari app.js)
             $this->dispatch('notyf:show', [
                 'type' => 'success',
-                'message' => 'Pimpinan baru berhasil ditambahkan!'
+                'message' => 'Data pimpinan berhasil diperbarui!'
             ]);
 
-            return $this->redirect('/admin/pimpinans');
+            return $this->redirect('/admin/pimpinans/' . $this->pimpinan->id . '/details');
         }
     };
     ?>
 
     <div>
         {{-- Header Page --}}
-        <x-header-page title="Tambah Pimpinan Baru" :breadcrumbs="$breadcrumbs" />
+        <x-header-page title="Edit Pimpinan" :breadcrumbs="$breadcrumbs">
+            <x-slot:actions>
+                <x-mary-button
+                    label="Batal"
+                    link="/admin/pimpinans/{{ $pimpinan->id }}/details"
+                    variant="ghost"
+                    icon="o-x-mark"
+                />
+            </x-slot:actions>
+        </x-header-page>
 
         {{-- Form Section --}}
-        <div class="max-w-2xl">
-            <x-mary-card>
-                <x-mary-form wire:submit="save">
+        <div class="max-w-2xl ">
+            <x-mary-card class="">
+                <x-mary-form wire:submit="update">
 
                     <x-mary-input
                         label="Nama"
@@ -114,15 +140,15 @@
                     <x-slot:actions>
                         <x-mary-button
                             label="Batal"
-                            link="/admin/pimpinans"
+                            link="/admin/pimpinans/{{ $pimpinan->id }}/details"
                             variant="ghost"
                         />
                         <x-mary-button
-                            label="Simpan"
+                            label="Simpan Perubahan"
                             class="btn-primary"
                             icon="o-check"
-                            spinner="save"
-                            wire:click="save"
+                            spinner="update"
+                            type="submit"
                         />
                     </x-slot:actions>
 

@@ -57,4 +57,17 @@ class PimpinanService
     {
         return Pimpinan::create($data);
     }
+
+    public function updatePimpinan(int $id, array $data): ?Pimpinan
+    {
+        $pimpinan = Pimpinan::find($id);
+
+        if ($pimpinan) {
+            $pimpinan->update($data);
+
+            return $pimpinan;
+        }
+
+        return null;
+    }
 }
