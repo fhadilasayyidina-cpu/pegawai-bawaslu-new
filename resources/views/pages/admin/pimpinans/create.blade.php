@@ -25,6 +25,14 @@
         ];
 
         // ========================
+        // Computed Properties
+        // ========================
+        public function getKabKotaOptionsProperty(): array
+        {
+            return app(\App\Services\Pegawai\PegawaiService::class)->getKabKota()->toArray();
+        }
+
+        // ========================
         // Actions
         // ========================
         public function save()
@@ -78,11 +86,13 @@
                         icon="o-user-group"
                     />
 
-                    <x-mary-input
+                    <x-mary-select
                         label="Kabupaten/Kota"
                         wire:model="kab_kota"
-                        placeholder="Masukkan nama kabupaten/kota"
+                        :options="$this->kabKotaOptions"
+                        placeholder="Pilih kabupaten/kota"
                         required
+                        searchable
                         icon="o-map-pin"
                     />
 
