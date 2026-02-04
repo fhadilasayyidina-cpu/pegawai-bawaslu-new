@@ -21,9 +21,23 @@ class CutiTahunanService
     }
 
     /**
+     * Cek apakah pegawai sudah mengambil cuti besar di tahun ini.
+     */
+    public function cekCutiBesarDiTahunIni(Pegawai $pegawai): bool
+    {
+        $tahunIni = Carbon::now()->year;
+
+        return Cuti::where('pegawai_id', $pegawai->id)
+            ->where('jenis_cuti', 'besar')
+            ->whereYear('tanggal_mulai', $tahunIni)
+            ->exists();
+    }
+
+    /**
      * Cek apakah pegawai berhak cuti tahunan.
      * - Harus PNS
      * - Masa kerja minimal 1 tahun (12 bulan)
+     * - Tidak ada cuti besar di tahun yang sama
      */
     public function cekKelayakanCuti(Pegawai $pegawai): array
     {
@@ -43,6 +57,12 @@ class CutiTahunanService
         if ($masaKerjaBulan < 12) {
             $result['layak'] = false;
             $result['alasan'][] = "Masa kerja kurang dari 1 tahun ({$masaKerjaBulan} bulan).";
+        }
+
+        // Cek cuti besar di tahun yang sama
+        if ($this->cekCutiBesarDiTahunIni($pegawai)) {
+            $result['layak'] = false;
+            $result['alasan'][] = 'Tidak dapat mengambil cuti tahunan jika sudah mengambil cuti besar pada tahun yang sama.';
         }
 
         return $result;

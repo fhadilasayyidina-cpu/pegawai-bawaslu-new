@@ -23,11 +23,23 @@ class Cuti extends Model
         'nama_sekjen',
         'nip_sekjen',
         'nomor_surat_edaran',
+        // Cuti Sakit
+        'status_dokter',
+        'nama_dokter',
+        'nomor_surat_dokter',
+        // Cuti Melahirkan
+        'jenis_melahirkan',
+        'tanggal_perkiraan_lahir',
+        // Cuti Luar Tanggungan
+        'tanpa_gaji',
+        'alasan_luar_tanggungan',
     ];
 
     protected $casts = [
         'tanggal_mulai' => 'date',
         'tanggal_selesai' => 'date',
+        'tanggal_perkiraan_lahir' => 'date',
+        'tanpa_gaji' => 'boolean',
     ];
 
     public function pegawai()
