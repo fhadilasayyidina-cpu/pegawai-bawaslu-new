@@ -1,29 +1,24 @@
 import { Notyf } from 'notyf';
-import 'notyf/notyf.min.css';
+import 'notyf/notyf.min.css'; // Jangan lupa CSS-nya
 
-// Initialize Notyf globally
-window.notyf = new Notyf({
-    duration: 4000,
+// Buat instance Notyf
+const notyf = new Notyf({
+    duration: 3000,
     position: { x: 'right', y: 'top' },
-    dismissible: true
 });
 
-// Listen for Livewire dispatch events
+// Dengar event dari Livewire
 document.addEventListener('livewire:init', () => {
-    Livewire.on('notyf:show', (event) => {
-        // Livewire 3 mengirim data dalam bentuk array [ {type: '...', message: '...'} ]
-        // Maka kita ambil index ke-0
+    Livewire.on('toast', (event) => {
         const data = Array.isArray(event) ? event[0] : event;
 
-        window.notyf.open({
-            type: data.type ?? 'success',
-            message: data.message ?? 'Berhasil'
-        });
+        if (data && data.message) {
+            const type = data.type || 'success';
+            if (type === 'success') {
+                notyf.success(data.message);
+            } else if (type === 'error') {
+                notyf.error(data.message);
+            }
+        }
     });
-}); 
-
-
-
-
-  
-
+});

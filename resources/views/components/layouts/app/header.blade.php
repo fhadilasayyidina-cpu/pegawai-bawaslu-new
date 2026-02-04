@@ -73,7 +73,57 @@
 
         {{ $slot }}
 
+        
         @fluxScripts
+    
+        
+       
+        <script>
+            // Fungsi ini wajib ada agar variabel 'notyf' dikenali
+            function getNotyf() {
+                if (!window.notyfInstance) {
+                    window.notyfInstance = new Notyf({
+                        duration: 4000,
+                        position: { x: 'right', y: 'top' },
+                        dismissible: true
+                    });
+                }
+                return window.notyfInstance;
+            }
 
+            document.addEventListener('livewire:init', () => {
+                const notyf = getNotyf();
+                
+                Livewire.on('toast', (event) => {
+                    console.log('--- NOTIFIKASI DITERIMA ---');
+                    console.log('Isi Event:', event); 
+
+                    // Ambil data pertama dari array event Livewire 3
+                    const data = Array.isArray(event) ? event[0] : event;
+                    
+                    console.log('Data yang diproses:', data);
+
+                    if (data && data.message) {
+                        const type = data.type || 'success';
+                        if (type === 'success') notyf.success(data.message);
+                        else if (type === 'error') notyf.error(data.message);
+                    } else {
+                        console.warn('Struktur data tidak sesuai atau message kosong!');
+                    }
+                });
+            });
+
+            // Tambahan: Supaya session()->flash() dari redirect juga jalan
+            document.addEventListener('livewire:navigated', () => {
+                const notyf = getNotyf();
+                @if(session('success'))
+                    notyf.success("{{ session('success') }}");
+                @endif
+                @if(session('error'))
+                    notyf.error("{{ session('error') }}");
+                @endif
+            });
+        </script>
+    
     </body>
 </html>

@@ -74,6 +74,10 @@ class Details extends Component
         }
 
         $this->pegawai->update($data);
+        $this->dispatch('toast',
+            type: 'success',
+            message: 'Data berhasil disimpan!'
+        );
     }
 
     public function deleteFoto()
