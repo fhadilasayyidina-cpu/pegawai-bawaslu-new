@@ -93,6 +93,15 @@ class Pegawai extends Model
         // Status Pegawai
         'jenis_pegawai',
         'status_kepegwaian',
+
+        // Cuti Tahunan
+        'sisa_cuti_tahun_berjalan',
+        'sisa_cuti_tahun_lalu',
+        'sisa_cuti_dua_tahun_lalu',
+
+        // Cuti Besar
+        'jumlah_cuti_besar_diambil',
+        'tanggal_cuti_besar_terakhir',
     ];
 
     protected $casts = [
@@ -105,6 +114,7 @@ class Pegawai extends Model
         'tmt_golongan' => 'date:Y-m-d',
         'tmt_jabatan' => 'date:Y-m-d',
         'tgl_kgb_terakhir' => 'date',
+        'tanggal_cuti_besar_terakhir' => 'date',
     ];
 
     public function getFotoUrlAttribute(): string

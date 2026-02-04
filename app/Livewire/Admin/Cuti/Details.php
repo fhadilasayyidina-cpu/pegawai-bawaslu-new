@@ -3,7 +3,9 @@
 namespace App\Livewire\Admin\Cuti;
 
 use App\Models\Cuti;
+use App\Services\Cuti\CutiBesarService;
 use App\Services\Cuti\CutiService;
+use App\Services\Cuti\CutiTahunanService;
 use Livewire\Component;
 
 class Details extends Component
@@ -24,14 +26,22 @@ class Details extends Component
         ];
     }
 
-    public function delete(CutiService $cutiService)
-    {
+    public function delete(
+        CutiService $cutiService,
+        CutiTahunanService $cutiTahunanService,
+        CutiBesarService $cutiBesarService
+    ) {
+        // Restore jatah cuti sebelum hapus (berdasarkan jenis cuti)
+        if ($this->cuti->jenis_cuti === 'besar') {
+            $cutiBesarService->restoreJatahCutiBesar($this->cuti);
+        } else {
+            $cutiTahunanService->restoreJatahCuti($this->cuti);
+        }
+
+        // Hapus data cuti
         $cutiService->delete($this->cuti->id);
 
-        $this->dispatch('notyf:show', [
-            'type' => 'success',
-            'message' => 'Data cuti berhasil dihapus!',
-        ]);
+        $this->dispatch('toast', type: 'success', message: 'Data cuti berhasil dihapus!');
 
         return $this->redirect('/admin/cutis');
     }

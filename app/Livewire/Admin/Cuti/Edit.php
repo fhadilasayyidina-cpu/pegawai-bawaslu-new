@@ -3,7 +3,9 @@
 namespace App\Livewire\Admin\Cuti;
 
 use App\Models\Cuti;
+use App\Services\Cuti\CutiBesarService;
 use App\Services\Cuti\CutiService;
+use App\Services\Cuti\CutiTahunanService;
 use Livewire\Component;
 
 class Edit extends Component
@@ -38,8 +40,14 @@ class Edit extends Component
 
     public array $breadcrumbs = [];
 
-    public function mount(int $id, CutiService $cutiService): void
-    {
+    public array $jatahCutiInfo = [];
+
+    public function mount(
+        int $id,
+        CutiService $cutiService,
+        CutiTahunanService $cutiTahunanService,
+        CutiBesarService $cutiBesarService
+    ): void {
         $this->cuti = $cutiService->getById($id);
 
         $this->nomor_surat = $this->cuti->nomor_surat;
@@ -60,6 +68,41 @@ class Edit extends Component
             ['label' => 'Cuti', 'link' => '/admin/cutis'],
             ['label' => 'Edit', 'link' => '#'],
         ];
+
+        // Load jatah cuti info
+        $this->updateJatahCutiInfo($cutiTahunanService, $cutiBesarService);
+    }
+
+    private function updateJatahCutiInfo(CutiTahunanService $tahunanService, CutiBesarService $besarService): void
+    {
+        $pegawai = $this->cuti->pegawai;
+
+        if ($this->jenis_cuti === 'besar') {
+            // Info untuk cuti besar
+            $this->jatahCutiInfo = $besarService->getInfoCutiBesar($pegawai);
+            $this->jatahCutiInfo['lama_hari_sekarang'] = $this->cuti->lama_hari;
+        } else {
+            // Info untuk cuti tahunan
+            $kelayakan = $tahunanService->cekKelayakanCuti($pegawai);
+
+            // Hitung jatah tersedia SAAT INI (termasuk yang sedang dipakai cuti ini)
+            $jatahDasar = $pegawai->sisa_cuti_tahun_berjalan ?? 12;
+            $sisaTahunLalu = min($pegawai->sisa_cuti_tahun_lalu ?? 0, 6);
+            $sisaDuaTahunLalu = min($pegawai->sisa_cuti_dua_tahun_lalu ?? 0, 6);
+
+            $totalTersedia = min($jatahDasar + $sisaTahunLalu + $sisaDuaTahunLalu, 24);
+
+            $this->jatahCutiInfo = [
+                'layak' => $kelayakan['layak'],
+                'jatah_tersedia' => $totalTersedia,
+                'lama_hari_sekarang' => $this->cuti->lama_hari,
+                'rincian' => [
+                    'tahun_berjalan' => $pegawai->sisa_cuti_tahun_berjalan ?? 12,
+                    'tahun_lalu' => $pegawai->sisa_cuti_tahun_lalu ?? 0,
+                    'dua_tahun_lalu' => $pegawai->sisa_cuti_dua_tahun_lalu ?? 0,
+                ],
+            ];
+        }
     }
 
     public function updatedTanggalMulai(): void
@@ -81,11 +124,40 @@ class Edit extends Component
         }
     }
 
-    public function update(CutiService $cutiService)
-    {
+    public function update(
+        CutiService $cutiService,
+        CutiTahunanService $cutiTahunanService,
+        CutiBesarService $cutiBesarService
+    ) {
+        $lamaHariLama = $this->cuti->lama_hari;
+        $lamaHariBaru = $this->lama_hari;
+
+        // Validasi jatah jika lama_hari berubah
+        if ($lamaHariBaru !== $lamaHariLama) {
+            if ($this->jenis_cuti === 'besar') {
+                // Untuk cuti besar, hanya validasi durasi maksimal
+                $validasi = $cutiBesarService->validasiDurasi($lamaHariBaru);
+
+                if (! $validasi['valid']) {
+                    $this->dispatch('toast', type: 'error', message: $validasi['pesan']);
+
+                    return;
+                }
+            } else {
+                // Untuk cuti tahunan, validasi dan adjust jatah
+                $adjust = $cutiTahunanService->adjustJatahCuti($this->cuti, $lamaHariBaru);
+
+                if (! $adjust['valid']) {
+                    $this->dispatch('toast', type: 'error', message: $adjust['pesan']);
+
+                    return;
+                }
+            }
+        }
+
         $validated = $this->validate([
             'nomor_surat' => ['required', 'string', 'max:255'],
-            'jenis_cuti' => ['required', 'in:tahunan'],
+            'jenis_cuti' => ['required', 'in:tahunan,besar'],
             'alasan' => ['required', 'string'],
             'tanggal_mulai' => ['required', 'date'],
             'tanggal_selesai' => ['required', 'date', 'after_or_equal:tanggal_mulai'],
@@ -100,10 +172,7 @@ class Edit extends Component
 
         $cutiService->update($this->cuti->id, $validated);
 
-        $this->dispatch('notyf:show', [
-            'type' => 'success',
-            'message' => 'Data cuti berhasil diperbarui!',
-        ]);
+        $this->dispatch('toast', type: 'success', message: 'Data cuti berhasil diperbarui!');
 
         return $this->redirect('/admin/cutis/'.$this->cuti->id);
     }

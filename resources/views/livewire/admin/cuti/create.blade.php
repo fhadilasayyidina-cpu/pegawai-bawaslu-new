@@ -24,6 +24,49 @@
                     icon="o-user"
                 />
 
+                {{-- Info Jatah Cuti --}}
+                @if($jatahCutiInfo)
+                    <flux:callout variant="{{ $jatahCutiInfo['layak'] ? 'success' : 'warning' }}" class="mb-4">
+                        @if($jatahCutiInfo['layak'])
+                            @if($jenis_cuti === 'besar')
+                                {{-- Info untuk Cuti Besar --}}
+                                <div class="space-y-1">
+                                    <p class="font-semibold">Kuota Cuti Besar</p>
+                                    <p class="text-2xl font-bold">{{ $jatahCutiInfo['sisa_kuota'] }} dari {{ $jatahCutiInfo['kuota_maksimal'] }} kali</p>
+                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                        <p>Masa kerja: {{ $jatahCutiInfo['masa_kerja_tahun'] }} tahun ({{ $jatahCutiInfo['masa_kerja_bulan'] }} bulan)</p>
+                                        <p>Sudah diambil: {{ $jatahCutiInfo['jumlah_sudah_diambil'] }} kali</p>
+                                        @if($jatahCutiInfo['tanggal_cuti_besar_terakhir'])
+                                            <p>Cuti besar terakhir: {{ $jatahCutiInfo['tanggal_cuti_besar_terakhir'] }}</p>
+                                        @endif
+                                        @if($jatahCutiInfo['ada_cuti_tahunan_tahun_ini'])
+                                            <p class="text-amber-600 dark:text-amber-400 font-medium">⚠️ Sudah mengambil cuti tahunan tahun ini</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @else
+                                {{-- Info untuk Cuti Tahunan --}}
+                                <div class="space-y-1">
+                                    <p class="font-semibold">Jatah Cuti Tersedia</p>
+                                    <p class="text-2xl font-bold">{{ $jatahCutiInfo['jatah_tersedia'] }} hari</p>
+                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                        <p>Tahun berjalan: {{ $jatahCutiInfo['rincian']['tahun_berjalan'] }} hari</p>
+                                        <p>Sisa tahun lalu: {{ $jatahCutiInfo['rincian']['tahun_lalu'] }} hari (maks 6)</p>
+                                        <p>Sisa 2 tahun lalu: {{ $jatahCutiInfo['rincian']['dua_tahun_lalu'] }} hari (maks 6)</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @else
+                            <div class="space-y-1">
+                                <p class="font-semibold">Tidak Layak @if($jenis_cuti === 'besar')Cuti Besar@elseCuti Tahunan@endif</p>
+                                @foreach($jatahCutiInfo['alasan'] as $alasan)
+                                    <p>{{ $alasan }}</p>
+                                @endforeach
+                            </div>
+                        @endif
+                    </flux:callout>
+                @endif
+
                 <x-mary-input
                     label="Nomor Surat"
                     wire:model="nomor_surat"
@@ -32,8 +75,9 @@
                     icon="o-document"
                 />
 
-                <flux:select label="Jenis Cuti" wire:model="jenis_cuti" required>
+                <flux:select label="Jenis Cuti" wire:model.live="jenis_cuti" required>
                     <flux:select.option value="tahunan">Cuti Tahunan</flux:select.option>
+                    <flux:select.option value="besar">Cuti Besar</flux:select.option>
                 </flux:select>
 
                 <x-mary-textarea
@@ -66,6 +110,13 @@
                     readonly
                     icon="o-calendar"
                 />
+
+                {{-- Info durasi untuk cuti besar --}}
+                @if($jenis_cuti === 'besar' && $lama_hari > 0)
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                        Durasi: {{ floor($lama_hari / 30) }} bulan {{ $lama_hari % 30 }} hari (maksimal 3 bulan / 90 hari)
+                    </p>
+                @endif
 
                 <x-mary-textarea
                     label="Keterangan"
