@@ -31,12 +31,13 @@ class Details extends Component
         CutiTahunanService $cutiTahunanService,
         CutiBesarService $cutiBesarService
     ) {
-        // Restore jatah cuti sebelum hapus (berdasarkan jenis cuti)
+        // Restore jatah cuti sebelum hapus (hanya untuk cuti tahunan dan cuti besar)
         if ($this->cuti->jenis_cuti === 'besar') {
             $cutiBesarService->restoreJatahCutiBesar($this->cuti);
-        } else {
+        } elseif ($this->cuti->jenis_cuti === 'tahunan') {
             $cutiTahunanService->restoreJatahCuti($this->cuti);
         }
+        // Cuti sakit, melahirkan, alasan penting, luar tanggungan tidak mempengaruhi jatah
 
         // Hapus data cuti
         $cutiService->delete($this->cuti->id);

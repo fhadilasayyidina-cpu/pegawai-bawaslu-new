@@ -27,75 +27,82 @@
                 {{-- Info Jatah Cuti --}}
                 @if($jatahCutiInfo)
                     <flux:callout variant="{{ $jatahCutiInfo['layak'] ? 'success' : 'warning' }}" class="mb-4">
-                        @if($jatahCutiInfo['layak'])
-                            @if($jenis_cuti === 'besar')
-                                {{-- Info untuk Cuti Besar --}}
-                                <div class="space-y-1">
-                                    <p class="font-semibold">Kuota Cuti Besar</p>
-                                    <p class="text-2xl font-bold">{{ $jatahCutiInfo['sisa_kuota'] }} dari {{ $jatahCutiInfo['kuota_maksimal'] }} kali</p>
-                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
-                                        <p>Masa kerja: {{ $jatahCutiInfo['masa_kerja_tahun'] }} tahun ({{ $jatahCutiInfo['masa_kerja_bulan'] }} bulan)</p>
-                                        <p>Sudah diambil: {{ $jatahCutiInfo['jumlah_sudah_diambil'] }} kali</p>
-                                        @if($jatahCutiInfo['tanggal_cuti_besar_terakhir'])
-                                            <p>Cuti besar terakhir: {{ $jatahCutiInfo['tanggal_cuti_besar_terakhir'] }}</p>
-                                        @endif
-                                        @if($jatahCutiInfo['ada_cuti_tahunan_tahun_ini'])
-                                            <p class="text-amber-600 dark:text-amber-400 font-medium">⚠️ Sudah mengambil cuti tahunan tahun ini</p>
-                                        @endif
-                                    </div>
+                        @if($jatahCutiInfo['layak'] && $jenis_cuti === 'besar')
+                            {{-- Info untuk Cuti Besar --}}
+                            <div class="space-y-1">
+                                <p class="font-semibold">Kuota Cuti Besar</p>
+                                <p class="text-2xl font-bold">{{ $jatahCutiInfo['sisa_kuota'] }} dari {{ $jatahCutiInfo['kuota_maksimal'] }} kali</p>
+                                <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                    <p>Masa kerja: {{ $jatahCutiInfo['masa_kerja_tahun'] }} tahun ({{ $jatahCutiInfo['masa_kerja_bulan'] }} bulan)</p>
+                                    <p>Sudah diambil: {{ $jatahCutiInfo['jumlah_sudah_diambil'] }} kali</p>
+                                    @if($jatahCutiInfo['tanggal_cuti_besar_terakhir'])
+                                        <p>Cuti besar terakhir: {{ $jatahCutiInfo['tanggal_cuti_besar_terakhir'] }}</p>
+                                    @endif
+                                    @if($jatahCutiInfo['ada_cuti_tahunan_tahun_ini'])
+                                        <p class="text-amber-600 dark:text-amber-400 font-medium">⚠️ Sudah mengambil cuti tahunan tahun ini</p>
+                                    @endif
                                 </div>
-                            @elseif($jenis_cuti === 'sakit')
-                                {{-- Info untuk Cuti Sakit --}}
-                                <div class="space-y-1">
-                                    <p class="font-semibold">Cuti Sakit</p>
-                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
-                                        <p>Sakit 1-2 hari: Tidak perlu surat dokter</p>
-                                        <p>Sakit 3-14 hari: Wajib surat dokter</p>
-                                        <p>Sakit > 14 hari: Wajib surat dokter pemerintah</p>
-                                    </div>
+                            </div>
+                        @elseif($jatahCutiInfo['layak'] && $jenis_cuti === 'sakit')
+                            {{-- Info untuk Cuti Sakit --}}
+                            <div class="space-y-1">
+                                <p class="font-semibold">Cuti Sakit</p>
+                                <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                    <p>Sakit 1-2 hari: Tidak perlu surat dokter</p>
+                                    <p>Sakit 3-14 hari: Wajib surat dokter</p>
+                                    <p>Sakit > 14 hari: Wajib surat dokter pemerintah</p>
                                 </div>
-                            @elseif($jenis_cuti === 'melahirkan')
-                                {{-- Info untuk Cuti Melahirkan --}}
-                                <div class="space-y-1">
-                                    <p class="font-semibold">Cuti Melahirkan</p>
-                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
-                                        <p>Durasi maksimal: 6 bulan (180 hari)</p>
-                                        <p>3 bulan sebelum + 3 bulan sesudah</p>
-                                    </div>
+                            </div>
+                        @elseif($jatahCutiInfo['layak'] && $jenis_cuti === 'melahirkan')
+                            {{-- Info untuk Cuti Melahirkan --}}
+                            <div class="space-y-1">
+                                <p class="font-semibold">Cuti Melahirkan</p>
+                                <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                    <p>Durasi maksimal: 6 bulan (180 hari)</p>
+                                    <p>3 bulan sebelum + 3 bulan sesudah</p>
                                 </div>
-                            @elseif($jenis_cuti === 'alasan_penting')
-                                {{-- Info untuk Cuti Alasan Penting --}}
-                                <div class="space-y-1">
-                                    <p class="font-semibold">Cuti Alasan Penting</p>
-                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
-                                        <p>Durasi maksimal: 2 bulan (60 hari)</p>
-                                        <p>Contoh: Kematian keluarga, pernikahan anak, dll</p>
-                                    </div>
+                            </div>
+                        @elseif($jatahCutiInfo['layak'] && $jenis_cuti === 'alasan_penting')
+                            {{-- Info untuk Cuti Alasan Penting --}}
+                            <div class="space-y-1">
+                                <p class="font-semibold">Cuti Alasan Penting</p>
+                                <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                    <p>Durasi maksimal: 2 bulan (60 hari)</p>
+                                    <p>Contoh: Kematian keluarga, pernikahan anak, dll</p>
                                 </div>
-                            @elseif($jenis_cuti === 'luar_tanggungan')
-                                {{-- Info untuk Cuti Luar Tanggungan --}}
-                                <div class="space-y-1">
-                                    <p class="font-semibold">Cuti di Luar Tanggungan Negara</p>
-                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
-                                        <p>Durasi maksimal: 3 tahun (1095 hari)</p>
-                                        <p class="text-amber-600 dark:text-amber-400 font-medium">⚠️ Tidak menerima gaji selama cuti</p>
-                                    </div>
+                            </div>
+                        @elseif($jatahCutiInfo['layak'] && $jenis_cuti === 'luar_tanggungan')
+                            {{-- Info untuk Cuti Luar Tanggungan --}}
+                            <div class="space-y-1">
+                                <p class="font-semibold">Cuti di Luar Tanggungan Negara</p>
+                                <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                    <p>Durasi maksimal: 3 tahun (1095 hari)</p>
+                                    <p class="text-amber-600 dark:text-amber-400 font-medium">⚠️ Tidak menerima gaji selama cuti</p>
                                 </div>
-                            @else
-                                {{-- Info untuk Cuti Tahunan --}}
-                                <div class="space-y-1">
-                                    <p class="font-semibold">Jatah Cuti Tersedia</p>
-                                    <p class="text-2xl font-bold">{{ $jatahCutiInfo['jatah_tersedia'] }} hari</p>
-                                    <div class="text-sm text-zinc-500 dark:text-zinc-400">
-                                        <p>Tahun berjalan: {{ $jatahCutiInfo['rincian']['tahun_berjalan'] }} hari</p>
-                                        <p>Sisa tahun lalu: {{ $jatahCutiInfo['rincian']['tahun_lalu'] }} hari (maks 6)</p>
-                                        <p>Sisa 2 tahun lalu: {{ $jatahCutiInfo['rincian']['dua_tahun_lalu'] }} hari (maks 6)</p>
-                                    </div>
+                            </div>
+                        @elseif($jatahCutiInfo['layak'])
+                            {{-- Info untuk Cuti Tahunan --}}
+                            <div class="space-y-1">
+                                <p class="font-semibold">Jatah Cuti Tersedia</p>
+                                <p class="text-2xl font-bold">{{ $jatahCutiInfo['jatah_tersedia'] }} hari</p>
+                                <div class="text-sm text-zinc-500 dark:text-zinc-400">
+                                    <p>Tahun berjalan: {{ $jatahCutiInfo['rincian']['tahun_berjalan'] }} hari</p>
+                                    <p>Sisa tahun lalu: {{ $jatahCutiInfo['rincian']['tahun_lalu'] }} hari (maks 6)</p>
+                                    <p>Sisa 2 tahun lalu: {{ $jatahCutiInfo['rincian']['dua_tahun_lalu'] }} hari (maks 6)</p>
                                 </div>
-                            @endif
+                            </div>
                         @else
                             <div class="space-y-1">
-                                <p class="font-semibold">Tidak Layak @if($jenis_cuti === 'besar')Cuti Besar@elseif($jenis_cuti === 'sakit')Cuti Sakit@elseif($jenis_cuti === 'melahirkan')Cuti Melahirkan@elseif($jenis_cuti === 'alasan_penting')Cuti Alasan Penting@elseif($jenis_cuti === 'luar_tanggungan')Cuti Luar Tanggungan@elseCuti Tahunan@endif</p>
+                                <p class="font-semibold">
+                                    Tidak Layak
+                                    @if($jenis_cuti === 'besar')Cuti Besar
+                                    @elseif($jenis_cuti === 'sakit')Cuti Sakit
+                                    @elseif($jenis_cuti === 'melahirkan')Cuti Melahirkan
+                                    @elseif($jenis_cuti === 'alasan_penting')Cuti Alasan Penting
+                                    @elseif($jenis_cuti === 'luar_tanggungan')Cuti Luar Tanggungan
+                                    @elseCuti Tahunan
+                                    @endif
+                                </p>
                                 @foreach($jatahCutiInfo['alasan'] as $alasan)
                                     <p>{{ $alasan }}</p>
                                 @endforeach

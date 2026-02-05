@@ -41,7 +41,26 @@
                                 <td>{{ $cuti->pegawai->nip_baru }}</td>
                                 <td>
                                     <flux:badge variant="primary">
-                                        {{ ucfirst($cuti->jenis_cuti) }}
+                                        @switch($cuti->jenis_cuti)
+                                            @case('tahunan')
+                                                Cuti Tahunan
+                                                @break
+                                            @case('besar')
+                                                Cuti Besar
+                                                @break
+                                            @case('sakit')
+                                                Cuti Sakit
+                                                @break
+                                            @case('melahirkan')
+                                                Cuti Melahirkan
+                                                @break
+                                            @case('alasan_penting')
+                                                Cuti Alasan Penting
+                                                @break
+                                            @case('luar_tanggungan')
+                                                Cuti Luar Tanggungan
+                                                @break
+                                        @endswitch
                                     </flux:badge>
                                 </td>
                                 <td>

@@ -40,11 +40,43 @@
             <flux:heading size="sm" class="mb-4">Informasi Cuti</flux:heading>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <x-mary-input label="Nomor Surat" :value="$cuti->nomor_surat" readonly />
-                <x-mary-input label="Jenis Cuti" :value="ucfirst($cuti->jenis_cuti)" readonly />
+                <x-mary-input label="Jenis Cuti" :value="\Illuminate\Support\Str::title(str_replace('_', ' ', $cuti->jenis_cuti))" readonly />
                 <x-mary-input label="Tanggal Mulai" :value="$cuti->tanggal_mulai->format('d F Y')" readonly />
                 <x-mary-input label="Tanggal Selesai" :value="$cuti->tanggal_selesai->format('d F Y')" readonly />
                 <x-mary-input label="Lama Hari" :value="$cuti->lama_hari . ' hari'" readonly class="md:col-span-2" />
                 <x-mary-textarea label="Alasan" :value="$cuti->alasan" readonly rows="2" class="md:col-span-2" />
+
+                {{-- Fields khusus Cuti Sakit --}}
+                @if($cuti->jenis_cuti === 'sakit')
+                    @if($cuti->status_dokter)
+                        <x-mary-input label="Status Dokter" :value="ucfirst($cuti->status_dokter)" readonly />
+                    @endif
+                    @if($cuti->nama_dokter)
+                        <x-mary-input label="Nama Dokter" :value="$cuti->nama_dokter" readonly />
+                    @endif
+                    @if($cuti->nomor_surat_dokter)
+                        <x-mary-input label="Nomor Surat Dokter" :value="$cuti->nomor_surat_dokter" readonly class="md:col-span-2" />
+                    @endif
+                @endif
+
+                {{-- Fields khusus Cuti Melahirkan --}}
+                @if($cuti->jenis_cuti === 'melahirkan')
+                    @if($cuti->jenis_melahirkan)
+                        <x-mary-input label="Jenis Melahirkan" :value="ucfirst($cuti->jenis_melahirkan)" readonly />
+                    @endif
+                    @if($cuti->tanggal_perkiraan_lahir)
+                        <x-mary-input label="Tanggal Perkiraan Lahir" :value="$cuti->tanggal_perkiraan_lahir->format('d F Y')" readonly />
+                    @endif
+                @endif
+
+                {{-- Fields khusus Cuti Luar Tanggungan --}}
+                @if($cuti->jenis_cuti === 'luar_tanggungan')
+                    @if($cuti->alasan_luar_tanggungan)
+                        <x-mary-textarea label="Alasan Luar Tanggungan" :value="$cuti->alasan_luar_tanggungan" readonly rows="2" class="md:col-span-2" />
+                    @endif
+                    <x-mary-input label="Tanpa Gaji" :value="$cuti->tanpa_gaji ? 'Ya' : 'Tidak'" readonly />
+                @endif
+
                 @if($cuti->keterangan)
                     <x-mary-textarea label="Keterangan" :value="$cuti->keterangan" readonly rows="2" class="md:col-span-2" />
                 @endif
