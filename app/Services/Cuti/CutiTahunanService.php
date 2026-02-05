@@ -34,8 +34,20 @@ class CutiTahunanService
     }
 
     /**
+     * Cek apakah pegawai adalah PNS (Organik atau DPK) yang berhak atas cuti.
+     * PPPK tidak dianggap PNS untuk keperluan cuti.
+     */
+    public function isPNSOrganik(Pegawai $pegawai): bool
+    {
+        $jenis = strtolower($pegawai->jenis_pegawai ?? '');
+
+        // Cek mengandung "pns" dan bukan "pppk"
+        return str_contains($jenis, 'pns') && ! str_contains($jenis, 'pppk');
+    }
+
+    /**
      * Cek apakah pegawai berhak cuti tahunan.
-     * - Harus PNS
+     * - Harus PNS Organik
      * - Masa kerja minimal 1 tahun (12 bulan)
      * - Tidak ada cuti besar di tahun yang sama
      */
@@ -46,10 +58,12 @@ class CutiTahunanService
             'alasan' => [],
         ];
 
-        // Cek status PNS
-        if ($pegawai->status_kepegwaian !== 'PNS') {
+        // Cek PNS Organik
+        if (! $this->isPNSOrganik($pegawai)) {
             $result['layak'] = false;
-            $result['alasan'][] = 'Hanya pegawai dengan status PNS yang dapat mengambil cuti tahunan.';
+            $result['alasan'][] = 'Hanya PNS Organik yang berhak atas cuti tahunan.';
+
+            return $result;
         }
 
         // Cek masa kerja

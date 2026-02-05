@@ -22,7 +22,7 @@ class CutiBesarService
 
     /**
      * Cek apakah pegawai berhak cuti besar.
-     * - Harus PNS
+     * - Harus PNS Organik
      * - Masa kerja minimal 5 tahun (60 bulan)
      * - Kuota maksimal 2 kali
      * - Tidak ada cuti tahunan di tahun yang sama
@@ -34,10 +34,12 @@ class CutiBesarService
             'alasan' => [],
         ];
 
-        // Cek status PNS
-        if ($pegawai->status_kepegwaian !== 'PNS') {
+        // Cek PNS Organik
+        if (! $this->isPNSOrganik($pegawai)) {
             $result['layak'] = false;
-            $result['alasan'][] = 'Hanya pegawai dengan status PNS yang dapat mengambil cuti besar.';
+            $result['alasan'][] = 'Hanya PNS Organik yang berhak atas cuti besar.';
+
+            return $result;
         }
 
         // Cek masa kerja (minimal 5 tahun = 60 bulan)
@@ -61,6 +63,18 @@ class CutiBesarService
         }
 
         return $result;
+    }
+
+    /**
+     * Cek apakah pegawai adalah PNS (Organik atau DPK) yang berhak atas cuti.
+     * PPPK tidak dianggap PNS untuk keperluan cuti.
+     */
+    public function isPNSOrganik(Pegawai $pegawai): bool
+    {
+        $jenis = strtolower($pegawai->jenis_pegawai ?? '');
+
+        // Cek mengandung "pns" dan bukan "pppk"
+        return str_contains($jenis, 'pns') && ! str_contains($jenis, 'pppk');
     }
 
     /**
