@@ -30,6 +30,11 @@ use Illuminate\Support\Facades\Auth;
                     'route' => 'admin/pegawais',
                 ],
                 [
+                    'icon' => 'calendar',
+                    'label' => 'Absensi',
+                    'route' => 'admin/absensis',
+                ],
+                [
                     'icon' => 'user-group',
                     'label' => 'Data Pimpinan',
                     'route' => 'admin/pimpinans',
