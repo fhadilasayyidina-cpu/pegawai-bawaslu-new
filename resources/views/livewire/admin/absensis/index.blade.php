@@ -4,7 +4,7 @@
             <flux:button
                 variant="primary"
                 icon="plus"
-                href="/admin/absensis/create"
+                href="/admin/absensis/create{{ $this->pegawaiId ? '?pegawai_id=' . $this->pegawaiId : '' }}"
             >
                 Tambah Absensi
             </flux:button>

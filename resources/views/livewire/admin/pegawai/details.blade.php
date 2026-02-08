@@ -10,7 +10,7 @@
             <x-mary-button
                 label="Absensi"
                 icon="o-calendar-days"
-                link="/admin/absensis/create?pegawai_id={{ $pegawai->id }}"
+                link="/admin/absensis?pegawai_id={{ $pegawai->id }}"
                 variant="secondary"
             />
         </x-slot:actions>

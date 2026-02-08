@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Absensis;
 
 use App\Services\Absensi\AbsensiService;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -10,14 +11,19 @@ class Index extends Component
 {
     use WithPagination;
 
+    #[Url]
     public ?string $search = null;
 
+    #[Url]
     public ?string $tanggalMulai = null;
 
+    #[Url]
     public ?string $tanggalAkhir = null;
 
+    #[Url(as: 'pegawai_id')]
     public ?int $pegawaiId = null;
 
+    #[Url]
     public ?string $status = null;
 
     public array $pegawaiOptions = [];
