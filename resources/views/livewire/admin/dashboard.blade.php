@@ -57,8 +57,13 @@
                 <!-- Column Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Column Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Column Chart</h3>
+                            <button onclick="downloadChart('jk-col-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="jk-col-chart">
                             <livewire:livewire-column-chart :column-chart-model="$jenisKelaminColumnChart" :key="'jk-col-'.$kabKota" />
                         </div>
                     </div>
@@ -67,8 +72,13 @@
                 <!-- Pie Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Pie Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Pie Chart</h3>
+                            <button onclick="downloadChart('jk-pie-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="jk-pie-chart">
                             <livewire:livewire-pie-chart :pie-chart-model="$jenisKelaminPieChart" :key="'jk-pie-'.$kabKota" />
                         </div>
                     </div>
@@ -83,8 +93,13 @@
                 <!-- Column Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Column Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Column Chart</h3>
+                            <button onclick="downloadChart('pend-col-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="pend-col-chart">
                             <livewire:livewire-column-chart :column-chart-model="$pendidikanColumnChart" :key="'pend-col-'.$kabKota" />
                         </div>
                     </div>
@@ -93,8 +108,13 @@
                 <!-- Pie Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Pie Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Pie Chart</h3>
+                            <button onclick="downloadChart('pend-pie-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="pend-pie-chart">
                             <livewire:livewire-pie-chart :pie-chart-model="$pendidikanPieChart" :key="'pend-pie-'.$kabKota" />
                         </div>
                     </div>
@@ -109,8 +129,13 @@
                 <!-- Column Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Column Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Column Chart</h3>
+                            <button onclick="downloadChart('jj-col-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="jj-col-chart">
                             <livewire:livewire-column-chart :column-chart-model="$jenisJabatanColumnChart" :key="'jj-col-'.$kabKota" />
                         </div>
                     </div>
@@ -119,8 +144,13 @@
                 <!-- Pie Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Pie Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Pie Chart</h3>
+                            <button onclick="downloadChart('jj-pie-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="jj-pie-chart">
                             <livewire:livewire-pie-chart :pie-chart-model="$jenisJabatanPieChart" :key="'jj-pie-'.$kabKota" />
                         </div>
                     </div>
@@ -135,8 +165,13 @@
                 <!-- Column Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Column Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Column Chart</h3>
+                            <button onclick="downloadChart('ru-col-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="ru-col-chart">
                             <livewire:livewire-column-chart :column-chart-model="$rangeUmurColumnChart" :key="'ru-col-'.$kabKota" />
                         </div>
                     </div>
@@ -145,8 +180,13 @@
                 <!-- Pie Chart -->
                 <div class="card bg-base-100 shadow-sm">
                     <div class="card-body">
-                        <h3 class="card-title text-sm">Pie Chart</h3>
-                        <div style="height: 20rem;">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="card-title text-sm">Pie Chart</h3>
+                            <button onclick="downloadChart('ru-pie-chart')" class="px-3 py-1.5 text-sm bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg cursor-pointer">
+                                ⬇ Download
+                            </button>
+                        </div>
+                        <div style="height: 20rem;" id="ru-pie-chart">
                             <livewire:livewire-pie-chart :pie-chart-model="$rangeUmurPieChart" :key="'ru-pie-'.$kabKota" />
                         </div>
                     </div>
@@ -154,6 +194,39 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function downloadChart(elementId) {
+            const container = document.getElementById(elementId);
+
+            // Find the Alpine.js component (livewire chart component)
+            // The chart component is nested inside the container
+            const livewireComponent = container.querySelector('[x-data]');
+            if (!livewireComponent) {
+                console.error('Livewire chart component not found for:', elementId);
+                return;
+            }
+
+            // Access the Alpine.js component data to get the chart instance
+            const alpineData = Alpine.$data(livewireComponent);
+            const chart = alpineData?.chart;
+
+            if (!chart) {
+                console.error('Chart instance not found for:', elementId);
+                return;
+            }
+
+            // Use ApexCharts' built-in dataURI() method to export as PNG
+            chart.dataURI().then(({ imgURI }) => {
+                const link = document.createElement('a');
+                link.href = imgURI;
+                link.download = elementId + '-' + new Date().getTime() + '.png';
+                link.click();
+            }).catch((error) => {
+                console.error('Failed to export chart:', error);
+            });
+        }
+    </script>
 
     @livewireChartsScripts
 </div>
