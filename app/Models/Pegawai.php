@@ -144,4 +144,9 @@ class Pegawai extends Model
     {
         return $this->hasMany(\App\Models\Cuti::class);
     }
+
+    public function absensis()
+    {
+        return $this->hasMany(\App\Models\Absensi::class);
+    }
 }
