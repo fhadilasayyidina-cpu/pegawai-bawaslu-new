@@ -39,7 +39,8 @@ class Dashboard extends Component
         // Jenis Kelamin - Column Chart
         $jenisKelaminColumnChart = (new ColumnChartModel)
             ->setTitle('Distribusi Jenis Kelamin')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['jenis_kelamin_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -49,7 +50,8 @@ class Dashboard extends Component
         // Jenis Kelamin - Pie Chart
         $jenisKelaminPieChart = (new PieChartModel)
             ->setTitle('Distribusi Jenis Kelamin')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['jenis_kelamin_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -59,7 +61,8 @@ class Dashboard extends Component
         // Tingkat Pendidikan - Column Chart
         $pendidikanColumnChart = (new ColumnChartModel)
             ->setTitle('Tingkat Pendidikan')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['pendidikan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -69,7 +72,8 @@ class Dashboard extends Component
         // Tingkat Pendidikan - Pie Chart
         $pendidikanPieChart = (new PieChartModel)
             ->setTitle('Tingkat Pendidikan')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['pendidikan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -79,7 +83,8 @@ class Dashboard extends Component
         // Jenis Jabatan - Column Chart
         $jenisJabatanColumnChart = (new ColumnChartModel)
             ->setTitle('Distribusi Jenis Jabatan')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -90,7 +95,8 @@ class Dashboard extends Component
         // Jenis Jabatan - Pie Chart
         $jenisJabatanPieChart = (new PieChartModel)
             ->setTitle('Persentase Jenis Jabatan')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -101,7 +107,8 @@ class Dashboard extends Component
         // Range Umur - Column Chart
         $rangeUmurColumnChart = (new ColumnChartModel)
             ->setTitle('Distribusi Range Umur')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -112,7 +119,8 @@ class Dashboard extends Component
         // Range Umur - Pie Chart
         $rangeUmurPieChart = (new PieChartModel)
             ->setTitle('Persentase Range Umur')
-            ->setAnimated(true);
+            ->setAnimated(true)
+            ->withDataLabels();
 
         foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
