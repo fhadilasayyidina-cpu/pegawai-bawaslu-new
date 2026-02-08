@@ -11,6 +11,31 @@
         </x-slot:actions>
     </x-header-page>
 
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-6">
+        <x-statistic-card title="Total" :value="$this->statistics['total']" color="primary" />
+        <x-statistic-card title="Hadir" :value="$this->statistics['hadir']" color="success">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </x-statistic-card>
+        <x-statistic-card title="Izin" :value="$this->statistics['izin']" color="warning">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </x-statistic-card>
+        <x-statistic-card title="Cuti" :value="$this->statistics['cuti']" color="info">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+        </x-statistic-card>
+        <x-statistic-card title="Tidak Hadir" :value="$this->statistics['tidak_hadir']" color="danger">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+            </svg>
+        </x-statistic-card>
+    </div>
+
     <div class="my-4">
         <x-mary-card>
             <!-- Filters -->
@@ -100,14 +125,11 @@
                                         @case('Izin')
                                             <flux:badge variant="warning">Izin</flux:badge>
                                             @break
-                                        @case('Sakit')
-                                            <flux:badge variant="danger">Sakit</flux:badge>
-                                            @break
                                         @case('Cuti')
                                             <flux:badge variant="info">Cuti</flux:badge>
                                             @break
-                                        @case('Bolos')
-                                            <flux:badge variant="danger">Bolos</flux:badge>
+                                        @case('Tidak Hadir')
+                                            <flux:badge variant="danger">Tidak Hadir</flux:badge>
                                             @break
                                     @endswitch
                                 </td>

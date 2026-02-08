@@ -21,9 +21,8 @@ class Create extends Component
     public array $statusOptions = [
         ['id' => 'Hadir', 'name' => 'Hadir'],
         ['id' => 'Izin', 'name' => 'Izin'],
-        ['id' => 'Sakit', 'name' => 'Sakit'],
         ['id' => 'Cuti', 'name' => 'Cuti'],
-        ['id' => 'Bolos', 'name' => 'Bolos'],
+        ['id' => 'Tidak Hadir', 'name' => 'Tidak Hadir'],
     ];
 
     public array $breadcrumbs = [
@@ -43,7 +42,7 @@ class Create extends Component
         $validated = $this->validate([
             'pegawai_id' => ['required', 'exists:pegawais,id'],
             'tanggal' => ['required', 'date'],
-            'status' => ['required', 'in:Hadir,Izin,Sakit,Cuti,Bolos'],
+            'status' => ['required', 'in:Hadir,Izin,Cuti,Tidak Hadir'],
             'keterangan' => ['nullable', 'string'],
         ]);
 

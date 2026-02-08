@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Absensis;
 
 use App\Services\Absensi\AbsensiService;
+use App\Services\Absensi\AbsensiStatisticService;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -31,9 +32,8 @@ class Index extends Component
     public array $statusOptions = [
         ['id' => 'Hadir', 'name' => 'Hadir'],
         ['id' => 'Izin', 'name' => 'Izin'],
-        ['id' => 'Sakit', 'name' => 'Sakit'],
         ['id' => 'Cuti', 'name' => 'Cuti'],
-        ['id' => 'Bolos', 'name' => 'Bolos'],
+        ['id' => 'Tidak Hadir', 'name' => 'Tidak Hadir'],
     ];
 
     public array $tableHeaders = [
@@ -53,6 +53,15 @@ class Index extends Component
     {
         return app(AbsensiService::class)
             ->getAll($this->search, $this->tanggalMulai, $this->tanggalAkhir, $this->pegawaiId, $this->status);
+    }
+
+    public function getStatisticsProperty(): array
+    {
+        return app(AbsensiStatisticService::class)->getStatistics(
+            $this->pegawaiId,
+            $this->tanggalMulai,
+            $this->tanggalAkhir
+        );
     }
 
     public function mount()

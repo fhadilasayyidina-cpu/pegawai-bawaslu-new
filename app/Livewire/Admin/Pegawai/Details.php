@@ -39,6 +39,13 @@ class Details extends Component
         return $this->pegawai->tgl_kgb_terakhir->addYears(2);
     }
 
+    public function getAbsensiStatisticsProperty(): array
+    {
+        return app(\App\Services\Absensi\AbsensiStatisticService::class)->getStatistics(
+            pegawaiId: $this->pegawai->id
+        );
+    }
+
     // Harus terima $id dari Folio
     public function mount($id)
     {
