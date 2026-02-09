@@ -17,10 +17,12 @@ class Index extends Component
     public array $kabKotaOptions = [];
 
     public array $monthsOptions = [
+        ['id' => 0, 'name' => 'Semua'],
         ['id' => 1, 'name' => '1 Bulan'],
         ['id' => 3, 'name' => '3 Bulan'],
         ['id' => 6, 'name' => '6 Bulan'],
         ['id' => 12, 'name' => '1 Tahun'],
+        ['id' => 24, 'name' => '2 Tahun'],
     ];
 
     public array $breadcrumbs = [

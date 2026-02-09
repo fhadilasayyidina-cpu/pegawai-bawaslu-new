@@ -16,9 +16,6 @@ class KgbService
      */
     public function getUpcomingKgb(?int $monthsAhead = 6, ?string $kabKota = null): Collection
     {
-        $now = Carbon::now();
-        $endDate = $now->copy()->addMonths($monthsAhead);
-
         $query = Pegawai::query()
             ->whereNotNull('tgl_kgb_terakhir')
             ->where('status_kepegwaian', 'Aktif');
@@ -29,11 +26,38 @@ class KgbService
 
         $pegawais = $query->get();
 
-        // Filter pegawai yang KGB-nya jatuh dalam rentang waktu
-        return $pegawais->filter(function ($pegawai) use ($now, $endDate) {
-            $nextKgbDate = $pegawai->tgl_kgb_terakhir->addYears(2);
+        // If monthsAhead is 0, show all employees (no date filter)
+        if ($monthsAhead === 0) {
+            return $pegawais->map(function ($pegawai) {
+                $lastKgb = Carbon::parse($pegawai->tgl_kgb_terakhir);
+                $nextKgbDate = $lastKgb->copy()->addYears(2);
+                $daysUntil = Carbon::now()->diffInDays($nextKgbDate, false);
 
-            return $nextKgbDate->between($now, $endDate);
+                return (object) [
+                    'id' => $pegawai->id,
+                    'nama' => $pegawai->nama,
+                    'nip_baru' => $pegawai->nip_baru,
+                    'tgl_kgb_terakhir' => $lastKgb,
+                    'next_kgb_date' => $nextKgbDate,
+                    'days_until_kgb' => $daysUntil,
+                    'status_kepegwaian' => $pegawai->status_kepegwaian,
+                    'jenis_pegawai' => $pegawai->jenis_pegawai,
+                    'unit_kerja' => $pegawai->unit_kerja,
+                    'kab_kota' => $pegawai->kab_kota,
+                ];
+            })->sortBy('next_kgb_date')->values();
+        }
+
+        // Original filtering logic for specific month ranges
+        $now = Carbon::now();
+        $endDate = $now->copy()->addMonths($monthsAhead);
+
+        // Filter pegawai yang KGB-nya jatuh dalam rentang waktu atau sudah lewat
+        return $pegawais->filter(function ($pegawai) use ($endDate) {
+            $nextKgbDate = Carbon::parse($pegawai->tgl_kgb_terakhir)->copy()->addYears(2);
+
+            // Include KGBs that are upcoming within the timeframe OR already passed (overdue)
+            return $nextKgbDate->lte($endDate);
         })->map(function ($pegawai) {
             $lastKgb = Carbon::parse($pegawai->tgl_kgb_terakhir);
             $nextKgbDate = $lastKgb->copy()->addYears(2);
@@ -43,7 +67,7 @@ class KgbService
                 'id' => $pegawai->id,
                 'nama' => $pegawai->nama,
                 'nip_baru' => $pegawai->nip_baru,
-                'tgl_kgb_terakhir' => $pegawai->tgl_kgb_terakhir,
+                'tgl_kgb_terakhir' => $lastKgb,
                 'next_kgb_date' => $nextKgbDate,
                 'days_until_kgb' => $daysUntil,
                 'status_kepegwaian' => $pegawai->status_kepegwaian,
