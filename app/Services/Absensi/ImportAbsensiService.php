@@ -196,8 +196,8 @@ class ImportAbsensiService
         $scanMasuk = $this->parseTimeOrNull($row['scan_masuk'] ?? $row['scanmasuk'] ?? null);
         $scanPulang = $this->parseTimeOrNull($row['scan_pulang'] ?? $row['scanpulang'] ?? null);
 
-        // Aturan: jika ada scan_masuk, status otomatis Hadir, default Tidak Hadir
-        $status = (! empty($scanMasuk)) ? 'Hadir' : 'Tidak Hadir';
+        // Aturan: jika ada scan_masuk ATAU scan_pulang, status otomatis Hadir, default Tidak Hadir
+        $status = (! empty($scanMasuk) || ! empty($scanPulang)) ? 'Hadir' : 'Tidak Hadir';
 
         // Keterangan berisi info scan masuk/pulang (format HH:MM - HH:MM)
         $keterangan = null;
