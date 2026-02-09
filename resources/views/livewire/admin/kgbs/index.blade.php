@@ -70,7 +70,7 @@
                             <th>Nama / NIP</th>
                             <th>KGB Terakhir</th>
                             <th>KGB Berikutnya</th>
-                            <th>Hari Lagi</th>
+                            <!-- <th>Hari Lagi</th> -->
                             <th>Status</th>
                             <th>Unit Kerja</th>
                             <th>Aksi</th>
@@ -86,17 +86,7 @@
                                 </td>
                                 <td>{{ $pegawai->tgl_kgb_terakhir->format('d/m/Y') }}</td>
                                 <td>{{ $pegawai->next_kgb_date->format('d/m/Y') }}</td>
-                                <td>
-                                    @if($pegawai->days_until_kgb < 0)
-                                        <flux:badge variant="danger">{{ abs($pegawai->days_until_kgb) }} hari lewat</flux:badge>
-                                    @elseif($pegawai->days_until_kgb <= 30)
-                                        <flux:badge variant="danger">{{ $pegawai->days_until_kgb }} hari</flux:badge>
-                                    @elseif($pegawai->days_until_kgb <= 90)
-                                        <flux:badge variant="warning">{{ $pegawai->days_until_kgb }} hari</flux:badge>
-                                    @else
-                                        <flux:badge variant="success">{{ $pegawai->days_until_kgb }} hari</flux:badge>
-                                    @endif
-                                </td>
+                                
                                 <td>
                                     <flux:badge>{{ $pegawai->jenis_pegawai }}</flux:badge>
                                 </td>
