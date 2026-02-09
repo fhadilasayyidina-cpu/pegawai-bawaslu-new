@@ -66,7 +66,13 @@ class IdentitasForm extends Form
 
     public function setPegawai($pegawai)
     {
+        $data = $pegawai->toArray();
 
-        $this->fill($pegawai->toArray());
+        // Format date fields as Y-m-d for HTML5 date inputs
+        if (isset($data['tgl_lahir']) && $data['tgl_lahir'] !== null) {
+            $data['tgl_lahir'] = $pegawai->tgl_lahir?->format('Y-m-d');
+        }
+
+        $this->fill($data);
     }
 }

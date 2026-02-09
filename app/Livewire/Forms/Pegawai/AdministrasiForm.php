@@ -48,6 +48,20 @@ class AdministrasiForm extends Form
 
     public function setPegawai($pegawai)
     {
-        $this->fill($pegawai->toArray());
+        $data = $pegawai->toArray();
+
+        // Format date fields as Y-m-d for HTML5 date inputs
+        $dateFields = [
+            'tgl_sk_cpns', 'tmt_cpns', 'tgl_sk_pns', 'tmt_pns',
+            'tgl_sk_dpk_penugasan_kontrak', 'tgl_kgb_terakhir',
+        ];
+
+        foreach ($dateFields as $field) {
+            if (isset($data[$field]) && $data[$field] !== null) {
+                $data[$field] = $pegawai->{$field}->format('Y-m-d');
+            }
+        }
+
+        $this->fill($data);
     }
 }

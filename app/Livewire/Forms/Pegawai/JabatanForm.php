@@ -54,6 +54,18 @@ class JabatanForm extends Form
 
     public function setPegawai($pegawai)
     {
-        $this->fill($pegawai->toArray());
+        $data = $pegawai->toArray();
+
+        // Format date fields as Y-m-d for HTML5 date inputs
+        // Note: tmt_golongan and tmt_jabatan already cast as 'date:Y-m-d' in model
+        // but we ensure proper format here for consistency
+        if (isset($data['tmt_golongan']) && $data['tmt_golongan'] !== null) {
+            $data['tmt_golongan'] = $pegawai->tmt_golongan->format('Y-m-d');
+        }
+        if (isset($data['tmt_jabatan']) && $data['tmt_jabatan'] !== null) {
+            $data['tmt_jabatan'] = $pegawai->tmt_jabatan->format('Y-m-d');
+        }
+
+        $this->fill($data);
     }
 }
