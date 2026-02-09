@@ -39,6 +39,11 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'Data Pimpinan',
                     'route' => 'admin/pimpinans',
                 ],
+                [
+                    'icon' => 'calendar',
+                    'label' => 'KGB',
+                    'route' => 'admin/kgbs',
+                ],
                 
             ]
         ]
