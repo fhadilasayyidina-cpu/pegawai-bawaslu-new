@@ -100,24 +100,40 @@ class Details extends Component
     {
         $this->jabatanForm->validate();
         $this->pegawai->update($this->jabatanForm->all());
+        $this->dispatch('toast',
+            type: 'success',
+            message: 'Data Jabatan & Golongan berhasil disimpan!'
+        );
     }
 
     public function saveAdministrasi()
     {
         $this->administrasiForm->validate();
         $this->pegawai->update($this->administrasiForm->all());
+        $this->dispatch('toast',
+            type: 'success',
+            message: 'Data Administrasi berhasil disimpan!'
+        );
     }
 
     public function savePendidikan()
     {
         $this->pendidikanForm->validate();
         $this->pegawai->update($this->pendidikanForm->all());
+        $this->dispatch('toast',
+            type: 'success',
+            message: 'Data Pendidikan berhasil disimpan!'
+        );
     }
 
     public function saveUnitOrganisasi()
     {
         $this->unitOrganisasiForm->validate();
         $this->pegawai->update($this->unitOrganisasiForm->all());
+        $this->dispatch('toast',
+            type: 'success',
+            message: 'Data Unit & Organisasi berhasil disimpan!'
+        );
     }
 
     public function render()
