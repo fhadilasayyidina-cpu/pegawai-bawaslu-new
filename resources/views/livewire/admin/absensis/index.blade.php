@@ -2,6 +2,13 @@
     <x-header-page title="Data Absensi" :breadcrumbs="$breadcrumbs">
         <x-slot:actions>
             <flux:button
+                variant="ghost"
+                icon="arrow-up-tray"
+                href="/admin/absensis/import"
+            >
+                Import
+            </flux:button>
+            <flux:button
                 variant="primary"
                 icon="plus"
                 href="/admin/absensis/create"
