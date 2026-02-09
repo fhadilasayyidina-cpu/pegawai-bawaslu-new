@@ -20,7 +20,7 @@
                 </ul>
 
                 <div class="mt-4">
-                    <flux:button variant="secondary" icon="document-arrow-down" wire:click="downloadTemplate">
+                    <flux:button variant="outline" icon="arrow-down-tray" wire:click="downloadTemplate">
                         Download Template
                     </flux:button>
                 </div>
@@ -95,8 +95,8 @@
                             Kembali ke Daftar KGB
                         </flux:button>
                         <flux:button
-                            variant="secondary"
-                            icon="arrow-counter-clockwise"
+                            variant="outline"
+                            icon="arrow-path"
                             wire:click="$set('importResult', [])"
                         >
                             Import Lagi
