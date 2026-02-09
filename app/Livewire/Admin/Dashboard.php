@@ -18,7 +18,12 @@ class Dashboard extends Component
 
     public function mount(): void
     {
-        $this->kabKotaOptions = app(PegawaiService::class)->getKabKota()->toArray();
+        $kabKotaList = app(PegawaiService::class)->getKabKota()->toArray();
+
+        // Tambahkan opsi "Semua" di awal
+        array_unshift($kabKotaList, (object) ['id' => '', 'name' => 'Semua Kabupaten/Kota']);
+
+        $this->kabKotaOptions = $kabKotaList;
         $this->loadStatistics();
     }
 
