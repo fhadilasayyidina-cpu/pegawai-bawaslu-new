@@ -1,10 +1,10 @@
 <div>
-    <x-header-page title="Data Absensi" :breadcrumbs="$breadcrumbs">
+    <x-header-page title="Absensi: {{ $pegawai->nama }}" :breadcrumbs="$breadcrumbs">
         <x-slot:actions>
             <flux:button
                 variant="primary"
                 icon="plus"
-                href="/admin/absensis/create"
+                href="/admin/absensis/create?pegawai_id={{ $pegawai->id }}"
             >
                 Tambah Absensi
             </flux:button>
@@ -42,13 +42,6 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                 <div>
                     <flux:input
-                        wire:model.live.debounce.300ms="search"
-                        placeholder="Cari nama pegawai..."
-                        icon="magnifying-glass"
-                    />
-                </div>
-                <div>
-                    <flux:input
                         wire:model.live="tanggalMulai"
                         type="date"
                         label="Dari Tanggal"
@@ -71,12 +64,13 @@
                             <flux:select.option :value="$option['id']">{{ $option['name'] }}</flux:select.option>
                         @endforeach
                     </flux:select>
-                    @if($search || $tanggalMulai || $tanggalAkhir || $status)
+                </div>
+                <div class="flex items-end">
+                    @if($tanggalMulai || $tanggalAkhir || $status)
                         <flux:button
                             wire:click="resetFilters"
                             variant="ghost"
                             size="sm"
-                            class="mt-2"
                         >
                             Reset Filter
                         </flux:button>
@@ -91,7 +85,6 @@
                         <tr>
                             <th>No</th>
                             <th>Tanggal</th>
-                            <th>Pegawai</th>
                             <th>Status</th>
                             <th>Keterangan</th>
                             <th>Aksi</th>
@@ -102,10 +95,6 @@
                             <tr>
                                 <td>{{ ($this->absensis->currentPage() - 1) * $this->absensis->perPage() + $index + 1 }}</td>
                                 <td>{{ $absensi->tanggal->format('d/m/Y') }}</td>
-                                <td>
-                                    <div>{{ $absensi->pegawai->nama }}</div>
-                                    <div class="text-sm text-gray-500">{{ $absensi->pegawai->nip_baru }}</div>
-                                </td>
                                 <td>
                                     @switch($absensi->status)
                                         @case('Hadir')
@@ -147,8 +136,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-gray-500 py-8">
-                                    Belum ada data absensi
+                                <td colspan="5" class="text-center text-gray-500 py-8">
+                                    Belum ada data absensi untuk {{ $pegawai->nama }}
                                 </td>
                             </tr>
                         @endforelse

@@ -7,12 +7,13 @@
                 link="/admin/cutis/create?pegawai_id={{ $pegawai->id }}"
                 variant="secondary"
             />
-            <x-mary-button
-                label="Absensi"
-                icon="o-calendar-days"
-                link="/admin/absensis?pegawai_id={{ $pegawai->id }}"
-                variant="secondary"
-            />
+            <flux:button
+                variant="ghost"
+                icon="calendar-days"
+                href="/admin/pegawais/{{ $pegawai->id }}/absensis"
+            >
+                Lihat Absensi
+            </flux:button>
         </x-slot:actions>
     </x-header-page>
 
