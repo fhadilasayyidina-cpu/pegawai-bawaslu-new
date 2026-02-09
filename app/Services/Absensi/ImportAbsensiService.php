@@ -5,7 +5,7 @@ namespace App\Services\Absensi;
 use App\Models\Absensi;
 use App\Models\Pegawai;
 use Exception;
-use OpenSpout\Reader\Common\Creator\ReaderFactory;
+use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ImportAbsensiService
 {
@@ -24,40 +24,9 @@ class ImportAbsensiService
             throw new Exception('File tidak ditemukan');
         }
 
-        // Gunakan ReaderFactory untuk auto-detect format file (XLSX, XLS, atau CSV)
-        $reader = ReaderFactory::createFromFile($filePath);
-        $reader->open($filePath);
-
-        $rows = [];
-        $headers = [];
-
-        foreach ($reader->getSheetIterator() as $sheet) {
-            $isFirstRow = true;
-            foreach ($sheet->getRowIterator() as $row) {
-                $cells = $row->toArray();
-
-                if ($isFirstRow) {
-                    // First row is headers - normalize and use as keys
-                    $headers = collect($cells)->map(function ($value) {
-                        $key = strtolower(trim($value));
-                        $key = str_replace([' ', '.', '/', '-'], '_', $key);
-                        $key = preg_replace('/_+/', '_', $key);
-
-                        return $key;
-                    })->toArray();
-                    $isFirstRow = false;
-                    continue;
-                }
-
-                // Combine headers with values
-                $rowData = [];
-                foreach ($headers as $index => $header) {
-                    $rowData[$header] = $cells[$index] ?? null;
-                }
-                $rows[] = $rowData;
-            }
-        }
-        $reader->close();
+        // Gunakan FastExcel dengan PhpSpreadsheet backend
+        // Mendukung semua format: xlsx, xls, csv
+        $rows = FastExcel::import($filePath);
 
         foreach ($rows as $index => $row) {
             try {
