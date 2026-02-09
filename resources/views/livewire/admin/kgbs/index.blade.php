@@ -1,6 +1,13 @@
 <div>
     <x-header-page title="Kenaikan Gaji Berkala (KGB)" :breadcrumbs="$breadcrumbs">
         <x-slot:actions>
+            <flux:button
+                variant="ghost"
+                icon="arrow-up-tray"
+                href="/admin/kgbs/import"
+            >
+                Import
+            </flux:button>
             <flux:button variant="ghost" icon="arrow-down-tray">
                 Export
             </flux:button>
