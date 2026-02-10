@@ -4,155 +4,251 @@
     <meta charset="utf-8">
     <style>
         @page {
-            margin-top: 2cm;
-            margin-bottom: 2cm;
-            margin-left: 2.5cm;
-            margin-right: 2.5cm;
+            margin-top: 0.7cm;
+            margin-bottom: 0.7cm;
+            margin-left: 0.7cm;
+            margin-right: 0.7cm;
         }
         body {
-            font-family: Times New Roman, serif;
-            font-size: 12pt;
-            line-height: 1.4;
+            font-family: Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.1;
             margin: 0;
             padding: 0;
         }
         .header {
             text-align: center;
-            margin-bottom: 15px;
-        }
-        .logo {
-            width: 70px;
-            height: 70px;
             margin-bottom: 5px;
         }
         .header-title {
             font-weight: bold;
-            font-size: 14pt;
+            font-size: 12pt;
             margin-bottom: 2px;
         }
-        .header-subtitle {
-            font-size: 11pt;
-            margin-bottom: 5px;
+        .header-box {
+            margin-top: 5px;
+            margin-bottom: 10px;
         }
-        .surat-header {
-            text-align: center;
-            margin: 15px 0 10px 0;
-        }
-        .surat-title {
-            font-weight: bold;
-            font-size: 12pt;
-            text-decoration: underline;
-            margin-bottom: 15px;
-        }
-        .info-table {
+        table {
             width: 100%;
-            margin: 10px 0;
+            border-collapse: collapse;
         }
-        .info-table td {
-            padding: 4px 8px;
-            vertical-align: top;
+        table, td {
+            border: 1px solid #000;
         }
-        .info-table td:first-child {
-            width: 180px;
+        td {
+            padding: 3px 5px;
         }
-        .signature {
+        .section-title {
+            background-color: #d0d0d0;
+            font-weight: bold;
+            padding: 4px 5px !important;
+        }
+        .center {
             text-align: center;
-            margin-top: 30px;
-            margin-left: auto;
-            margin-right: 0;
-            width: 45%;
-            float: right;
         }
-        .signature-space {
-            height: 80px;
+        .right {
+            text-align: right;
         }
-        .footer {
-            clear: both;
-            margin-top: 40px;
-            font-size: 11pt;
-            page-break-inside: avoid;
+        .keterangan-text {
+            width: 100%;
         }
-        .footer p {
-            margin: 2px 0;
+        .keterangan-text td {
+            border: none;
+            padding: 1px 5px;
         }
     </style>
 </head>
 <body>
-    <!-- Header BAWASLU -->
+    <!-- Header -->
     <div class="header">
-        <div class="header-title">BADAN PENGAWAS PEMILIHAN UMUM</div>
-        <div class="header-title">REPUBLIK INDONESIA</div>
+        <div class="header-title">FORMULIR PERMINTAAN DAN PEMBERIAN CUTI</div>
     </div>
 
-    <!-- Judul Surat -->
-    <div class="surat-header">
-        <div class="surat-title">SURAT CUTI</div>
+    <!-- Header Alamat -->
+    <div class="header-box">
+        Makassar, {{ $cuti->tanggal_mulai->subDays(14)->format('d F Y') }}<br>
+        Kepada:<br>
+        Yth. Sekretaris Jenderal Bawaslu<br>
+        di-<br>
+        Jakarta
     </div>
 
-    <!-- Table Informasi Cuti -->
-    <table class="info-table">
+    <!-- Bagian I - Data Pegawai -->
+    <table>
+        <tr><td colspan="4" class="section-title">I. DATA PEGAWAI</td></tr>
         <tr>
-            <td>Nomor Surat</td>
-            <td>: {{ $cuti->nomor_surat }}</td>
-        </tr>
-        <tr>
-            <td>Nama</td>
-            <td>: {{ $cuti->pegawai->nama }}</td>
-        </tr>
-        <tr>
-            <td>NIP</td>
-            <td>: {{ $cuti->pegawai->nip_baru }}</td>
-        </tr>
-        <tr>
-            <td>Pangkat/Golongan</td>
-            <td>: {{ $cuti->pegawai->pangkat ?? '-' }} ({{ $cuti->pegawai->gol_nama ?? '-' }})</td>
+            <td width="15%">Nama</td>
+            <td width="35%">{{ $cuti->pegawai->nama }}</td>
+            <td width="15%">NIP</td>
+            <td width="35%">{{ $cuti->pegawai->nip_baru }}</td>
         </tr>
         <tr>
             <td>Jabatan</td>
-            <td>: {{ $cuti->pegawai->jabatan_nama ?? '-' }}</td>
+            <td>{{ $cuti->pegawai->jabatan_nama ?? '-' }}</td>
+            <td>Masa Kerja</td>
+            <td>
+                @if($cuti->pegawai->tmt_cpns)
+                    {{ floor(\Carbon\Carbon::parse($cuti->pegawai->tmt_cpns)->diffInMonths(now()) / 12) }} Tahun
+                    {{ \Carbon\Carbon::parse($cuti->pegawai->tmt_cpns)->diffInMonths(now()) % 12 }} Bulan
+                @else
+                    -
+                @endif
+            </td>
         </tr>
         <tr>
-            <td>Jenis Cuti</td>
-            <td>: {{ ucfirst($cuti->jenis_cuti) }}</td>
-        </tr>
-        <tr>
-            <td>Alasan</td>
-            <td>: {{ $cuti->alasan }}</td>
-        </tr>
-        <tr>
-            <td>Lama Hari</td>
-            <td>: {{ $cuti->lama_hari }} ({{ terbilang($cuti->lama_hari) }}) Hari</td>
-        </tr>
-        <tr>
-            <td>Tanggal Mulai</td>
-            <td>: {{ $cuti->tanggal_mulai->translatedFormat('d F Y') }}</td>
-        </tr>
-        <tr>
-            <td>Tanggal Selesai</td>
-            <td>: {{ $cuti->tanggal_selesai->translatedFormat('d F Y') }}</td>
-        </tr>
-        <tr>
-            <td>Alamat Selama Cuti</td>
-            <td>: {{ $cuti->keterangan ?? '-' }}</td>
+            <td>Unit Kerja</td>
+            <td colspan="3">{{ $cuti->pegawai->unit_kerja ?? '-' }}</td>
         </tr>
     </table>
 
-    <!-- Tanda Tangan -->
-    <div class="signature">
-        <p>Jakarta, {{ now()->translatedFormat('d F Y') }}</p>
-        <p>Kepala Sekretariat</p>
-        <div class="signature-space"></div>
-        <p><strong>{{ $cuti->nama_kepala_sekretariat }}</strong></p>
-        <p>NIP. {{ $cuti->nip_kepala_sekretariat }}</p>
-    </div>
+    <!-- Bagian II - Jenis Cuti -->
+    <table style="margin-top: 3px;">
+        <tr><td colspan="4" class="section-title">II. JENIS CUTI YANG DIAMBIL **</td></tr>
+        <tr>
+            <td width="42%">1. Cuti Tahunan</td>
+            <td width="8%" class="center">{{ $cuti->jenis_cuti === 'tahunan' ? '√' : '-' }}</td>
+            <td width="42%">2. Cuti Besar</td>
+            <td width="8%" class="center">{{ $cuti->jenis_cuti === 'besar' ? '√' : '-' }}</td>
+        </tr>
+        <tr>
+            <td>3. Cuti Sakit</td>
+            <td class="center">{{ $cuti->jenis_cuti === 'sakit' ? '√' : '-' }}</td>
+            <td>4. Cuti Melahirkan</td>
+            <td class="center">{{ $cuti->jenis_cuti === 'melahirkan' ? '√' : '-' }}</td>
+        </tr>
+        <tr>
+            <td>5. Cuti Karena Alasan Penting</td>
+            <td class="center">{{ $cuti->jenis_cuti === 'alasan_penting' ? '√' : '-' }}</td>
+            <td>6. Cuti di Luar Tanggungan Negara</td>
+            <td class="center">{{ $cuti->jenis_cuti === 'luar_tanggungan' ? '√' : '-' }}</td>
+        </tr>
+    </table>
 
-    <!-- Tembusan -->
-    <div class="footer">
-        <p>Tembusan:</p>
-        <p>1. Sekretaris Jenderal BAWASLU RI;</p>
-        <p>2. Kepala Sekretariat BAWASLU RI;</p>
-        <p>3. Yang bersangkutan;</p>
-        <p>4. Arsip.</p>
-    </div>
+    <!-- Bagian III - Alasan Cuti -->
+    <table style="margin-top: 3px;">
+        <tr><td class="section-title">III. ALASAN CUTI</td></tr>
+        <tr><td>{{ $cuti->alasan }}</td></tr>
+    </table>
+
+    <!-- Bagian IV - Lamanya Cuti -->
+    <table style="margin-top: 3px;">
+        <tr><td colspan="6" class="section-title">IV. LAMANYA CUTI</td></tr>
+        <tr>
+            <td style="border-right:none" width="10%">Selama</td>
+            <td style="border-left:none; border-right:none" width="30%">
+                {{ $cuti->lama_hari }} ({{ terbilang($cuti->lama_hari) }}) hari kerja
+            </td>
+            <td style="border-left:none; border-right:none" width="15%">Mulai tanggal</td>
+            <td style="border-left:none; border-right:none" width="20%">{{ $cuti->tanggal_mulai->translatedFormat('d F Y') }}</td>
+            <td style="border-left:none; border-right:none" width="5%">s.d</td>
+            <td style="border-left:none" width="20%">{{ $cuti->tanggal_selesai->translatedFormat('d F Y') }}</td>
+        </tr>
+    </table>
+
+    <!-- Bagian V - Catatan Cuti -->
+    <table style="margin-top: 3px;">
+        <tr><td colspan="5" class="section-title">V. CATATAN CUTI ***</td></tr>
+        <tr>
+            <td colspan="2" width="45%">1. Cuti Tahunan</td>
+            <td width="10%" class="center">Sisa</td>
+            <td width="10%" class="center">Keterangan</td>
+            <td width="35%">2. Cuti Besar</td>
+        </tr>
+        <tr>
+            <td width="10%" class="center">Tahun</td>
+            <td width="35%" class="center">Sisa</td>
+            <td rowspan="4" class="center"></td>
+            <td rowspan="4" class="center"></td>
+            <td>3. Cuti Sakit</td>
+        </tr>
+        <tr>
+            <td>N-2</td>
+            <td class="center">{{ $cuti->pegawai->sisa_cuti_dua_tahun_lalu ?? 0 }}</td>
+            <td>4. Cuti Melahirkan</td>
+        </tr>
+        <tr>
+            <td>N-1</td>
+            <td class="center">{{ $cuti->pegawai->sisa_cuti_tahun_lalu ?? 0 }}</td>
+            <td>5. Cuti Alasan Penting</td>
+        </tr>
+        <tr>
+            <td>N</td>
+            <td class="center">{{ $cuti->pegawai->sisa_cuti_tahun_berjalan ?? 12 }}</td>
+            <td>6. Cuti di Luar Tanggungan Negara</td>
+        </tr>
+    </table>
+
+    <!-- Bagian VI - Alamat Selama Cuti + Tanda Tangan Pegawai -->
+    <table style="margin-top: 3px;">
+        <tr><td colspan="3" class="section-title">VI. ALAMAT SELAMA MENJALANKAN CUTI</td></tr>
+        <tr>
+            <td rowspan="2" width="70%">{{ $cuti->keterangan ?? '-' }}</td>
+            <td width="15%" style="border-right:none">Telepon</td>
+            <td width="15%" style="border-left:none">{{ $cuti->pegawai->nomor_hp ?? '-' }}</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="right" style="padding-top:20px; border:none">
+                Hormat saya,<br><br><br><br>
+                <strong>( {{ $cuti->pegawai->nama }} )</strong><br>
+                NIP. {{ $cuti->pegawai->nip_baru }}
+            </td>
+        </tr>
+    </table>
+
+    <!-- Bagian VII - Pertimbangan Atasan Langsung -->
+    <table style="margin-top: 3px;">
+        <tr><td colspan="4" class="section-title">VII. PERTIMBANGAN ATASAN LANGSUNG **</td></tr>
+        <tr class="center">
+            <td width="22%">Disetujui</td>
+            <td width="26%">Perubahan ****</td>
+            <td width="26%">Ditangguhkan ****</td>
+            <td width="26%">Tidak Disetujui ****</td>
+        </tr>
+        <tr>
+            <td class="center">√</td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td colspan="4" class="right" style="padding: 20px 10px 10px 0;">
+                Kepala Sekretariat,<br>
+                Bawaslu Provinsi Sulawesi Selatan<br><br><br><br>
+                <strong>( Awaluddin Mustafa, S.E., M.Si )</strong><br>
+                NIP. 19740712 200212 1 006
+            </td>
+        </tr>
+    </table>
+
+    <!-- Bagian VIII - Keputusan Pejabat -->
+    <table style="margin-top: 3px;">
+        <tr><td colspan="4" class="section-title">VIII. KEPUTUSAN PEJABAT YANG BERWENANG MEMBERIKAN CUTI **</td></tr>
+        <tr class="center">
+            <td width="22%">Disetujui</td>
+            <td width="26%">Perubahan ****</td>
+            <td width="26%">Ditangguhkan ****</td>
+            <td width="26%">Tidak Disetujui ****</td>
+        </tr>
+        <tr>
+            <td class="center">√</td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border-bottom:none; border-right:none">
+                <table class="keterangan-text">
+                    <tr><td colspan="3" style="padding: 5px 5px 2px 5px;"><strong>Keterangan:</strong></td></tr>
+                    <tr><td style="width: 15px;">*</td><td style="width: 10px;">=</td><td>Coret yang tidak perlu</td></tr>
+                    <tr><td>**</td><td>=</td><td>Pilih salah satu dengan tanda centang (√)</td></tr>
+                    <tr><td>***</td><td>=</td><td>Diisi oleh pejabat kepegawaian</td></tr>
+                    <tr><td>****</td><td>=</td><td>Beri tanda centang dan alasannya</td></tr>
+                    <tr><td>N</td><td>=</td><td>Cuti tahun berjalan</td></tr>
+                    <tr><td>N-1</td><td>=</td><td>Sisa cuti 1 tahun sebelumnya</td></tr>
+                    <tr><td>N-2</td><td>=</td><td>Sisa cuti 2 tahun sebelumnya</td></tr>
+                </table>
+            </td>
+            <td colspan="2" class="right" style="padding: 20px 10px 10px 0; border-top:none; border-left:none">
+                Sekretaris Jenderal,<br><br><br><br><br>
+                <strong>( Ferdinand Eskol Tiar Sirait )</strong><br>
+                NIP. 19741201 199303 1 001
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
