@@ -7,8 +7,13 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class PegawaiService
 {
-    public function getAllPegawai(?string $search = null, ?string $kabKota = null): LengthAwarePaginator
-    {
+    public function getAllPegawai(
+        ?string $search = null,
+        ?string $kabKota = null,
+        ?string $rangeUmur = null,
+        ?string $jenisKelamin = null,
+        ?string $agama = null
+    ): LengthAwarePaginator {
         $query = Pegawai::query();
 
         if ($search) {
@@ -21,6 +26,18 @@ class PegawaiService
 
         if ($kabKota) {
             $query->where('kab_kota', $kabKota);
+        }
+
+        if ($rangeUmur) {
+            $query->where('range_umur', $rangeUmur);
+        }
+
+        if ($jenisKelamin) {
+            $query->where('jenis_kelamin', $jenisKelamin);
+        }
+
+        if ($agama) {
+            $query->where('agama_nama', $agama);
         }
 
         return $query->orderBy('nama')->paginate(10);
@@ -63,5 +80,41 @@ class PegawaiService
                 'name' => "{$p->nama} - {$p->nip_baru}",
             ])
             ->toArray();
+    }
+
+    public function getRangeUmurOptions()
+    {
+        return Pegawai::query()
+            ->toBase()
+            ->selectRaw('range_umur as id, range_umur as name')
+            ->whereNotNull('range_umur')
+            ->where('range_umur', '!=', '')
+            ->distinct()
+            ->orderBy('range_umur')
+            ->get();
+    }
+
+    public function getJenisKelaminOptions()
+    {
+        return Pegawai::query()
+            ->toBase()
+            ->selectRaw('jenis_kelamin as id, jenis_kelamin as name')
+            ->whereNotNull('jenis_kelamin')
+            ->where('jenis_kelamin', '!=', '')
+            ->distinct()
+            ->orderBy('jenis_kelamin')
+            ->get();
+    }
+
+    public function getAgamaOptions()
+    {
+        return Pegawai::query()
+            ->toBase()
+            ->selectRaw('agama_nama as id, agama_nama as name')
+            ->whereNotNull('agama_nama')
+            ->where('agama_nama', '!=', '')
+            ->distinct()
+            ->orderBy('agama_nama')
+            ->get();
     }
 }

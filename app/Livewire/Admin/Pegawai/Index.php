@@ -18,6 +18,18 @@ class Index extends Component
 
     public array $kabKotaOptions = [];
 
+    public ?string $rangeUmur = null;
+
+    public array $rangeUmurOptions = [];
+
+    public ?string $jenisKelamin = null;
+
+    public array $jenisKelaminOptions = [];
+
+    public ?string $agama = null;
+
+    public array $agamaOptions = [];
+
     public $file;
 
     public bool $myModal3 = false;
@@ -40,12 +52,21 @@ class Index extends Component
     public function getPegawaisProperty()
     {
         return app(PegawaiService::class)
-            ->getAllPegawai($this->search, $this->kabKota);
+            ->getAllPegawai(
+                $this->search,
+                $this->kabKota,
+                $this->rangeUmur,
+                $this->jenisKelamin,
+                $this->agama
+            );
     }
 
     public function mount()
     {
         $this->kabKotaOptions = app(PegawaiService::class)->getKabKota()->toArray();
+        $this->rangeUmurOptions = app(PegawaiService::class)->getRangeUmurOptions()->toArray();
+        $this->jenisKelaminOptions = app(PegawaiService::class)->getJenisKelaminOptions()->toArray();
+        $this->agamaOptions = app(PegawaiService::class)->getAgamaOptions()->toArray();
     }
 
     public function delete(int $id)
