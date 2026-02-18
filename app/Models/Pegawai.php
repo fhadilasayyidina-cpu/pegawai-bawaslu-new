@@ -16,6 +16,7 @@ class Pegawai extends Model
         // Identitas
         'nip_baru',
         'nip_lama',
+        'id_absensi',
         'nama',
         'gelar_depan',
         'gelar_blk',

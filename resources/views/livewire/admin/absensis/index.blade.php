@@ -3,6 +3,13 @@
         <x-slot:actions>
             <flux:button
                 variant="ghost"
+                icon="numbered-list"
+                href="/admin/pegawais/import-id-absensi"
+            >
+                Import ID Absensi
+            </flux:button>
+            <flux:button
+                variant="ghost"
                 icon="arrow-up-tray"
                 href="/admin/absensis/import"
             >
