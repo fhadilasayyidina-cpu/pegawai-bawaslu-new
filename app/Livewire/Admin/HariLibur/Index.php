@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\HariLibur;
 
 use App\Models\HariLibur;
+use App\Services\ImportHariLiburService;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,6 +13,10 @@ class Index extends Component
     use WithPagination;
 
     public bool $showCreateModal = false;
+
+    public bool $showImportModal = false;
+
+    public array $importResult = [];
 
     public string $date = '';
 
@@ -33,6 +38,33 @@ class Index extends Component
         $this->showCreateModal = false;
         $this->reset(['date', 'description']);
         $this->resetErrorBag();
+    }
+
+    public function openImportModal(): void
+    {
+        $this->showImportModal = true;
+    }
+
+    public function closeImportModal(): void
+    {
+        $this->showImportModal = false;
+        $this->importResult = [];
+    }
+
+    public function importFromApi(): void
+    {
+        $service = new ImportHariLiburService;
+        $this->importResult = $service->importFromApi();
+
+        $totalProcessed = $this->importResult['imported'] + $this->importResult['skipped'];
+
+        if ($totalProcessed > 0) {
+            session()->flash('status', "Selesai: {$this->importResult['imported']} ditambahkan, {$this->importResult['skipped']} dilewati.");
+        } else {
+            session()->flash('status', 'Import gagal. Coba lagi nanti.');
+        }
+
+        $this->closeImportModal();
     }
 
     /**

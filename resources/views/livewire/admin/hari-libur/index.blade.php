@@ -4,6 +4,9 @@
         :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Hari Libur', 'href' => '/admin/hari-liburs']]"
     >
         <x-slot:actions>
+            <flux:button wire:click="openImportModal" variant="ghost" icon="arrow-down-tray">
+                Import
+            </flux:button>
             <flux:button wire:click="openCreateModal" variant="primary" icon="plus">
                 Tambah Hari Libur
             </flux:button>
@@ -158,5 +161,58 @@
                 <flux:button type="submit" variant="primary">Simpan</flux:button>
             </div>
         </form>
+    </flux:modal>
+
+    <!-- Modal Import dari API -->
+    <flux:modal
+        name="import-hari-libur-modal"
+        class="max-w-md"
+        wire:model="showImportModal"
+        @close="closeImportModal"
+    >
+        <div class="space-y-4">
+            <flux:heading size="lg">Import Hari Libur Nasional</flux:heading>
+
+            <flux:text>
+                Import data hari libur nasional dari API libur.deno.dev. Data akan ditambahkan ke database.
+            </flux:text>
+
+            @if(!empty($importResult))
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                        <flux:text class="text-green-700">Berhasil ditambahkan</flux:text>
+                        <flux:text class="text-green-700 font-bold">{{ $importResult['imported'] }}</flux:text>
+                    </div>
+
+                    @if($importResult['skipped'] > 0)
+                    <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                        <flux:text class="text-yellow-700">Sudah ada/dilewati</flux:text>
+                        <flux:text class="text-yellow-700 font-bold">{{ $importResult['skipped'] }}</flux:text>
+                    </div>
+                    @endif
+
+                    @if($importResult['failed'] > 0)
+                    <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                        <flux:text class="text-red-700">Gagal</flux:text>
+                        <flux:text class="text-red-700 font-bold">{{ $importResult['failed'] }}</flux:text>
+                    </div>
+                    @endif
+                </div>
+            @endif
+
+            <div class="flex justify-end gap-2 mt-4">
+                <flux:modal.close>
+                    <flux:button variant="ghost">
+                        @if(!empty($importResult)) 'Tutup' @else 'Batal' @endif
+                    </flux:button>
+                </flux:modal.close>
+                @if(empty($importResult))
+                    <flux:button wire:click="importFromApi" variant="primary" wire:loading.attr="disabled">
+                        <span wire:loading.remove>Import Sekarang</span>
+                        <span wire:loading>Memproses...</span>
+                    </flux:button>
+                @endif
+            </div>
+        </div>
     </flux:modal>
 </div>
