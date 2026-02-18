@@ -4,6 +4,14 @@
         :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Hari Libur', 'href' => '/admin/hari-liburs']]"
     >
         <x-slot:actions>
+            <flux:button
+                wire:click="generateWeekendHolidays"
+                wire:confirm="Apakah Anda yakin ingin generate semua hari Sabtu & Minggu tahun berjalan sebagai hari libur?"
+                variant="ghost"
+                icon="calendar-days"
+            >
+                Generate Weekend
+            </flux:button>
             <flux:button wire:click="openImportModal" variant="ghost" icon="arrow-down-tray">
                 Import
             </flux:button>
@@ -13,10 +21,10 @@
         </x-slot:actions>
     </x-header-page>
 
-    <div class="my-4 grid gap-4">
+    <div class="my-4 grid gap-2">
         <!-- Calendar View -->
         <x-mary-card>
-            <div class="mt-4">
+            <div class="mt-1">
                 <x-mary-calendar
                     months="3"
                     :events="$this->calendarEvents"
@@ -92,6 +100,8 @@
                                 <td class="px-4 py-3 whitespace-nowrap text-sm">
                                     @if($hariLibur->is_imported)
                                         <flux:badge variant="info">Import</flux:badge>
+                                    @elseif($hariLibur->description === 'Libur Akhir Pekan')
+                                        <flux:badge variant="warning">Weekend</flux:badge>
                                     @else
                                         <flux:badge variant="neutral">Manual</flux:badge>
                                     @endif

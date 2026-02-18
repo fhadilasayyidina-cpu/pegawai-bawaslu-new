@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\HariLibur;
 
 use App\Models\HariLibur;
 use App\Services\ImportHariLiburService;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -105,6 +106,39 @@ class Index extends Component
     {
         $this->reset(['search', 'tanggal_dari', 'tanggal_sampai']);
         $this->resetPage();
+    }
+
+    /**
+     * Generate all weekend holidays (Saturday & Sunday) for the current year.
+     */
+    public function generateWeekendHolidays(): void
+    {
+        $currentYear = now()->year;
+        $startDate = Carbon::createFromDate($currentYear, 1, 1);
+        $endDate = Carbon::createFromDate($currentYear, 12, 31);
+
+        $generated = 0;
+        $skipped = 0;
+
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            // Check if Saturday (6) or Sunday (0/7)
+            if ($date->isSaturday() || $date->isSunday()) {
+                $existing = HariLibur::where('date', $date->format('Y-m-d'))->first();
+
+                if (! $existing) {
+                    HariLibur::create([
+                        'date' => $date->format('Y-m-d'),
+                        'description' => 'Libur Akhir Pekan',
+                        'is_imported' => false,
+                    ]);
+                    $generated++;
+                } else {
+                    $skipped++;
+                }
+            }
+        }
+
+        session()->flash('status', "Selesai: {$generated} hari akhir pekan ditambahkan, {$skipped} sudah ada.");
     }
 
     /**
