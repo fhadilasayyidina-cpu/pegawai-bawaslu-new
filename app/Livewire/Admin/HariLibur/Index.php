@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\HariLibur;
 
 use App\Models\HariLibur;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,6 +14,12 @@ class Index extends Component
     public string $date = '';
 
     public string $description = '';
+
+    public ?string $search = null;
+
+    public ?string $tanggal_dari = null;
+
+    public ?string $tanggal_sampai = null;
 
     /**
      * Save a new holiday.
@@ -45,10 +52,44 @@ class Index extends Component
         session()->flash('status', 'Hari libur berhasil dihapus.');
     }
 
-    public function render()
+    /**
+     * Reset all filters.
+     */
+    public function resetFilter(): void
     {
+        $this->reset(['search', 'tanggal_dari', 'tanggal_sampai']);
+        $this->resetPage();
+    }
+
+    /**
+     * Get calendar events property.
+     *
+     * @return array<int, array{date: string, label: string, css: string}>
+     */
+    public function getCalendarEventsProperty(): array
+    {
+        return HariLibur::query()
+            ->when($this->search, fn ($q) => $q->where('description', 'like', "%{$this->search}%"))
+            ->when($this->tanggal_dari, fn ($q) => $q->where('date', '>=', $this->tanggal_dari))
+            ->when($this->tanggal_sampai, fn ($q) => $q->where('date', '<=', $this->tanggal_sampai))
+            ->get()
+            ->map(fn ($h) => [
+                'date' => $h->date->format('Y-m-d'),
+                'label' => $h->description,
+                'css' => 'bg-red-500 text-white font-semibold',
+            ])
+            ->toArray();
+    }
+
+    public function render(): View
+    {
+        $query = HariLibur::query()
+            ->when($this->search, fn ($q) => $q->where('description', 'like', "%{$this->search}%"))
+            ->when($this->tanggal_dari, fn ($q) => $q->where('date', '>=', $this->tanggal_dari))
+            ->when($this->tanggal_sampai, fn ($q) => $q->where('date', '<=', $this->tanggal_sampai));
+
         return view('livewire.admin.hari-libur.index', [
-            'hariLiburs' => HariLibur::orderBy('date', 'desc')->paginate(10),
-        ]);
+            'hariLiburs' => $query->orderBy('date', 'desc')->paginate(10),
+        ])->layout('layouts.app');
     }
 }

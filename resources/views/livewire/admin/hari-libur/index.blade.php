@@ -3,6 +3,58 @@
     </x-header-page>
 
     <div class="my-4 grid gap-4">
+        <!-- Calendar View -->
+        <x-mary-card>
+            <flux:heading size="lg">Kalender Hari Libur</flux:heading>
+            <div class="mt-4">
+                <x-mary-calendar
+                    months="3"
+                    :events="$this->calendarEvents"
+                    locale="id-ID"
+                />
+            </div>
+        </x-mary-card>
+
+        <!-- Filter Section -->
+        <x-mary-card>
+            <flux:heading size="lg">Filter</flux:heading>
+
+            <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <flux:field label="Cari Deskripsi">
+                    <flux:input
+                        wire:model.live.debounce.300ms="search"
+                        placeholder="Cari nama hari libur..."
+                        icon="magnifying-glass"
+                    />
+                </flux:field>
+
+                <flux:field label="Dari Tanggal">
+                    <flux:input
+                        type="date"
+                        wire:model.live="tanggal_dari"
+                    />
+                </flux:field>
+
+                <flux:field label="Sampai Tanggal">
+                    <flux:input
+                        type="date"
+                        wire:model.live="tanggal_sampai"
+                    />
+                </flux:field>
+            </div>
+
+            @if($search || $tanggal_dari || $tanggal_sampai)
+                <flux:button
+                    wire:click="resetFilter"
+                    variant="ghost"
+                    icon="x-mark"
+                    class="mt-4"
+                >
+                    Reset Filter
+                </flux:button>
+            @endif
+        </x-mary-card>
+
         <!-- Form Tambah -->
         <x-mary-card>
             <flux:heading size="lg">Tambah Hari Libur</flux:heading>
