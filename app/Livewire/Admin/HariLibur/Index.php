@@ -11,6 +11,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    public bool $showCreateModal = false;
+
     public string $date = '';
 
     public string $description = '';
@@ -20,6 +22,18 @@ class Index extends Component
     public ?string $tanggal_dari = null;
 
     public ?string $tanggal_sampai = null;
+
+    public function openCreateModal(): void
+    {
+        $this->showCreateModal = true;
+    }
+
+    public function closeCreateModal(): void
+    {
+        $this->showCreateModal = false;
+        $this->reset(['date', 'description']);
+        $this->resetErrorBag();
+    }
 
     /**
      * Save a new holiday.
@@ -37,7 +51,7 @@ class Index extends Component
             'is_imported' => false,
         ]);
 
-        $this->reset(['date', 'description']);
+        $this->closeCreateModal();
 
         session()->flash('status', 'Hari libur berhasil ditambahkan.');
     }
@@ -76,7 +90,7 @@ class Index extends Component
             ->map(fn ($h) => [
                 'date' => $h->date->format('Y-m-d'),
                 'label' => $h->description,
-                'css' => 'bg-red-500 text-white font-semibold',
+                'css' => '!bg-red-500 text-white font-semibold',
             ])
             ->toArray();
     }
@@ -90,6 +104,6 @@ class Index extends Component
 
         return view('livewire.admin.hari-libur.index', [
             'hariLiburs' => $query->orderBy('date', 'desc')->paginate(10),
-        ])->layout('layouts.app');
+        ]);
     }
 }

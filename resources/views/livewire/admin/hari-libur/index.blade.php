@@ -5,7 +5,12 @@
     <div class="my-4 grid gap-4">
         <!-- Calendar View -->
         <x-mary-card>
-            <flux:heading size="lg">Kalender Hari Libur</flux:heading>
+            <div class="flex items-center justify-between">
+                <flux:heading size="lg">Kalender Hari Libur</flux:heading>
+                <flux:button wire:click="openCreateModal" variant="primary" icon="plus">
+                    Tambah Hari Libur
+                </flux:button>
+            </div>
             <div class="mt-4">
                 <x-mary-calendar
                     months="3"
@@ -55,40 +60,6 @@
             @endif
         </x-mary-card>
 
-        <!-- Form Tambah -->
-        <x-mary-card>
-            <flux:heading size="lg">Tambah Hari Libur</flux:heading>
-
-            <form wire:submit="save" class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                    <flux:field label="Tanggal">
-                        <flux:input
-                            type="date"
-                            wire:model="date"
-                            required
-                        />
-                    </flux:field>
-                    @error('date') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-
-                <div>
-                    <flux:field label="Keterangan">
-                        <flux:input
-                            wire:model="description"
-                            placeholder="Contoh: Hari Raya Idul Fitri"
-                            required
-                        />
-                    </flux:field>
-                    @error('description') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-                </div>
-
-                <div class="flex items-end">
-                    <flux:button wire:click="save" variant="primary" class="w-full">
-                        Simpan
-                    </flux:button>
-                </div>
-            </form>
-        </x-mary-card>
 
         <!-- Table -->
         <x-mary-card>
@@ -153,4 +124,37 @@
             @endif
         </x-mary-card>
     </div>
+
+    <!-- Modal Tambah Hari Libur -->
+    <flux:modal
+        name="create-hari-libur-modal"
+        class="max-w-md"
+        wire:model="showCreateModal"
+        @close="closeCreateModal"
+    >
+        <form wire:submit="save" class="space-y-4">
+            <flux:heading size="lg">Tambah Hari Libur</flux:heading>
+
+            <flux:field label="Tanggal">
+                <flux:input type="date" wire:model="date" required />
+                @error('date') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </flux:field>
+
+            <flux:field label="Keterangan">
+                <flux:input
+                    wire:model="description"
+                    placeholder="Contoh: Hari Raya Idul Fitri"
+                    required
+                />
+                @error('description') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </flux:field>
+
+            <div class="flex justify-end gap-2 mt-4">
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Simpan</flux:button>
+            </div>
+        </form>
+    </flux:modal>
 </div>
