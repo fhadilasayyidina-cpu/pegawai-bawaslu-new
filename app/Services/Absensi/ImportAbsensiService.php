@@ -18,11 +18,15 @@ class ImportAbsensiService
         'errors' => [],
     ];
 
-    public function import(string $filePath, int $createdBy): array
+    protected ?string $kabKota = null;
+
+    public function import(string $filePath, int $createdBy, ?string $kabKota = null): array
     {
         if (! file_exists($filePath)) {
             throw new Exception('File tidak ditemukan');
         }
+
+        $this->kabKota = $kabKota;
 
         // Gunakan FastExcel dengan PhpSpreadsheet backend
         // Mendukung semua format: xlsx, xls, csv
@@ -145,7 +149,13 @@ class ImportAbsensiService
             return null;
         }
 
-        $pegawai = Pegawai::where('nama', 'like', '%'.trim($nama).'%')->first();
+        $query = Pegawai::where('nama', 'like', '%'.trim($nama).'%');
+
+        if (! empty($this->kabKota)) {
+            $query->where('kab_kota', $this->kabKota);
+        }
+
+        $pegawai = $query->first();
 
         return $pegawai?->id;
     }

@@ -26,6 +26,16 @@
 
                 <form wire:submit="import">
                     <div class="space-y-4">
+                        <flux:select
+                            label="Filter Kab/Kota (Opsional)"
+                            wire:model="kabKota"
+                            placeholder="Semua Kab/Kota"
+                        >
+                            @foreach($this->kabKotaOptions as $option)
+                                <flux:select.option :value="$option->id">{{ $option->name }}</flux:select.option>
+                            @endforeach
+                        </flux:select>
+
                         <flux:input
                             label="Pilih File"
                             type="file"
