@@ -1,16 +1,18 @@
 <div>
-    <x-header-page title="Manajemen Hari Libur" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Hari Libur', 'href' => '/admin/hari-liburs']]">
+    <x-header-page
+        title="Manajemen Hari Libur"
+        :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Hari Libur', 'href' => '/admin/hari-liburs']]"
+    >
+        <x-slot:actions>
+            <flux:button wire:click="openCreateModal" variant="primary" icon="plus">
+                Tambah Hari Libur
+            </flux:button>
+        </x-slot:actions>
     </x-header-page>
 
     <div class="my-4 grid gap-4">
         <!-- Calendar View -->
         <x-mary-card>
-            <div class="flex items-center justify-between">
-                <flux:heading size="lg">Kalender Hari Libur</flux:heading>
-                <flux:button wire:click="openCreateModal" variant="primary" icon="plus">
-                    Tambah Hari Libur
-                </flux:button>
-            </div>
             <div class="mt-4">
                 <x-mary-calendar
                     months="3"
