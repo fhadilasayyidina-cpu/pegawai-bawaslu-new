@@ -44,7 +44,12 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'KGB',
                     'route' => 'admin/kgbs',
                 ],
-                
+                [
+                    'icon' => 'calendar',
+                    'label' => 'Hari Libur',
+                    'route' => 'admin/hari-liburs',
+                ],
+
             ]
         ]
     ];
