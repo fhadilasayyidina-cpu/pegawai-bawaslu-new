@@ -43,6 +43,11 @@
         </x-statistic-card>
     </div>
 
+    
+
+    <!-- Kalender -->
+    <x-mary-calendar  months="3" />
+
     <div class="my-4">
         <x-mary-card>
             <!-- Filters -->

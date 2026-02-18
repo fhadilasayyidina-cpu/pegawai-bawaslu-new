@@ -169,5 +169,8 @@ use Illuminate\Support\Facades\Auth;
         {{ $slot }}
 
         @fluxScripts
+            <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
+            <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css" rel="stylesheet">
+
     </body>
 </html>
