@@ -37,17 +37,23 @@ class Pegawai extends Model
         // Administrasi
         'npwp_nomor',
         'bpjs',
+        'npwp_drive_link',
+        'bpjs_drive_link',
         'kartu_pegawai',
+        'karpeg_drive_link',
         'nomor_sk_cpns',
+        'sk_cpns_drive_link',
         'tgl_sk_cpns',
         'tmt_cpns',
         'nomor_sk_pns',
+        'sk_pns_drive_link',
         'tgl_sk_pns',
         'tmt_pns',
         'no_sk_dpk_penugasan_kontrak',
         'tgl_sk_dpk_penugasan_kontrak',
         'keterangan',
         'tgl_kgb_terakhir',
+        'sk_kgb_drive_link',
         'keterangan_status',
 
         // Golongan & Jabatan

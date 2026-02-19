@@ -19,6 +19,9 @@ class AdministrasiForm extends Form
     #[Validate('nullable')]
     public ?string $nomor_sk_cpns = null;
 
+    #[Validate('nullable|string|url')]
+    public ?string $sk_cpns_drive_link = null;
+
     #[Validate('nullable')]
     public ?string $tgl_sk_cpns = null;
 
@@ -27,6 +30,9 @@ class AdministrasiForm extends Form
 
     #[Validate('nullable')]
     public ?string $nomor_sk_pns = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $sk_pns_drive_link = null;
 
     #[Validate('nullable')]
     public ?string $tgl_sk_pns = null;
@@ -45,6 +51,18 @@ class AdministrasiForm extends Form
 
     #[Validate('nullable')]
     public ?string $tgl_kgb_terakhir = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $sk_kgb_drive_link = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $karpeg_drive_link = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $npwp_drive_link = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $bpjs_drive_link = null;
 
     public function setPegawai($pegawai)
     {

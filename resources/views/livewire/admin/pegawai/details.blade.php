@@ -286,12 +286,37 @@
             <x-mary-form wire:submit="saveAdministrasi">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-mary-input label="NPWP" wire:model="administrasiForm.npwp_nomor" />
+                    <x-mary-input
+                        label="Link Google Drive NPWP"
+                        wire:model="administrasiForm.npwp_drive_link"
+                        placeholder="https://drive.google.com/..."
+                    />
                     <x-mary-input label="BPJS" wire:model="administrasiForm.bpjs" />
+                    <x-mary-input
+                        label="Link Google Drive BPJS"
+                        wire:model="administrasiForm.bpjs_drive_link"
+                        placeholder="https://drive.google.com/..."
+                    />
                     <x-mary-input label="Kartu Pegawai" wire:model="administrasiForm.kartu_pegawai" />
+                    <x-mary-input
+                        label="Link Google Drive Karpeg"
+                        wire:model="administrasiForm.karpeg_drive_link"
+                        placeholder="https://drive.google.com/..."
+                    />
                     <x-mary-input label="Nomor SK CPNS" wire:model="administrasiForm.nomor_sk_cpns" />
+                    <x-mary-input
+                        label="Link Google Drive SK CPNS"
+                        wire:model="administrasiForm.sk_cpns_drive_link"
+                        placeholder="https://drive.google.com/..."
+                    />
                     <flux:input label="Tanggal SK CPNS" type="date" wire:model="administrasiForm.tgl_sk_cpns" />
                     <flux:input label="TMT CPNS" type="date" wire:model="administrasiForm.tmt_cpns" />
                     <x-mary-input label="Nomor SK PNS" wire:model="administrasiForm.nomor_sk_pns" />
+                    <x-mary-input
+                        label="Link Google Drive SK PNS"
+                        wire:model="administrasiForm.sk_pns_drive_link"
+                        placeholder="https://drive.google.com/..."
+                    />
                     <flux:input label="Tanggal SK PNS" type="date" wire:model="administrasiForm.tgl_sk_pns" />
                     <flux:input label="TMT PNS" type="date" wire:model="administrasiForm.tmt_pns" />
                     <x-mary-input label="No SK DPK Penugasan Kontrak" wire:model="administrasiForm.no_sk_dpk_penugasan_kontrak" />
@@ -301,6 +326,11 @@
                         label="Tanggal KGB Terakhir"
                         type="date"
                         wire:model="administrasiForm.tgl_kgb_terakhir"
+                    />
+                    <x-mary-input
+                        label="Link Google Drive SK KGB"
+                        wire:model="administrasiForm.sk_kgb_drive_link"
+                        placeholder="https://drive.google.com/..."
                     />
                 </div>
 
