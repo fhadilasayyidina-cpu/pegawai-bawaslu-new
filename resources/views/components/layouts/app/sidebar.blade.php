@@ -56,6 +56,28 @@ use Illuminate\Support\Facades\Auth;
 
  
  }else if($user->role == Role::OPERATOR){
+    $map = [
+        [
+            'label' => 'Platform',
+            'items' => [
+                [
+                    'icon' => 'home',
+                    'label' => 'Dashboard',
+                    'route' => 'operator/dashboard',
+                ],
+                [
+                    'icon' => 'users',
+                    'label' => 'Data Pegawai',
+                    'route' => 'operator/pegawais',
+                ],
+                [
+                    'icon' => 'user-group',
+                    'label' => 'Data Pimpinan',
+                    'route' => 'operator/pimpinans',
+                ],
+            ]
+        ]
+    ];
 
  }else if($user->role == Role::USER){
 

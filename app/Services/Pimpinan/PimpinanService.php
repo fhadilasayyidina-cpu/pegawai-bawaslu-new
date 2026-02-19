@@ -11,6 +11,11 @@ class PimpinanService
     {
         $query = Pimpinan::query();
 
+        // Auto-filter by access_scope for non-admin users
+        if (auth()->check() && auth()->user()->role->value !== 'admin' && auth()->user()->access_scope) {
+            $query->where('kab_kota', auth()->user()->access_scope);
+        }
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', '%'.$search.'%')

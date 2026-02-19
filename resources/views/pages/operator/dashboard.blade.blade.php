@@ -1,7 +1,7 @@
-<?php 
+<?php
 use function Laravel\Folio\middleware;
 //panggil middlware disini
-middleware(['auth', 'verified', 'role:admin']);
+middleware(['auth', 'verified', 'role:operator']);
 ?>
 
 <x-layouts.app :title="__('Dashboard')">
