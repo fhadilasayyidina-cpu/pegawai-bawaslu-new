@@ -259,11 +259,50 @@
             <x-mary-form wire:submit="saveJabatan">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-mary-input label="Golongan Awal" wire:model="jabatanForm.gol_awal_nama" />
+                    <div>
+                        <flux:input
+                            label="Link Google Drive SK Golongan Awal"
+                            wire:model="jabatanForm.sk_golongan_awal_drive_link"
+                            placeholder="https://drive.google.com/..."
+                        />
+                        @if($pegawai->sk_golongan_awal_drive_link)
+                            <a href="{{ $pegawai->sk_golongan_awal_drive_link }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 mt-1">
+                                <flux:icon name="link" class="w-4 h-4" />
+                                Buka Link SK Golongan Awal
+                            </a>
+                        @endif
+                    </div>
                     <x-mary-input label="Golongan" wire:model="jabatanForm.gol_nama" />
+                    <div>
+                        <flux:input
+                            label="Link Google Drive SK Golongan Terakhir"
+                            wire:model="jabatanForm.sk_golongan_terakhir_drive_link"
+                            placeholder="https://drive.google.com/..."
+                        />
+                        @if($pegawai->sk_golongan_terakhir_drive_link)
+                            <a href="{{ $pegawai->sk_golongan_terakhir_drive_link }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 mt-1">
+                                <flux:icon name="link" class="w-4 h-4" />
+                                Buka Link SK Golongan Terakhir
+                            </a>
+                        @endif
+                    </div>
                     <flux:input label="TMT Golongan" type="date" wire:model="jabatanForm.tmt_golongan" />
                     <flux:input label="Masa Kerja Golongan" type="number" wire:model="jabatanForm.mkgol" />
                     <x-mary-input label="Jenis Jabatan" wire:model="jabatanForm.jenis_jabatan_nama" />
                     <x-mary-input label="Jabatan" wire:model="jabatanForm.jabatan_nama" />
+                    <div>
+                        <flux:input
+                            label="Link Google Drive SK Jabatan"
+                            wire:model="jabatanForm.sk_jabatan_drive_link"
+                            placeholder="https://drive.google.com/..."
+                        />
+                        @if($pegawai->sk_jabatan_drive_link)
+                            <a href="{{ $pegawai->sk_jabatan_drive_link }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 mt-1">
+                                <flux:icon name="link" class="w-4 h-4" />
+                                Buka Link SK Jabatan
+                            </a>
+                        @endif
+                    </div>
                     <flux:input label="TMT Jabatan" type="date" wire:model="jabatanForm.tmt_jabatan" />
                     <x-mary-input label="Jabatan Non-Definitif" wire:model="jabatanForm.jabatan_non_definitif" />
                     <x-mary-input label="Jabatan Non-Definitif 1" wire:model="jabatanForm.jabatan_non_definitif_1" />

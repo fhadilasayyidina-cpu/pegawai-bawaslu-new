@@ -59,10 +59,13 @@ class Pegawai extends Model
         // Golongan & Jabatan
         'gol_awal_nama',
         'gol_nama',
+        'sk_golongan_awal_drive_link',
+        'sk_golongan_terakhir_drive_link',
         'tmt_golongan',
         'mkgol',
         'jenis_jabatan_nama',
         'jabatan_nama',
+        'sk_jabatan_drive_link',
         'tmt_jabatan',
         'jabatan_non_definitif',
         'jabatan_non_definitif_1',

@@ -52,6 +52,15 @@ class JabatanForm extends Form
     #[Validate('nullable')]
     public ?string $keterangan_status = null;
 
+    #[Validate('nullable|string|url')]
+    public ?string $sk_golongan_awal_drive_link = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $sk_golongan_terakhir_drive_link = null;
+
+    #[Validate('nullable|string|url')]
+    public ?string $sk_jabatan_drive_link = null;
+
     public function setPegawai($pegawai)
     {
         $data = $pegawai->toArray();
