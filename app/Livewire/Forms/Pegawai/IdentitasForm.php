@@ -73,6 +73,9 @@ class IdentitasForm extends Form
             $data['tgl_lahir'] = $pegawai->tgl_lahir?->format('Y-m-d');
         }
 
+        // Don't fill foto field - it's only for new uploads
+        unset($data['foto']);
+
         $this->fill($data);
     }
 }

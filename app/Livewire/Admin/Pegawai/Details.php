@@ -71,7 +71,8 @@ class Details extends Component
 
         $data = $this->identitasForm->except(['foto']);
 
-        if ($this->identitasForm->foto) {
+        // Check if foto is a newly uploaded file (not just the existing path string)
+        if ($this->identitasForm->foto && is_object($this->identitasForm->foto)) {
             if ($this->pegawai->foto) {
                 Storage::disk('public')->delete($this->pegawai->foto);
             }
