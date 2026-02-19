@@ -14,6 +14,13 @@
         public string $role = 'operator';
         public ?string $access_scope = null;
 
+        public array $kabKotaOptions = [];
+
+        public function mount(): void
+        {
+            $this->kabKotaOptions = app(\App\Services\Pegawai\PegawaiService::class)->getKabKota()->toArray();
+        }
+
         public array $breadcrumbs = [
             ['label' => 'Dashboard', 'link' => '/admin'],
             ['label' => 'Manajemen User', 'link' => '/admin/users'],
@@ -25,13 +32,21 @@
         // ========================
         public function save()
         {
-            $validated = $this->validate([
+            $rules = [
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email', 'unique:users,email'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
                 'role' => ['required', 'in:operator,pegawai'],
-                'access_scope' => ['nullable', 'string'],
-            ]);
+            ];
+
+            // access_scope required only for operator
+            if ($this->role === 'operator') {
+                $rules['access_scope'] = ['required', 'string'];
+            } else {
+                $rules['access_scope'] = ['nullable', 'string'];
+            }
+
+            $validated = $this->validate($rules);
 
             // FULLY QUALIFIED NAME
             app(\App\Services\User\UserService::class)
@@ -48,20 +63,12 @@
 
             return $this->redirect('/admin/users');
         }
-        // public function test(){
-        //      $this->dispatch('notyf:show', [
-        //         'type' => 'success',
-        //         'message' => 'Ini adalah pesan notyf!'
-        //     ]);
-        //     return;
-        // }
     };
     ?>
 
     <div>
         {{-- Header Page --}}
         <x-header-page title="Tambah User Baru" :breadcrumbs="$breadcrumbs" />
-         <!-- <x-mary-button label="Test Notyf Toast" wire:click="test" class="btn-secondary mb-4" /> -->
 
         {{-- Form Section --}}
         <div class="max-w-2xl">
@@ -97,13 +104,24 @@
                         icon="o-shield-check"
                     />
 
-                    <x-mary-input
-                        label="Wilayah Akses (Opsional)"
-                        wire:model="access_scope"
-                        placeholder="Contoh: Jakarta Pusat"
-                        hint="Kosongkan jika akses semua wilayah"
-                        icon="o-map-pin"
-                    />
+                    @if($role === 'operator')
+                        <x-mary-select
+                            label="Wilayah Akses"
+                            wire:model="access_scope"
+                            :options="$kabKotaOptions"
+                            placeholder="Pilih wilayah akses"
+                            icon="o-map-pin"
+                            required
+                        />
+                    @else
+                        <x-mary-input
+                            label="Wilayah Akses"
+                            wire:model="access_scope"
+                            placeholder="Tidak berlaku untuk role ini"
+                            icon="o-map-pin"
+                            readonly
+                        />
+                    @endif
 
                     <x-mary-input
                         label="Password"

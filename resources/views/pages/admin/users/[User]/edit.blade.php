@@ -16,6 +16,8 @@
         public string $role = 'operator';
         public ?string $access_scope = null;
 
+        public array $kabKotaOptions = [];
+
         public array $breadcrumbs = [
             ['label' => 'Dashboard', 'link' => '/admin'],
             ['label' => 'Manajemen User', 'link' => '/admin/users'],
@@ -29,6 +31,7 @@
             $this->email = $user->email;
             $this->role = $user->role->value;
             $this->access_scope = $user->access_scope;
+            $this->kabKotaOptions = app(\App\Services\Pegawai\PegawaiService::class)->getKabKota()->toArray();
         }
 
         public function update()
@@ -37,8 +40,14 @@
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
                 'role' => ['required', 'in:admin,operator,pegawai'],
-                'access_scope' => ['nullable', 'string'],
             ];
+
+            // access_scope required only for operator
+            if ($this->role === 'operator') {
+                $rules['access_scope'] = ['required', 'string'];
+            } else {
+                $rules['access_scope'] = ['nullable', 'string'];
+            }
 
             // Only validate password if provided
             if (!empty($this->password)) {
@@ -102,13 +111,24 @@
                     />
 
                     <!-- Access Scope -->
-                    <x-mary-input
-                        label="Wilayah Akses (Opsional)"
-                        wire:model="access_scope"
-                        placeholder="Contoh: Jakarta Pusat"
-                        hint="Kosongkan jika akses semua wilayah"
-                        icon="o-map-pin"
-                    />
+                    @if($role === 'operator')
+                        <x-mary-select
+                            label="Wilayah Akses"
+                            wire:model="access_scope"
+                            :options="$kabKotaOptions"
+                            placeholder="Pilih wilayah akses"
+                            icon="o-map-pin"
+                            required
+                        />
+                    @else
+                        <x-mary-input
+                            label="Wilayah Akses"
+                            wire:model="access_scope"
+                            placeholder="Tidak berlaku untuk role ini"
+                            icon="o-map-pin"
+                            readonly
+                        />
+                    @endif
 
                     <!-- Password (Optional) -->
                     <div class="divider divider-text">Ganti Password (Opsional)</div>
