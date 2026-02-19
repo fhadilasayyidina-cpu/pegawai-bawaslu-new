@@ -261,13 +261,13 @@
                     <x-mary-input label="Golongan Awal" wire:model="jabatanForm.gol_awal_nama" />
                     <x-mary-input label="Golongan" wire:model="jabatanForm.gol_nama" />
                     <flux:input label="TMT Golongan" type="date" wire:model="jabatanForm.tmt_golongan" />
-                    <x-mary-input label="Masa Kerja Golongan" wire:model="jabatanForm.mkgol" />
+                    <flux:input label="Masa Kerja Golongan" type="number" wire:model="jabatanForm.mkgol" />
                     <x-mary-input label="Jenis Jabatan" wire:model="jabatanForm.jenis_jabatan_nama" />
                     <x-mary-input label="Jabatan" wire:model="jabatanForm.jabatan_nama" />
                     <flux:input label="TMT Jabatan" type="date" wire:model="jabatanForm.tmt_jabatan" />
                     <x-mary-input label="Jabatan Non-Definitif" wire:model="jabatanForm.jabatan_non_definitif" />
                     <x-mary-input label="Jabatan Non-Definitif 1" wire:model="jabatanForm.jabatan_non_definitif_1" />
-                    <x-mary-input label="Masa Kerja Jabatan" wire:model="jabatanForm.mkjab" />
+                    <flux:input label="Masa Kerja Jabatan" type="number" wire:model="jabatanForm.mkjab" />
                     <x-mary-input label="Kelas Jabatan" wire:model="jabatanForm.kelas_jabatan" />
                     <x-mary-input label="Kelompok Jabatan" wire:model="jabatanForm.kelompok_jabatan" />
                     <x-mary-input label="Pangkat" wire:model="jabatanForm.pangkat" />

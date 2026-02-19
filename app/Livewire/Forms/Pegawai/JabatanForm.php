@@ -16,7 +16,7 @@ class JabatanForm extends Form
     #[Validate('nullable')]
     public ?string $tmt_golongan = null;
 
-    #[Validate('nullable')]
+    #[Validate('nullable|numeric')]
     public ?string $mkgol = null;
 
     #[Validate('nullable')]
@@ -34,7 +34,7 @@ class JabatanForm extends Form
     #[Validate('nullable')]
     public ?string $jabatan_non_definitif_1 = null;
 
-    #[Validate('nullable')]
+    #[Validate('nullable|numeric')]
     public ?string $mkjab = null;
 
     #[Validate('nullable')]
