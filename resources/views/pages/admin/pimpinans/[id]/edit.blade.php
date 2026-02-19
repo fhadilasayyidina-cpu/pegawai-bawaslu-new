@@ -3,6 +3,7 @@
     <?php
 
     new class extends \Livewire\Volt\Component {
+        use Livewire\WithFileUploads;
 
         // ========================
         // State / Properties
@@ -15,6 +16,7 @@
         public string $kab_kota = '';
         public ?string $email = null;
         public ?string $no_hp = null;
+        public $foto = null;
 
         public array $breadcrumbs = [];
 
@@ -62,7 +64,22 @@
                 'kab_kota' => ['required', 'string', 'max:255'],
                 'email' => ['nullable', 'email', 'max:255'],
                 'no_hp' => ['nullable', 'string', 'max:20'],
+                'foto' => ['nullable', 'image', 'max:2048'], // Max 2MB
             ]);
+
+            // Handle foto upload
+            if ($this->foto && is_object($this->foto)) {
+                // Delete old foto if exists
+                if ($this->pimpinan->foto) {
+                    \Storage::disk('public')->delete($this->pimpinan->foto);
+                }
+
+                $path = $this->foto->store('pimpinan/foto', 'public');
+                $validated['foto'] = $path;
+            } else {
+                // Keep existing foto
+                unset($validated['foto']);
+            }
 
             app(\App\Services\Pimpinan\PimpinanService::class)
                 ->updatePimpinan($this->pimpinan->id, $validated);
@@ -73,6 +90,14 @@
             ]);
 
             return $this->redirect('/admin/pimpinans/' . $this->pimpinan->id . '/details');
+        }
+
+        public function deleteFoto()
+        {
+            if ($this->pimpinan->foto) {
+                \Storage::disk('public')->delete($this->pimpinan->foto);
+                $this->pimpinan->update(['foto' => null]);
+            }
         }
     };
     ?>
@@ -94,6 +119,48 @@
         <div class="max-w-4xl">
             <x-mary-card class="">
                 <x-mary-form wire:submit="update">
+
+                    <!-- Foto Upload -->
+                    <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg md:col-span-2">
+                        <div class="flex items-start gap-6">
+                            <!-- Photo Display -->
+                            <div class="flex-shrink-0">
+                                @if($pimpinan->foto)
+                                    <img src="{{ $pimpinan->foto_url }}" alt="{{ $pimpinan->nama }}" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-700" />
+                                @elseif($foto)
+                                    <img src="{{ $foto->temporaryUrl() }}" alt="Preview" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-700" />
+                                @else
+                                    <flux:avatar :name="$pimpinan->nama" size="lg" class="w-32 h-32 rounded-lg border-2 border-gray-200 dark:border-gray-700" />
+                                @endif
+                            </div>
+
+                            <!-- Upload Controls -->
+                            <div class="flex-1">
+                                <flux:heading size="lg">Foto Profil</flux:heading>
+                                <flux:text class="mb-3 text-sm">
+                                    Upload foto pimpinan (format: JPG, PNG, max 2MB)
+                                </flux:text>
+
+                                <flux:input
+                                    type="file"
+                                    wire:model="foto"
+                                    accept="image/*"
+                                    class="mb-2"
+                                />
+
+                                @if($pimpinan->foto)
+                                    <flux:button
+                                        variant="danger"
+                                        size="sm"
+                                        wire:click="deleteFoto"
+                                    >
+                                        Hapus Foto
+                                    </flux:button>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Nama -->
                         <x-mary-input

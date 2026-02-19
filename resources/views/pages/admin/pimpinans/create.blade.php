@@ -3,6 +3,7 @@
     <?php
 
     new class extends \Livewire\Volt\Component {
+        use Livewire\WithFileUploads;
 
         // ========================
         // State / Properties
@@ -12,6 +13,7 @@
         public string $kab_kota = '';
         public ?string $email = null;
         public ?string $no_hp = null;
+        public $foto = null;
 
         public array $breadcrumbs = [
             ['label' => 'Dashboard', 'link' => '/admin'],
@@ -43,7 +45,14 @@
                 'kab_kota' => ['required', 'string', 'max:255'],
                 'email' => ['nullable', 'email', 'max:255'],
                 'no_hp' => ['nullable', 'string', 'max:20'],
+                'foto' => ['nullable', 'image', 'max:2048'], // Max 2MB
             ]);
+
+            // Handle foto upload
+            if ($this->foto) {
+                $path = $this->foto->store('pimpinan/foto', 'public');
+                $validated['foto'] = $path;
+            }
 
             // FULLY QUALIFIED NAME
             app(\App\Services\Pimpinan\PimpinanService::class)
@@ -68,6 +77,34 @@
         <div class="max-w-2xl">
             <x-mary-card>
                 <x-mary-form wire:submit="save">
+
+                    <!-- Foto Upload -->
+                    <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                        <div class="flex items-start gap-6">
+                            <!-- Photo Preview -->
+                            <div class="flex-shrink-0">
+                                @if($foto)
+                                    <img src="{{ $foto->temporaryUrl() }}" alt="Preview" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 dark:border-gray-700" />
+                                @else
+                                    <flux:avatar name="Preview" size="lg" class="w-32 h-32 rounded-lg border-2 border-gray-200 dark:border-gray-700" />
+                                @endif
+                            </div>
+
+                            <!-- Upload Input -->
+                            <div class="flex-1">
+                                <flux:heading size="lg">Foto Profil</flux:heading>
+                                <flux:text class="mb-3 text-sm">
+                                    Upload foto pimpinan (format: JPG, PNG, max 2MB)
+                                </flux:text>
+
+                                <flux:input
+                                    type="file"
+                                    wire:model="foto"
+                                    accept="image/*"
+                                />
+                            </div>
+                        </div>
+                    </div>
 
                     <x-mary-input
                         label="Nama"

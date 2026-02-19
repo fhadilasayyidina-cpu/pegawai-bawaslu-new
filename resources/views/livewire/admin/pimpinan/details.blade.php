@@ -18,6 +18,31 @@
 
     <div class="my-4 max-w-4xl">
         <x-mary-card>
+            <!-- Foto Section -->
+            <div class="flex flex-col items-center p-6 mb-6">
+                @if($pimpinan->foto)
+                    <img
+                        src="{{ $pimpinan->foto_url }}"
+                        alt="Foto {{ $pimpinan->nama }}"
+                        class="w-48 h-48 object-cover rounded-full border-4 border-gray-200 dark:border-gray-700 shadow-lg"
+                    />
+                @else
+                    <flux:avatar
+                        :name="$pimpinan->nama"
+                        size="full"
+                        class="w-48 h-48 rounded-full border-4 border-gray-200 dark:border-gray-700 shadow-lg text-6xl"
+                    />
+                @endif
+
+                <flux:heading size="xl" class="mt-4 text-center">
+                    {{ $pimpinan->nama }}
+                </flux:heading>
+
+                <flux:badge variant="primary" class="mt-2">
+                    {{ $pimpinan->jabatan->value === 'ketua' ? 'Ketua' : 'Anggota' }}
+                </flux:badge>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Nama -->
                 <x-mary-input label="Nama" :value="$pimpinan->nama" readonly />

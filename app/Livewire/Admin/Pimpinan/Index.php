@@ -16,9 +16,12 @@ class Index extends Component
 
     public array $kabKotaOptions = [];
 
+    public string $selectedTab = 'sulsel';
+
     public array $tableHeaders = [
         ['key' => 'nomor', 'label' => 'No', 'class' => 'w-1'],
         ['key' => 'id', 'label' => 'ID', 'link' => true, 'hidden' => true],
+        ['key' => 'foto', 'label' => 'Foto'],
         ['key' => 'nama', 'label' => 'Nama'],
         ['key' => 'jabatan', 'label' => 'Jabatan'],
         ['key' => 'kab_kota', 'label' => 'Kabupaten Kota'],
@@ -33,8 +36,32 @@ class Index extends Component
 
     public function getPimpinansProperty()
     {
-        return app(PimpinanService::class)
-            ->getAllPimpinan($this->search, $this->kabKota);
+        $query = \App\Models\Pimpinan::query();
+
+        // Filter by tab
+        if ($this->selectedTab === 'sulsel') {
+            // Show only Sulawesi Selatan
+            $query->where('kab_kota', 'like', '%Sulawesi Selatan%');
+        } else {
+            // Show all except Sulawesi Selatan
+            $query->where('kab_kota', 'not like', '%Sulawesi Selatan%');
+        }
+
+        // Apply search filter
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->where('nama', 'like', '%'.$this->search.'%')
+                    ->orWhere('email', 'like', '%'.$this->search.'%')
+                    ->orWhere('no_hp', 'like', '%'.$this->search.'%');
+            });
+        }
+
+        // Apply kab/kota filter
+        if ($this->kabKota) {
+            $query->where('kab_kota', $this->kabKota);
+        }
+
+        return $query->orderBy('nama')->paginate(10);
     }
 
     public function mount()
