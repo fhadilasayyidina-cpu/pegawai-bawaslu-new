@@ -10,8 +10,8 @@
 @endphp
 
 @if($sidebar)
-    <flux:sidebar.brand {{ $attributes }}>
-        <x-slot name="logo" class="flex items-center gap-2">
+    
+      
             @if(file_exists(public_path($appLogo)))
                 <img src="{{ asset($appLogo) }}" alt="{{ $orgName }}" class="h-14 w-auto object-contain" />
             @else
@@ -19,8 +19,8 @@
                     <span class="text-sm font-bold">{{ mb_strtoupper(mb_substr($orgName, 0, 1)) }}</span>
                 </div>
             @endif
-        </x-slot>
-    </flux:sidebar.brand>
+        
+   
 @else
     <flux:brand :name="$appName" {{ $attributes }}>
         <x-slot name="logo" class="flex items-center gap-2">
