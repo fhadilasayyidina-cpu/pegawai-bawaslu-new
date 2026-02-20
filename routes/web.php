@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\CutiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 })->name('home');
 
 Route::get('/admin/cutis/{id}/pdf', [CutiController::class, 'generatePdf'])
