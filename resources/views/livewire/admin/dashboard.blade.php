@@ -1,4 +1,17 @@
 <div>
+    <style>
+        /* Override chart text colors to black */
+        .apexcharts-text,
+        .apexcharts-datalabel,
+        .apexcharts-datalabel-label,
+        .apexcharts-datalabel-value {
+            fill: #000000 !important;
+        }
+        .apexcharts-tooltip-text {
+            color: #000000 !important;
+        }
+    </style>
+
     <x-header-page title="Dashboard" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Dashboard']]" />
 
     <!-- Filter Kabupaten Kota -->
@@ -196,6 +209,36 @@
     </div>
 
     <script>
+        // Override chart text colors to black
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to update chart colors
+            function updateChartColors() {
+                document.querySelectorAll('.apexcharts-text, .apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value').forEach(el => {
+                    el.style.fill = '#000000';
+                });
+            }
+
+            // Run immediately and after chart updates
+            updateChartColors();
+
+            // Use MutationObserver to catch dynamically added chart elements
+            const observer = new MutationObserver(function(mutations) {
+                updateChartColors();
+            });
+
+            // Observe all chart containers
+            document.querySelectorAll('[id*="-chart"]').forEach(function(container) {
+                observer.observe(container, { childList: true, subtree: true });
+            });
+
+            // Also run on Livewire updates
+            if (window.Livewire) {
+                window.Livewire.hook('message.processed', () => {
+                    setTimeout(updateChartColors, 100);
+                });
+            }
+        });
+
         function downloadChart(elementId) {
             const container = document.getElementById(elementId);
 
