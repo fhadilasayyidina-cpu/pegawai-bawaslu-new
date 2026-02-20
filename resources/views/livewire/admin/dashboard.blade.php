@@ -1,14 +1,20 @@
 <div>
     <style>
-        /* Override chart text colors to black */
+        /* Override chart text colors to dark gray */
         .apexcharts-text,
         .apexcharts-datalabel,
         .apexcharts-datalabel-label,
         .apexcharts-datalabel-value {
-            fill: #000000 !important;
+            fill: #374151 !important;
+            text-shadow: none !important;
+            filter: none !important;
         }
         .apexcharts-tooltip-text {
-            color: #000000 !important;
+            color: #374151 !important;
+            text-shadow: none !important;
+        }
+        .apexcharts-datalabels text {
+            filter: none !important;
         }
     </style>
 
@@ -214,7 +220,9 @@
             // Function to update chart colors
             function updateChartColors() {
                 document.querySelectorAll('.apexcharts-text, .apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value').forEach(el => {
-                    el.style.fill = '#000000';
+                    el.style.fill = '#374151';
+                    el.style.textShadow = 'none';
+                    el.style.filter = 'none';
                 });
             }
 
