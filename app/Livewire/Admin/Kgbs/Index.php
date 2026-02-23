@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Kgbs;
 
 use App\Services\Kgb\ExportKgbService;
 use App\Services\Kgb\KgbService;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -53,12 +54,14 @@ class Index extends Component
         $this->kabKotaOptions = $kabKotaList;
     }
 
-    public function getKgbListProperty()
+    #[Computed]
+    public function kgbList()
     {
         return app(KgbService::class)->getUpcomingKgb($this->monthsAhead, $this->kabKota);
     }
 
-    public function getStatisticsProperty(): array
+    #[Computed]
+    public function statistics(): array
     {
         return app(KgbService::class)->getStatistics($this->monthsAhead, $this->kabKota);
     }
