@@ -8,8 +8,14 @@
             >
                 Import
             </flux:button>
-            <flux:button variant="ghost" icon="arrow-down-tray">
-                Export
+            <flux:button
+                variant="ghost"
+                icon="arrow-down-tray"
+                wire:click="export"
+                wire:loading.attr="disabled"
+            >
+                <span wire:loading.remove>Export</span>
+                <span wire:loading>Exporting...</span>
             </flux:button>
         </x-slot:actions>
     </x-header-page>

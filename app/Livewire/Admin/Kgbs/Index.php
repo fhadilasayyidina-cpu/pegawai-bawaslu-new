@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Kgbs;
 
+use App\Services\Kgb\ExportKgbService;
 use App\Services\Kgb\KgbService;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Index extends Component
 {
@@ -59,6 +61,22 @@ class Index extends Component
     public function getStatisticsProperty(): array
     {
         return app(KgbService::class)->getStatistics($this->monthsAhead, $this->kabKota);
+    }
+
+    public function export(): BinaryFileResponse
+    {
+        $kgbList = $this->kgbList;
+        $fileName = 'kgb_export_'.date('Y-m-d_His').'.xlsx';
+        $filePath = storage_path('app/temp/'.$fileName);
+
+        app(ExportKgbService::class)->export($kgbList, $filePath);
+
+        $this->dispatch('notyf:show', [
+            'type' => 'success',
+            'message' => 'Data KGB berhasil diexport!',
+        ]);
+
+        return response()->download($filePath)->deleteFileAfterSend(true);
     }
 
     public function render()
