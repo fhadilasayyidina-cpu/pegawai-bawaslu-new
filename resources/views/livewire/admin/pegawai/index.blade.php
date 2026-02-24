@@ -42,7 +42,7 @@
         <!-- Search Input -->
         <x-mary-input
             wire:model.live.debounce.300ms="search"
-            placeholder="Cari berdasarkan nama atau NIP..."
+            placeholder="Cari berdasarkan nama atau NIP atau nama jabatan ..."
             icon="o-magnifying-glass"
         />
 
