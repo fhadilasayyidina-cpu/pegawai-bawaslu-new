@@ -11,8 +11,4 @@ Route::get('/admin/cutis/{id}/pdf', [CutiController::class, 'generatePdf'])
     ->name('cuti.pdf')
     ->middleware(['auth', 'verified']);
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 require __DIR__.'/settings.php';

@@ -79,11 +79,31 @@ use Illuminate\Support\Facades\Auth;
         ]
     ];
 
- }else if($user->role == Role::USER){
+ }else if($user->role == Role::PEGAWAI){
+    $map = [
+        [
+            'label' => 'Platform',
+            'items' => [
+                [
+                    'icon' => 'home',
+                    'label' => 'Dashboard',
+                    'route' => 'pegawai/dashboard',
+                ],
+            ]
+        ]
+    ];
 
  }else{
     abort(403);
  }
+
+// Tentukan dashboard URL berdasarkan role
+$dashboardUrl = match($user->role) {
+    Role::ADMIN => '/admin/dashboard',
+    Role::OPERATOR => '/operator/dashboard',
+    Role::PEGAWAI => '/pegawai/dashboard',
+    default => '/'
+};
 
 ?>
 
@@ -95,7 +115,7 @@ use Illuminate\Support\Facades\Auth;
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.header>
-                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
+                <x-app-logo :sidebar="true" href="{{ $dashboardUrl }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
