@@ -15,20 +15,13 @@
             ['key' => 'name', 'label' => 'Nama User'],
             ['key' => 'email', 'label' => 'Email'],
             ['key' => 'role', 'label' => 'Role'],
+            ['key' => 'access_scope', 'label' => 'Akses Wilayah'],
         ];
 
         public array $breadcrumbs = [
             ['label' => 'Dashboard', 'link' => '/admin'],
             ['label' => 'User Management', 'link' => '#'],
         ];
-
-        public function test(){
-             $this->dispatch('notyf:show', [
-                'type' => 'success',
-                'message' => 'Ini adalah pesan notyf!'
-            ]);
-            return;
-        }
 
         // Method untuk ambil data (Reaktif terhadap $search)
         public function users()
@@ -67,18 +60,18 @@
                 icon="o-magnifying-glass" 
             />
         </div>
-        <x-mary-button label="Test Notyf Toast" wire:click="test" class="btn-secondary mb-4" />
 
         {{-- Tabel Utama --}}
-        <x-mary-table 
-            :headers="$tableHeaders" 
-            :rows="$this->users()" 
-            striped 
+        <x-mary-table
+            :headers="$tableHeaders"
+            :rows="$this->users()"
+            striped
             with-pagination
-            
+            per-page="10"
         >
             {{-- Slot untuk aksi per baris --}}
             @scope('actions', $user)
+                <x-mary-button icon="o-pencil" link="/admin/users/{{ $user->id }}/edit" class="btn-ghost btn-sm" />
                 <x-mary-button icon="o-trash" wire:click="delete({{ $user->id }})" class="btn-ghost text-error btn-sm" wire:confirm="Yakin mau hapus?" />
             @endscope
         </x-mary-table>
