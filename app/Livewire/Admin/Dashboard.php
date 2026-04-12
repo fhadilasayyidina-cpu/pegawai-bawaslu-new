@@ -41,7 +41,7 @@ class Dashboard extends Component
      * Fix for livewire-charts compatibility with Livewire 3.x
      * The library's JavaScript tries to call toJSON during updates.
      */
-    public function toJson(): string
+    public function toJSON(): string
     {
         return json_encode([
             'kabKota' => $this->kabKota,
