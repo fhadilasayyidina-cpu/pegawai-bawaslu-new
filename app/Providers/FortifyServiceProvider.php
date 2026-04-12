@@ -20,22 +20,26 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Gunakan Singleton untuk menimpa LoginResponse bawaan Fortify
         $this->app->singleton(LoginResponse::class, function ($app) {
             return new class implements LoginResponse
             {
                 public function toResponse($request)
                 {
-                    $user = $request->user();
+                    $user = auth()->user();
 
-                    $url = match ($user->role) {
-                        Role::ADMIN => '/admin/dashboard',
-                        Role::OPERATOR => '/operator/dashboard',
-                        Role::PEGAWAI => '/pegawai/dashboard',
-                        default => 'hh/dashboard',
+                    // Tambahkan redirect() di depan string rutenya
+                    return match ($user->role) {
+                        \App\Enums\Role::ADMIN    => redirect('/admin/dashboard'),
+                        \App\Enums\Role::OPERATOR => redirect('/operator/dashboard'),
+                        \App\Enums\Role::PEGAWAI  => redirect('/pegawai/dashboard'),
+
+                        default => (function () {
+                            auth()->logout();
+                            request()->session()->invalidate();
+                            request()->session()->regenerateToken();
+                            return redirect('/login'); // Di sini juga pakai redirect
+                        })(),
                     };
-
-                    return redirect()->intended($url);
                 }
             };
         });
@@ -49,7 +53,6 @@ class FortifyServiceProvider extends ServiceProvider
         $this->configureActions();
         $this->configureViews();
         $this->configureRateLimiting();
-
     }
 
     /**
@@ -66,13 +69,13 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureViews(): void
     {
-        Fortify::loginView(fn () => view('livewire.auth.login'));
-        Fortify::verifyEmailView(fn () => view('livewire.auth.verify-email'));
-        Fortify::twoFactorChallengeView(fn () => view('livewire.auth.two-factor-challenge'));
-        Fortify::confirmPasswordView(fn () => view('livewire.auth.confirm-password'));
-        Fortify::registerView(fn () => view('livewire.auth.register'));
-        Fortify::resetPasswordView(fn () => view('livewire.auth.reset-password'));
-        Fortify::requestPasswordResetLinkView(fn () => view('livewire.auth.forgot-password'));
+        Fortify::loginView(fn() => view('livewire.auth.login'));
+        Fortify::verifyEmailView(fn() => view('livewire.auth.verify-email'));
+        Fortify::twoFactorChallengeView(fn() => view('livewire.auth.two-factor-challenge'));
+        Fortify::confirmPasswordView(fn() => view('livewire.auth.confirm-password'));
+        Fortify::registerView(fn() => view('livewire.auth.register'));
+        Fortify::resetPasswordView(fn() => view('livewire.auth.reset-password'));
+        Fortify::requestPasswordResetLinkView(fn() => view('livewire.auth.forgot-password'));
     }
 
     /**
@@ -85,7 +88,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });

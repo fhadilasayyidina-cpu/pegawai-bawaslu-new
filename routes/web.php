@@ -1,13 +1,15 @@
 <?php
 
 use App\Http\Controllers\Admin\CutiController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 
-// Redirect halaman depan ke login jika belum masuk, atau ke dashboard jika sudah
+
 Route::get('/', function () {
-    return Auth::check() ? redirect('/dashboard') : redirect('/login');
+
+    return  redirect('/login');
 });
 
 
