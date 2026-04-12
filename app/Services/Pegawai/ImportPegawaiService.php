@@ -30,7 +30,7 @@ class ImportPegawaiService
 
                 if (empty($pegawaiData['nip_baru'])) {
                     $this->result['skipped']++;
-                    $this->result['errors'][] = 'Baris '.($index + 2).': NIP baru kosong, data dilewati';
+                    $this->result['errors'][] = 'Baris ' . ($index + 2) . ': NIP baru kosong, data dilewati';
 
                     continue;
                 }
@@ -38,7 +38,7 @@ class ImportPegawaiService
                 // Skip jika status tidak AKTIF
                 if (empty($pegawaiData['status_kepegwaian']) || $pegawaiData['status_kepegwaian'] !== 'AKTIF') {
                     $this->result['skipped']++;
-                    $this->result['errors'][] = 'Baris '.($index + 2).': Status tidak AKTIF, data dilewati';
+                    $this->result['errors'][] = 'Baris ' . ($index + 2) . ': Status tidak AKTIF, data dilewati';
 
                     continue;
                 }
@@ -51,7 +51,7 @@ class ImportPegawaiService
                 $this->result['imported']++;
             } catch (Exception $e) {
                 $this->result['failed']++;
-                $this->result['errors'][] = 'Baris '.($index + 2).': '.$e->getMessage();
+                $this->result['errors'][] = 'Baris ' . ($index + 2) . ': ' . $e->getMessage();
             }
         }
 
@@ -262,7 +262,7 @@ class ImportPegawaiService
             'tgl_sk_pns' => $this->parseDateOrNull($row['tgl_sk_pns'] ?? null),
             'tmt_pns' => $this->parseDateOrNull($row['tmt_pns'] ?? null),
             'no_sk_dpk_penugasan_kontrak' => $row['no_sk_dpk_penugasan_kontrak'] ?? null,
-            'tgl_sk_dpk_penugasan_kontrak' => $this->parseDateOrNull($row['tgl_sk_dpk_penugasan_kontrak'] ?? null),
+            'tgl_sk_dpk_penugasan_kontrak' => $this->parseDateOrNull($row['tgl. sk dpk/penugasan/kontrak'] ?? null),
             'keterangan' => $row['keterangan'] ?? null,
             'keterangan_status' => $row['keterangan_status'] ?? null,
 
