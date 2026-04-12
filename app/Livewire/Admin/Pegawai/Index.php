@@ -7,10 +7,11 @@ use App\Services\Pegawai\PegawaiService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Mary\Traits\Toast;
 
 class Index extends Component
 {
-    use WithFileUploads, WithPagination;
+    use WithFileUploads, WithPagination, Toast;
 
     public ?string $search = null;
 
@@ -73,20 +74,25 @@ class Index extends Component
     {
         app(PegawaiService::class)->deletePegawai($id);
 
-        $this->dispatch('notyf:show', [
-            'type' => 'success',
-            'message' => 'Pegawai berhasil dihapus!',
-        ]);
+        $this->success('Pegawai berhasil dihapus!');
     }
 
     public function import()
     {
+        try {
+            $path = $this->file->store('pegawai/import', 'public');
 
-        $path = $this->file->store('pegawai/import', 'public');
+            $fullPath = storage_path('app/public/'.$path);
 
-        $fullPath = storage_path('app/public/'.$path);
+            app(ImportPegawaiService::class)->import($fullPath);
 
-        app(ImportPegawaiService::class)->import($fullPath);
+            $this->success('Data Pegawai berhasil diimport!');
+            
+            // Close modal after success
+            $this->myModal3 = false;
+        } catch (\Exception $e) {
+            $this->error('Gagal mengimport data: ' . $e->getMessage());
+        }
     }
 
     public function render()

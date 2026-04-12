@@ -7,10 +7,11 @@ use App\Services\Pegawai\PegawaiService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Mary\Traits\Toast;
 
 class Import extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, Toast;
 
     public $file;
 
@@ -36,10 +37,11 @@ class Import extends Component
 
         $this->result = $service->import($filePath, Auth::id(), $this->kabKota);
 
-        $this->dispatch('notyf:show', [
-            'type' => $this->result['success'] ? 'success' : 'error',
-            'message' => $this->result['message'],
-        ]);
+        if ($this->result['success'] ?? false) {
+            $this->success($this->result['message']);
+        } else {
+            $this->error($this->result['message'] ?? 'Import failed');
+        }
     }
 
     public function getKabKotaOptionsProperty(): array

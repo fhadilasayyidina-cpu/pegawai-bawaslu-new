@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Mary\Traits\Toast;
 
 class ImportIdAbsensi extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, Toast;
 
     public $file;
 
@@ -33,10 +34,11 @@ class ImportIdAbsensi extends Component
 
         $this->result = $service->import($filePath, Auth::id());
 
-        $this->dispatch('notyf:show', [
-            'type' => $this->result['success'] ? 'success' : 'error',
-            'message' => $this->result['message'],
-        ]);
+        if ($this->result['success'] ?? false) {
+            $this->success($this->result['message']);
+        } else {
+            $this->error($this->result['message'] ?? 'Import failed');
+        }
     }
 
     public function downloadTemplate()

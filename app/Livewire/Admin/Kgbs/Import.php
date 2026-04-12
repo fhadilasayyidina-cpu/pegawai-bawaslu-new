@@ -6,11 +6,12 @@ use App\Services\Kgb\ImportKgbService;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
 
 #[Title('Import Data KGB')]
 class Import extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, Toast;
 
     public $file;
 
@@ -41,26 +42,17 @@ class Import extends Component
             $this->importResult = $result;
 
             if ($result['imported'] > 0) {
-                $this->dispatch('notyf:show', [
-                    'type' => 'success',
-                    'message' => "Berhasil mengimport {$result['imported']} data KGB!",
-                ]);
+                $this->success("Berhasil mengimport {$result['imported']} data KGB!");
             }
 
             if ($result['failed'] > 0 || $result['skipped'] > 0) {
-                $this->dispatch('notyf:show', [
-                    'type' => 'warning',
-                    'message' => "{$result['skipped']} dilewati, {$result['failed']} gagal.",
-                ]);
+                $this->warning("{$result['skipped']} dilewati, {$result['failed']} gagal.");
             }
 
             // Reset file
             $this->reset('file');
         } catch (\Exception $e) {
-            $this->dispatch('notyf:show', [
-                'type' => 'error',
-                'message' => 'Terjadi kesalahan: '.$e->getMessage(),
-            ]);
+            $this->error('Terjadi kesalahan: '.$e->getMessage());
         } finally {
             // Clean up temp file
             if (file_exists(storage_path('app/'.$filePath))) {
