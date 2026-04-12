@@ -11,9 +11,12 @@ use App\Models\Pegawai;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Mary\Traits\Toast;
 
 class Details extends Component
 {
+
+    use Toast;
     use WithFileUploads;
 
     public Pegawai $pegawai;
@@ -53,7 +56,7 @@ class Details extends Component
         if (! $pegawai) {
             // Jika ini muncul, berarti variabel $id yang ditangkap Livewire
             // berbeda dengan yang kamu ketik di URL
-            dd('Livewire menangkap ID: '.$id);
+            dd('Livewire menangkap ID: ' . $id);
         }
         // Masukkan ke Form Object agar inputan terisi
         $this->pegawai = $pegawai;
@@ -62,7 +65,6 @@ class Details extends Component
         $this->administrasiForm->setPegawai($this->pegawai);
         $this->pendidikanForm->setPegawai($this->pegawai);
         $this->unitOrganisasiForm->setPegawai($this->pegawai);
-
     }
 
     public function saveIdentitas()
@@ -77,15 +79,12 @@ class Details extends Component
                 Storage::disk('public')->delete($this->pegawai->foto);
             }
 
-            $path = $this->identitasForm->foto->store('pegawai/foto/'.$this->pegawai->id, 'public');
+            $path = $this->identitasForm->foto->store('pegawai/foto/' . $this->pegawai->id, 'public');
             $data['foto'] = $path;
         }
 
         $this->pegawai->update($data);
-        $this->dispatch('toast',
-            type: 'success',
-            message: 'Data berhasil disimpan!'
-        );
+        $this->success('Data Berhasil Diupdate');
     }
 
     public function deleteFoto()
@@ -95,46 +94,35 @@ class Details extends Component
             $this->pegawai->update(['foto' => null]);
             $this->identitasForm->foto = null;
         }
+        $this->success('Data Berhasil Diupdate');
     }
 
     public function saveJabatan()
     {
         $this->jabatanForm->validate();
         $this->pegawai->update($this->jabatanForm->all());
-        $this->dispatch('toast',
-            type: 'success',
-            message: 'Data Jabatan & Golongan berhasil disimpan!'
-        );
+        $this->success('Data Berhasil Diupdate');
     }
 
     public function saveAdministrasi()
     {
         $this->administrasiForm->validate();
         $this->pegawai->update($this->administrasiForm->all());
-        $this->dispatch('toast',
-            type: 'success',
-            message: 'Data Administrasi berhasil disimpan!'
-        );
+        $this->success('Data Berhasil Diupdate');
     }
 
     public function savePendidikan()
     {
         $this->pendidikanForm->validate();
         $this->pegawai->update($this->pendidikanForm->all());
-        $this->dispatch('toast',
-            type: 'success',
-            message: 'Data Pendidikan berhasil disimpan!'
-        );
+        $this->success('Data Berhasil Diupdate');
     }
 
     public function saveUnitOrganisasi()
     {
         $this->unitOrganisasiForm->validate();
         $this->pegawai->update($this->unitOrganisasiForm->all());
-        $this->dispatch('toast',
-            type: 'success',
-            message: 'Data Unit & Organisasi berhasil disimpan!'
-        );
+        $this->success('Data Berhasil Diupdate');
     }
 
     public function render()

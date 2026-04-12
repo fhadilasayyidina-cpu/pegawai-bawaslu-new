@@ -2,17 +2,15 @@
 use App\Enums\Role;
 use Illuminate\Support\Facades\Auth;
 
- $user = Auth::user();
+$user = Auth::user();
 
+$map = [];
 
- $map = [];
-
- if($user->role == Role::ADMIN){
+if ($user->role == Role::ADMIN) {
     $map = [
         [
-        'label' => 'Platform',
-            'items' =>
-             [
+            'label' => 'Platform',
+            'items' => [
                 [
                     'icon' => 'home',
                     'label' => 'Dashboard ',
@@ -24,7 +22,6 @@ use Illuminate\Support\Facades\Auth;
                     'route' => 'admin/users',
                 ],
                 [
-
                     'icon' => 'home',
                     'label' => 'Data Pegawai',
                     'route' => 'admin/pegawais',
@@ -49,13 +46,10 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'Hari Libur',
                     'route' => 'admin/hari-liburs',
                 ],
-
-            ]
-        ]
+            ],
+        ],
     ];
-
- 
- }else if($user->role == Role::OPERATOR){
+} elseif ($user->role == Role::OPERATOR) {
     $map = [
         [
             'label' => 'Platform',
@@ -75,11 +69,10 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'Data Pimpinan',
                     'route' => 'operator/pimpinans',
                 ],
-            ]
-        ]
+            ],
+        ],
     ];
-
- }else if($user->role == Role::PEGAWAI){
+} elseif ($user->role == Role::PEGAWAI) {
     $map = [
         [
             'label' => 'Platform',
@@ -89,31 +82,34 @@ use Illuminate\Support\Facades\Auth;
                     'label' => 'Dashboard',
                     'route' => 'pegawai/dashboard',
                 ],
-            ]
-        ]
+            ],
+        ],
     ];
-
- }else{
+} else {
     abort(403);
- }
+}
 
 // Tentukan dashboard URL berdasarkan role
-$dashboardUrl = match($user->role) {
+$dashboardUrl = match ($user->role) {
     Role::ADMIN => '/admin/dashboard',
     Role::OPERATOR => '/operator/dashboard',
     Role::PEGAWAI => '/pegawai/dashboard',
-    default => '/'
+    default => '/',
 };
 
 ?>
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+
     <head>
         @include('partials.head')
     </head>
+
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+        <x-mary-toast />
+        <flux:sidebar sticky collapsible="mobile"
+            class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ $dashboardUrl }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
@@ -123,13 +119,8 @@ $dashboardUrl = match($user->role) {
                 @foreach ($map as $navGroup)
                     <flux:sidebar.group :heading="__($navGroup['label'])" class="grid">
                         @foreach ($navGroup['items'] as $item)
-                            <flux:sidebar.item
-                                :icon="$item['icon']"
-                                :href="url($item['route'])"
-                                :current="request()->is($item['route'])"
-                                wire:navigate
-                                class="mb-1"
-                            >
+                            <flux:sidebar.item :icon="$item['icon']" :href="url($item['route'])"
+                                :current="request()->is($item['route'])" wire:navigate class="mb-1">
                                 {{ __($item['label']) }}
                             </flux:sidebar.item>
                         @endforeach
@@ -137,7 +128,7 @@ $dashboardUrl = match($user->role) {
                 @endforeach
             </flux:sidebar.nav>
 
-            
+
             {{-- <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                   
@@ -152,7 +143,7 @@ $dashboardUrl = match($user->role) {
 
             <flux:spacer />
 
-           
+
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
@@ -165,19 +156,13 @@ $dashboardUrl = match($user->role) {
             <flux:spacer />
 
             <flux:dropdown position="top" align="end">
-                <flux:profile
-                    :initials="auth()->user()->initials()"
-                    icon-trailing="chevron-down"
-                />
+                <flux:profile :initials="auth()->user()->initials()" icon-trailing="chevron-down" />
 
                 <flux:menu>
                     <flux:menu.radio.group>
                         <div class="p-0 text-sm font-normal">
                             <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <flux:avatar
-                                    :name="auth()->user()->name"
-                                    :initials="auth()->user()->initials()"
-                                />
+                                <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
 
                                 <div class="grid flex-1 text-start text-sm leading-tight">
                                     <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
@@ -199,13 +184,8 @@ $dashboardUrl = match($user->role) {
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full">
                         @csrf
-                        <flux:menu.item
-                            as="button"
-                            type="submit"
-                            icon="arrow-right-start-on-rectangle"
-                            class="w-full cursor-pointer"
-                            data-test="logout-button"
-                        >
+                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
+                            class="w-full cursor-pointer" data-test="logout-button">
                             {{ __('Log Out') }}
                         </flux:menu.item>
                     </form>
@@ -216,8 +196,10 @@ $dashboardUrl = match($user->role) {
         {{ $slot }}
 
         @fluxScripts
-            <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
-            <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css"
+            rel="stylesheet">
 
     </body>
+
 </html>
