@@ -26,17 +26,6 @@ class Dashboard extends Component
         $this->statistics = app(PegawaiStatisticService::class)->getAllStats($this->kabKota);
     }
 
-    /**
-     * Fix for livewire-charts compatibility with Livewire 3.x
-     * The library's JavaScript tries to call toJSON during updates.
-     */
-    public function toJson(): string
-    {
-        return json_encode([
-            'kabKota' => $this->kabKota,
-            'statistics' => $this->statistics,
-        ]);
-    }
 
     public function render(): \Illuminate\View\View
     {

@@ -79,6 +79,10 @@ class Index extends Component
 
     public function import()
     {
+        $this->validate([
+            'file' => 'required|file',
+        ]);
+
         try {
             $path = $this->file->store('pegawai/import', 'public');
 

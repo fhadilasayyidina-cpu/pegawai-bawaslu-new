@@ -22,7 +22,7 @@
 
     <!-- Filter Kabupaten Kota -->
     <div class="my-4 bg-base-200 p-4 rounded-lg">
-        <flux:select label="Filter Kabupaten Kota" wire:model.live="kabKota" placeholder="Semua Kabupaten/Kota">
+        <flux:select label="Filter" wire:model.live="kabKota" placeholder="Semua Kabupaten/Kota">
             @foreach($kabKotaOptions as $option)
                 <flux:select.option :value="$option->id">{{ $option->name }}</flux:select.option>
             @endforeach

@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use App\Livewire\Charts\LivewirePieChart;
+use App\Livewire\Charts\LivewireColumnChart;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Livewire::component('livewire-pie-chart', LivewirePieChart::class);
+        Livewire::component('livewire-column-chart', LivewireColumnChart::class);
     }
 }
