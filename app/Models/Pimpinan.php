@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Enums\PimpinanJabatan;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Pimpinan extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['nama', 'jabatan', 'kab_kota', 'email', 'no_hp', 'foto'];
 
     protected function casts(): array

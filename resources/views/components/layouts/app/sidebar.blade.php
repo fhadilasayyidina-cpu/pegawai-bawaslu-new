@@ -106,21 +106,25 @@ $dashboardUrl = match ($user->role) {
         @include('partials.head')
     </head>
 
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
+    <body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
         <x-mary-toast />
         <flux:sidebar sticky collapsible="mobile"
-            class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.header>
+            class="border-e border-slate-200/50 bg-slate-50 dark:border-slate-800/40 dark:bg-slate-900/90 backdrop-blur-md">
+            <flux:sidebar.header class="flex items-center justify-between py-4">
                 <x-app-logo :sidebar="true" href="{{ $dashboardUrl }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
-            <flux:sidebar.nav>
+            <flux:sidebar.nav class="px-2">
                 @foreach ($map as $navGroup)
-                    <flux:sidebar.group :heading="__($navGroup['label'])" class="grid">
+                    <flux:sidebar.group :heading="__($navGroup['label'])" class="grid gap-1 mt-4">
                         @foreach ($navGroup['items'] as $item)
+                            @php
+                                $isActive = request()->is($item['route']) || request()->is($item['route'] . '/*');
+                            @endphp
                             <flux:sidebar.item :icon="$item['icon']" :href="url($item['route'])"
-                                :current="request()->is($item['route'])" wire:navigate class="mb-1">
+                                :current="$isActive" wire:navigate 
+                                class="mb-1 transition-all duration-200 rounded-xl px-3 py-2 text-sm font-medium hover:bg-slate-200/40 dark:hover:bg-slate-800/40 {{ $isActive ? 'text-amber-500 dark:text-amber-400 font-semibold bg-slate-200/60 dark:bg-slate-800/60 shadow-xs' : 'text-slate-600 dark:text-slate-400' }}">
                                 {{ __($item['label']) }}
                             </flux:sidebar.item>
                         @endforeach

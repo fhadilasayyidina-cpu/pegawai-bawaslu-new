@@ -6,7 +6,9 @@ use Livewire\Volt\Volt;
 test('profile page is displayed', function () {
     $this->actingAs($user = User::factory()->create());
 
-    $this->get(route('profile.edit'))->assertOk();
+    $response = $this->get(route('profile.edit'));
+    $response->dump();
+    $response->assertOk();
 });
 
 test('profile information can be updated', function () {

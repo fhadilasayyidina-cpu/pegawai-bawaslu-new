@@ -20,7 +20,7 @@ $filteredOperators = fn() => empty($search)
 
 ?>
 
-<x-app-layout>
+<x-layouts.app>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Testing Dashboard Bawaslu - Flowbite') }}
@@ -98,4 +98,4 @@ $filteredOperators = fn() => empty($search)
 
         </div>
     </div>
-</x-app-layout>
+</x-layouts.app>

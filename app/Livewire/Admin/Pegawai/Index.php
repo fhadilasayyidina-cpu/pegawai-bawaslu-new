@@ -11,7 +11,7 @@ use Mary\Traits\Toast;
 
 class Index extends Component
 {
-    use WithFileUploads, WithPagination, Toast;
+    use Toast, WithFileUploads, WithPagination;
 
     public ?string $search = null;
 
@@ -70,6 +70,31 @@ class Index extends Component
         $this->agamaOptions = app(PegawaiService::class)->getAgamaOptions()->toArray();
     }
 
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedKabKota(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedRangeUmur(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedJenisKelamin(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedAgama(): void
+    {
+        $this->resetPage();
+    }
+
     public function delete(int $id)
     {
         app(PegawaiService::class)->deletePegawai($id);
@@ -91,11 +116,11 @@ class Index extends Component
             app(ImportPegawaiService::class)->import($fullPath);
 
             $this->success('Data Pegawai berhasil diimport!');
-            
+
             // Close modal after success
             $this->myModal3 = false;
         } catch (\Exception $e) {
-            $this->error('Gagal mengimport data: ' . $e->getMessage());
+            $this->error('Gagal mengimport data: '.$e->getMessage());
         }
     }
 

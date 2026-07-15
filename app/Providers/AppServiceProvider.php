@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Livewire\Charts\LivewireColumnChart;
+use App\Livewire\Charts\LivewirePieChart;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use App\Livewire\Charts\LivewirePieChart;
-use App\Livewire\Charts\LivewireColumnChart;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (!app()->runningInConsole()) {
+        if (! app()->runningInConsole()) {
             $url = request()->root();
             config(['app.url' => $url]);
             \Illuminate\Support\Facades\URL::forceRootUrl($url);
@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             // Fix for Livewire in subdirectory
             $path = request()->getBasePath();
             if ($path) {
-                config(['livewire.asset_url' => $url]);
+                config(['livewire.asset_url' => $url.$path]);
                 \Livewire\Livewire::setUpdateRoute(function ($handle) use ($path) {
                     return \Illuminate\Support\Facades\Route::post($path.'/livewire/update', $handle);
                 });

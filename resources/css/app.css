@@ -23,21 +23,34 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
+    /* Custom Bawaslu Gold and Navy Palette */
+    --color-brand-navy-950: #020617;
+    --color-brand-navy-900: #0f172a;
+    --color-brand-navy-800: #1e293b;
+    --color-brand-navy-700: #334155;
+    --color-brand-navy-600: #475569;
+    --color-brand-navy-500: #64748b;
+
+    --color-brand-gold-600: #d97706;
+    --color-brand-gold-500: #f59e0b;
+    --color-brand-gold-400: #fbbf24;
+    --color-brand-gold-300: #fcd34d;
+    --color-brand-gold-200: #fde68a;
+
+    --color-accent: var(--color-brand-gold-500);
+    --color-accent-content: var(--color-brand-gold-600);
     --color-accent-foreground: var(--color-white);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
-        --color-accent-foreground: var(--color-neutral-800);
+        --color-accent: var(--color-brand-gold-400);
+        --color-accent-content: var(--color-brand-gold-400);
+        --color-accent-foreground: var(--color-brand-navy-950);
     }
 }
 
 @layer base {
-
     *,
     ::after,
     ::before,
@@ -52,7 +65,7 @@
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],
@@ -61,16 +74,75 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
-/* \[:where(&)\]:size-4 {
-    @apply size-4;
-} */
+/* Glassmorphism Card Utility */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
 
+.dark .glass-card {
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
 
+/* Aurora Glow background for Auth */
+.aurora-bg {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(at 0% 0%, rgba(15, 23, 42, 0.95), rgba(9, 15, 30, 0.98));
+}
 
-/**
-    The lines above are intact.
-    The lines below were added by maryUI installer.
-*/
+.aurora-bg::before,
+.aurora-bg::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.aurora-bg::before {
+    background: radial-gradient(circle, var(--color-brand-gold-500) 0%, transparent 70%);
+    top: -150px;
+    left: -150px;
+}
+
+.aurora-bg::after {
+    background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+    bottom: -150px;
+    right: -150px;
+}
+
+/* Premium shadow utility */
+.premium-shadow {
+    box-shadow: 0 4px 20px -2px rgba(17, 24, 39, 0.03), 0 2px 8px -1px rgba(17, 24, 39, 0.02);
+}
+
+.dark .premium-shadow {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Card hover animation */
+.hover-premium {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+}
+
+.dark .hover-premium:hover {
+    box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+}
 
 /** daisyUI */
 @plugin "daisyui" {
@@ -87,7 +159,6 @@ select:focus[data-flux-control] {
 * Paginator - Traditional style
 * Because Laravel defaults does not match well the design of daisyUI.
 */
-
 .mary-table-pagination span[aria-current="page"] > span {
     @apply bg-primary text-base-100
 }

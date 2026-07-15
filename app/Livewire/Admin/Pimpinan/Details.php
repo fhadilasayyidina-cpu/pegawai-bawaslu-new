@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Details extends Component
 {
-    public Pimpinan $pimpinan;
+    public ?Pimpinan $pimpinan = null;
 
     public array $breadcrumbs = [];
 
