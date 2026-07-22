@@ -114,7 +114,7 @@
     <div class="title-block">
         <h1>Keputusan Kepala Sekretariat</h1>
         <h1>Badan Pengawas Pemilihan Umum Provinsi Sulawesi Selatan</h1>
-        <p>Nomor: {{ $nomor_naskah }}</p>
+        <p>Nomor: </p>
         <h2 style="margin-top: 8px;">Tentang</h2>
         <h2>Kenaikan Gaji Berkala</h2>
         <h2 style="margin-top: 8px; font-weight: normal; font-style: italic;">Dengan Rahmat Tuhan Yang Maha Esa</h2>
@@ -178,7 +178,7 @@
             <td class="section-header">Menetapkan</td>
             <td class="section-colon">:</td>
             <td class="section-content" style="font-weight: bold;">
-                Keputusan Kepala Sekretariat Badan Pengawas Pemilihan Umum Provinsi Sulawesi Selatan Nomor: {{ $nomor_naskah }} Tentang Kenaikan Gaji Berkala.
+                Keputusan Kepala Sekretariat Badan Pengawas Pemilihan Umum Provinsi Sulawesi Selatan Nomor:  Tentang Kenaikan Gaji Berkala.
             </td>
         </tr>
         <tr style="height: 8px;"><td colspan="3"></td></tr>

@@ -39,6 +39,12 @@ class Index extends Component
 
     public bool $myModal3 = false;
 
+    public bool $showBirthdayModal = false;
+
+    public int $selectedBirthdayMonth = 0;
+
+    public array $monthOptions = [];
+
     public array $tableHeaders = [
         ['key' => 'nomor', 'label' => 'No', 'class' => 'w-1'],
         ['key' => 'id', 'label' => 'ID', 'link' => true, 'hidden' => true],
@@ -78,12 +84,49 @@ class Index extends Component
             ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
     }
 
+    public function getMonthlyBirthdayEmployeesProperty()
+    {
+        $month = $this->selectedBirthdayMonth > 0 ? (int) $this->selectedBirthdayMonth : (int) Carbon::now()->month;
+
+        $query = Pegawai::query()
+            ->whereNotNull('tgl_lahir')
+            ->whereRaw('MONTH(tgl_lahir) = ?', [$month]);
+
+        if (auth()->check() && auth()->user()->role === \App\Enums\Role::OPERATOR && auth()->user()->access_scope) {
+            $query->where('kab_kota', auth()->user()->access_scope);
+        }
+
+        if ($this->kabKota) {
+            $query->where('kab_kota', $this->kabKota);
+        }
+
+        return $query->orderByRaw('DAY(tgl_lahir) ASC')
+            ->orderBy('nama')
+            ->get();
+    }
+
     public function mount()
     {
         $this->kabKotaOptions = app(PegawaiService::class)->getKabKota()->toArray();
         $this->rangeUmurOptions = app(PegawaiService::class)->getRangeUmurOptions()->toArray();
         $this->jenisKelaminOptions = app(PegawaiService::class)->getJenisKelaminOptions()->toArray();
         $this->agamaOptions = app(PegawaiService::class)->getAgamaOptions()->toArray();
+
+        $this->selectedBirthdayMonth = (int) Carbon::now()->month;
+        $this->monthOptions = [
+            ['id' => 1, 'name' => 'Januari'],
+            ['id' => 2, 'name' => 'Februari'],
+            ['id' => 3, 'name' => 'Maret'],
+            ['id' => 4, 'name' => 'April'],
+            ['id' => 5, 'name' => 'Mei'],
+            ['id' => 6, 'name' => 'Juni'],
+            ['id' => 7, 'name' => 'Juli'],
+            ['id' => 8, 'name' => 'Agustus'],
+            ['id' => 9, 'name' => 'September'],
+            ['id' => 10, 'name' => 'Oktober'],
+            ['id' => 11, 'name' => 'November'],
+            ['id' => 12, 'name' => 'Desember'],
+        ];
     }
 
     public function updatedSearch(): void

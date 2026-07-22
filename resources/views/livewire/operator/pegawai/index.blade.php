@@ -1,6 +1,13 @@
 <div>
     <x-header-page title="Data Pegawai" :breadcrumbs="$breadcrumbs">
-        {{-- Hide import button for operator --}}
+        <x-slot:actions>
+            <x-mary-button
+                label="Ulang Tahun Pegawai"
+                icon="o-cake"
+                wire:click="$set('showBirthdayModal', true)"
+                class="btn-primary"
+            />
+        </x-slot:actions>
     </x-header-page>
 
     {{-- Birthday Reminder --}}
@@ -83,4 +90,85 @@
 
         {{-- Hide delete button for operator --}}
     </x-mary-table>
+
+    <!-- Modal Ulang Tahun Pegawai Per Bulan -->
+    <x-modal wire:model="showBirthdayModal" title="🎂 Daftar Ulang Tahun Pegawai Per Bulan" class="backdrop-blur" box-class="max-w-4xl">
+        <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
+                <div class="w-full sm:w-64">
+                    <x-mary-select
+                        label="Pilih Bulan"
+                        wire:model.live="selectedBirthdayMonth"
+                        :options="$monthOptions"
+                        icon="o-calendar"
+                    />
+                </div>
+                <div class="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Total: <span class="font-bold text-amber-600 dark:text-amber-400 text-base">{{ $this->monthlyBirthdayEmployees->count() }}</span> Pegawai Ulang Tahun
+                </div>
+            </div>
+
+            <div class="overflow-x-auto max-h-[60vh]">
+                <table class="table table-zebra w-full text-sm">
+                    <thead class="sticky top-0 bg-base-100 z-10 shadow-xs">
+                        <tr>
+                            <th class="w-1">No</th>
+                            <th>Nama / NIP</th>
+                            <th>Tanggal Ulang Tahun</th>
+                            <th>Jabatan</th>
+                            <th>Kabupaten / Kota</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($this->monthlyBirthdayEmployees as $index => $emp)
+                            @php
+                                $isToday = $emp->tgl_lahir && $emp->tgl_lahir->day === now()->day && $emp->tgl_lahir->month === now()->month;
+                                $age = $emp->tgl_lahir ? $emp->tgl_lahir->age : null;
+                            @endphp
+                            <tr class="{{ $isToday ? 'bg-amber-500/10 font-medium' : '' }}">
+                                <td>{{ $index + 1 }}</td>
+                                <td>
+                                    <div class="font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5">
+                                        <span>{{ $emp->nama }}</span>
+                                        @if($isToday)
+                                            <span class="badge badge-warning text-xs font-bold animate-pulse">Hari Ini 🎉</span>
+                                        @endif
+                                    </div>
+                                    <div class="text-xs text-slate-500">{{ $emp->nip_baru ?? '-' }}</div>
+                                </td>
+                                <td>
+                                    <div class="font-semibold text-amber-700 dark:text-amber-400">
+                                        {{ $emp->tgl_lahir?->translatedFormat('d F Y') ?? '-' }}
+                                    </div>
+                                    @if($age !== null)
+                                        <div class="text-xs text-slate-500">{{ $age }} Tahun</div>
+                                    @endif
+                                </td>
+                                <td>{{ $emp->jabatan_nama ?? '-' }}</td>
+                                <td>{{ $emp->kab_kota ?? '-' }}</td>
+                                <td class="text-center">
+                                    <a href="/operator/pegawais/{{ $emp->id }}/details"
+                                       class="btn btn-ghost btn-xs text-info"
+                                       title="Lihat Detail">
+                                        <x-mary-icon name="o-eye" class="w-4 h-4" />
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center py-8 text-slate-500">
+                                    Tidak ada pegawai yang berulang tahun pada bulan ini.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <x-slot:actions>
+            <x-mary-button label="Tutup" @click="$wire.showBirthdayModal = false" />
+        </x-slot:actions>
+    </x-modal>
 </div>

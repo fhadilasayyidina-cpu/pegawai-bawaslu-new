@@ -105,7 +105,7 @@
                     <tr>
                         <td style="width: 80px; padding-bottom: 2px;">Nomor</td>
                         <td style="width: 10px;">:</td>
-                        <td>{{ $nomor_naskah }}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td style="padding-bottom: 2px;">Sifat</td>
