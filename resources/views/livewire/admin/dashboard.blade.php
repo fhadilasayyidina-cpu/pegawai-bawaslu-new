@@ -1,4 +1,4 @@
-<div>
+<div class="dashboard-shell">
     <style>
         /* Override chart text colors to dark gray */
         .apexcharts-text,
@@ -16,12 +16,57 @@
         .apexcharts-datalabels text {
             filter: none !important;
         }
+
+        /* Keep dense chart labels readable without overlapping each other. */
+        .apexcharts-xaxis-label,
+        .apexcharts-yaxis-label {
+            font-size: 10px !important;
+        }
+        .apexcharts-legend-text {
+            font-size: 11px !important;
+        }
+        .apexcharts-datalabel,
+        .apexcharts-datalabel-label,
+        .apexcharts-datalabel-value {
+            font-size: 10px !important;
+        }
     </style>
 
     <x-header-page title="Dashboard" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Dashboard']]" />
 
+    {{-- Birthday Reminder --}}
+    @if($birthdayEmployees->isNotEmpty())
+        <div class="birthday-banner my-4 rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, #a6192e 0%, #7b1822 40%, #e5ad25 100%); box-shadow: 0 8px 32px rgba(166,25,46,0.35);">
+            <div class="flex items-center gap-4 px-6 py-4">
+                <div class="flex-shrink-0 text-4xl animate-bounce">🎂</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-bold text-base mb-1 flex items-center gap-2">
+                        🎉 Selamat Ulang Tahun Hari Ini!
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30">
+                            {{ $birthdayEmployees->count() }} Pegawai
+                        </span>
+                    </h3>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        @foreach($birthdayEmployees as $emp)
+                            <a href="/admin/pegawais/{{ $emp->id }}/details"
+                               class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400 text-slate-900 border border-amber-300 shadow-md transition-all duration-200 hover:scale-105 animate-pulse">
+                                <span>🎉</span>
+                                <span>{{ $emp->nama }}</span>
+                                <span class="opacity-90">({{ $emp->tgl_lahir?->format('d/m') }})</span>
+                                @if($emp->jabatan_nama)
+                                    <span class="opacity-75">— {{ $emp->jabatan_nama }}</span>
+                                @endif
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="flex-shrink-0 text-white/30 text-5xl font-black leading-none">🎈</div>
+            </div>
+        </div>
+    @endif
+
     <!-- Filter Kabupaten Kota -->
-    <div class="my-4 p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 premium-shadow">
+    <div class="dashboard-filter-card my-4 p-5 rounded-2xl premium-shadow">
         <flux:select label="Filter Kabupaten/Kota" wire:model.live="kabKota" placeholder="Semua Kabupaten/Kota" class="max-w-md">
             @foreach($kabKotaOptions as $option)
                 <flux:select.option :value="$option->id">{{ $option->name }}</flux:select.option>
@@ -77,7 +122,7 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Kolom</h3>
                         <button onclick="downloadChart('jk-col-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -90,7 +135,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Lingkaran</h3>
                         <button onclick="downloadChart('jk-pie-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -112,7 +157,7 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Kolom</h3>
                         <button onclick="downloadChart('pend-col-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -125,7 +170,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Lingkaran</h3>
                         <button onclick="downloadChart('pend-pie-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -147,7 +192,7 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Kolom</h3>
                         <button onclick="downloadChart('jj-col-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -160,7 +205,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Lingkaran</h3>
                         <button onclick="downloadChart('jj-pie-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -182,7 +227,7 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Kolom</h3>
                         <button onclick="downloadChart('ru-col-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -195,7 +240,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="rounded-2xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/60 premium-shadow p-6 hover-premium">
+                <div class="dashboard-chart-card rounded-2xl premium-shadow p-6 hover-premium">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-semibold text-sm text-slate-700 dark:text-slate-300">Grafik Lingkaran</h3>
                         <button onclick="downloadChart('ru-pie-chart')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg transition-all flex items-center gap-1 cursor-pointer border border-slate-200/50 dark:border-slate-700/50">
@@ -210,71 +255,4 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to update chart colors dynamically based on light/dark mode
-            function updateChartColors() {
-                const isDark = document.documentElement.classList.contains('dark');
-                const textColor = isDark ? '#cbd5e1' : '#475569';
-                
-                document.querySelectorAll('.apexcharts-text, .apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value').forEach(el => {
-                    el.style.fill = textColor;
-                    el.style.textShadow = 'none';
-                    el.style.filter = 'none';
-                });
-                
-                document.querySelectorAll('.apexcharts-tooltip-text').forEach(el => {
-                    el.style.color = '#1e293b';
-                });
-            }
-
-            // Run immediately and after chart updates
-            updateChartColors();
-
-            // Use MutationObserver to catch dynamically added chart elements
-            const observer = new MutationObserver(function(mutations) {
-                updateChartColors();
-            });
-
-            // Observe all chart containers
-            document.querySelectorAll('[id*="-chart"]').forEach(function(container) {
-                observer.observe(container, { childList: true, subtree: true });
-            });
-
-            // Also run on Livewire updates
-            if (window.Livewire) {
-                window.Livewire.hook('message.processed', () => {
-                    setTimeout(updateChartColors, 100);
-                });
-            }
-        });
-
-        function downloadChart(elementId) {
-            const container = document.getElementById(elementId);
-            const livewireComponent = container.querySelector('[x-data]');
-            if (!livewireComponent) {
-                console.error('Livewire chart component not found for:', elementId);
-                return;
-            }
-
-            const alpineData = Alpine.$data(livewireComponent);
-            const chart = alpineData?.chart;
-
-            if (!chart) {
-                console.error('Chart instance not found for:', elementId);
-                return;
-            }
-
-            chart.dataURI().then(({ imgURI }) => {
-                const link = document.createElement('a');
-                link.href = imgURI;
-                link.download = elementId + '-' + new Date().getTime() + '.png';
-                link.click();
-            }).catch((error) => {
-                console.error('Failed to export chart:', error);
-            });
-        }
-    </script>
-
-    @livewireChartsScripts
 </div>

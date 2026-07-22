@@ -40,7 +40,7 @@
     };
 @endphp
 
-<div {{ $attributes->merge(['class' => "hover-premium premium-shadow p-6 rounded-2xl bg-white dark:bg-slate-900/70 border " . $colorClasses['border'] . " flex flex-col justify-between relative overflow-hidden group"]) }}>
+<div {{ $attributes->merge(['class' => "statistic-card hover-premium premium-shadow p-6 rounded-2xl bg-white dark:bg-slate-900/70 border " . $colorClasses['border'] . " flex flex-col justify-between relative overflow-hidden group"]) }}>
     <!-- Sparkle glow gradient effect inside the card on hover -->
     <div class="absolute -right-16 -top-16 w-32 h-32 rounded-full blur-2xl opacity-10 group-hover:opacity-20 transition-opacity duration-300 {{ $colorClasses['bg'] }}"></div>
     
@@ -59,7 +59,7 @@
     </div>
     
     <div class="mt-4 z-10">
-        <h3 class="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50">
+        <h3 class="statistic-value text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50" data-stat-value="{{ $value }}">
             {{ $value }}
         </h3>
         

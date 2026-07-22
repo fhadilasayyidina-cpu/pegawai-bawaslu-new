@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Kgbs;
 
+use App\Models\KgbRecord;
 use App\Services\Kgb\ExportKgbService;
 use App\Services\Kgb\KgbService;
 use Livewire\Attributes\Computed;
@@ -15,7 +16,7 @@ class Index extends Component
     public ?string $kabKota = null;
 
     #[Url]
-    public int $monthsAhead = 6;
+    public int $monthsAhead = 0; // Default: Semua
 
     public array $kabKotaOptions = [];
 
@@ -80,6 +81,17 @@ class Index extends Component
         ]);
 
         return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
+    public function delete(int $id): void
+    {
+        $kgb = KgbRecord::findOrFail($id);
+        $kgb->delete();
+
+        $this->dispatch('notyf:show', [
+            'type' => 'success',
+            'message' => 'Riwayat KGB berhasil dihapus!',
+        ]);
     }
 
     public function render()

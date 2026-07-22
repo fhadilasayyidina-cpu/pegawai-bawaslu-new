@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Pegawai;
 use App\Services\Pegawai\PegawaiService;
 use App\Services\Statistic\PegawaiStatisticService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -37,9 +39,21 @@ class Dashboard extends Component
         $this->statistics = app(PegawaiStatisticService::class)->getAllStats($this->kabKota);
     }
 
+    public function getBirthdayEmployeesProperty()
+    {
+        $today = Carbon::today();
+
+        return Pegawai::query()
+            ->whereNotNull('tgl_lahir')
+            ->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
+            ->whereRaw('DAY(tgl_lahir) = ?', [$today->day])
+            ->orderBy('nama')
+            ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
+    }
+
     public function render(): \Illuminate\View\View
     {
-        $colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+        $colors = ['#a6192e', '#e5ad25', '#7b1822', '#f4c542', '#cf4b58', '#c58a12', '#5b1119'];
 
         // Jenis Kelamin - Column Chart
         $jenisKelaminColumnChart = (new ColumnChartModel)
@@ -133,6 +147,8 @@ class Dashboard extends Component
             $rangeUmurPieChart->addSlice($displayLabel, $this->statistics['range_umur_chart']['values'][$index] ?? 0, $color);
         }
 
+        $birthdayEmployees = $this->birthdayEmployees;
+
         return view('livewire.admin.dashboard', compact(
             'jenisKelaminColumnChart',
             'jenisKelaminPieChart',
@@ -142,6 +158,7 @@ class Dashboard extends Component
             'jenisJabatanPieChart',
             'rangeUmurColumnChart',
             'rangeUmurPieChart',
+            'birthdayEmployees',
         ));
     }
 }

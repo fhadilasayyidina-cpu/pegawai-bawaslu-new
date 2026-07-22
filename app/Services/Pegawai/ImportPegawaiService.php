@@ -10,6 +10,8 @@ class ImportPegawaiService
 {
     protected array $result = [
         'imported' => 0,
+        'created' => 0,
+        'updated' => 0,
         'skipped' => 0,
         'failed' => 0,
         'errors' => [],
@@ -21,6 +23,15 @@ class ImportPegawaiService
             throw new Exception('File tidak ditemukan');
         }
 
+        $this->result = [
+            'imported' => 0,
+            'created' => 0,
+            'updated' => 0,
+            'skipped' => 0,
+            'failed' => 0,
+            'errors' => [],
+        ];
+
         $rows = FastExcel::import($filePath);
 
         foreach ($rows as $index => $row) {
@@ -28,30 +39,31 @@ class ImportPegawaiService
                 $normalizedRow = $this->normalizeRow($row);
                 $pegawaiData = $this->mapRowToPegawai($normalizedRow);
 
-                if (empty($pegawaiData['nip_baru'])) {
+                if (empty($pegawaiData['nip_baru']) || empty($pegawaiData['nama'])) {
                     $this->result['skipped']++;
-                    $this->result['errors'][] = 'Baris ' . ($index + 2) . ': NIP baru kosong, data dilewati';
+                    $this->result['errors'][] = 'Baris '.($index + 2).': NIP atau nama kosong, data dilewati';
 
                     continue;
                 }
 
-                // Skip jika status tidak AKTIF
-                if (empty($pegawaiData['status_kepegwaian']) || $pegawaiData['status_kepegwaian'] !== 'AKTIF') {
+                // Status bersifat opsional agar file data sederhana (NIP dan nama) tetap dapat diimpor.
+                if (! empty($pegawaiData['status_kepegwaian']) && $pegawaiData['status_kepegwaian'] !== 'AKTIF') {
                     $this->result['skipped']++;
-                    $this->result['errors'][] = 'Baris ' . ($index + 2) . ': Status tidak AKTIF, data dilewati';
+                    $this->result['errors'][] = 'Baris '.($index + 2).': Status tidak AKTIF, data dilewati';
 
                     continue;
                 }
 
-                Pegawai::updateOrCreate(
+                $pegawai = Pegawai::updateOrCreate(
                     ['nip_baru' => $pegawaiData['nip_baru']],
                     $pegawaiData
                 );
 
                 $this->result['imported']++;
+                $pegawai->wasRecentlyCreated ? $this->result['created']++ : $this->result['updated']++;
             } catch (Exception $e) {
                 $this->result['failed']++;
-                $this->result['errors'][] = 'Baris ' . ($index + 2) . ': ' . $e->getMessage();
+                $this->result['errors'][] = 'Baris '.($index + 2).': '.$e->getMessage();
             }
         }
 
@@ -60,13 +72,38 @@ class ImportPegawaiService
 
     protected function normalizeRow(array $row): array
     {
-        return collect($row)->mapWithKeys(function ($value, $key) {
+        $normalized = collect($row)->mapWithKeys(function ($value, $key) {
             $key = strtolower(trim($key));
             $key = str_replace([' ', '.', '/', '-'], '_', $key);
             $key = preg_replace('/_+/', '_', $key);
 
             return [$key => $value];
         })->toArray();
+
+        // Terima variasi header yang umum dipakai pada file kepegawaian.
+        $aliases = [
+            'nip' => 'nip_baru',
+            'nip_baru_' => 'nip_baru',
+            'nama_pegawai' => 'nama',
+            'nama_lengkap' => 'nama',
+            'jenis_kelamin_pegawai' => 'jenis_kelamin',
+            'agama' => 'agama_nama',
+            'jabatan' => 'jabatan_nama',
+            'jenis_jabatan' => 'jenis_jabatan_nama',
+            'pendidikan' => 'pendidikan_nama',
+            'tingkat_pendidikan' => 'tingkat_pendidikan_nama',
+            'kabupaten_kota' => 'kab_kota',
+            'kabupaten_kota_' => 'kab_kota',
+            'status_kepegawaian' => 'status_kepegwaian',
+        ];
+
+        foreach ($aliases as $from => $to) {
+            if (array_key_exists($from, $normalized) && ! array_key_exists($to, $normalized)) {
+                $normalized[$to] = $normalized[$from];
+            }
+        }
+
+        return $normalized;
     }
 
     protected function normalizeJenisKelamin(?string $value): string
@@ -233,14 +270,14 @@ class ImportPegawaiService
     {
         return [
             // Identitas
-            'nip_baru' => $row['nip_baru'] ?? null,
+            'nip_baru' => $this->normalizeNip($row['nip_baru'] ?? null),
             'nip_lama' => $row['nip_lama'] ?? null,
             'nama' => $row['nama'] ?? null,
             'gelar_depan' => $row['gelar_depan'] ?? null,
             'gelar_blk' => $row['gelar_blk'] ?? null,
             'tempat_lahir_nama' => $row['tempat_lahir_nama'] ?? null,
             'jenis_kelamin' => $this->normalizeJenisKelamin($row['jenis_kelamin'] ?? null),
-            'gol_darah' => $row['gol_darah'] ?? null,
+            'gol_darah' => $this->normalizeGolDarah($row['gol_darah'] ?? null),
             'agama_nama' => $row['agama_nama'] ?? null,
             'jenis_kawin_nama' => $row['jenis_kawin_nama'] ?? null,
             'nik' => $row['nik'] ?? null,
@@ -311,6 +348,27 @@ class ImportPegawaiService
             'jenis_pegawai' => $row['jenis_pegawai'] ?? null,
             'status_kepegwaian' => $this->normalizeStatusKepegwaian($row['status_kepegwaian'] ?? null),
         ];
+    }
+
+    protected function normalizeNip(mixed $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        // Excel kerap mengirim NIP sebagai angka atau notasi ilmiah.
+        if (is_numeric($value)) {
+            return number_format((float) $value, 0, '', '');
+        }
+
+        return trim((string) $value);
+    }
+
+    protected function normalizeGolDarah(mixed $value): ?string
+    {
+        $value = strtoupper(trim((string) $value));
+
+        return in_array($value, ['A', 'B', 'AB', 'O', '-', 'TIDAK TAHU'], true) ? $value : null;
     }
 
     protected function parseDateOrNull($value): ?string

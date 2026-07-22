@@ -37,7 +37,7 @@ it('can export kgb data', function () {
 it('exported data respects the active filters', function () {
     $admin = \App\Models\User::factory()->create();
 
-    Pegawai::factory()->create([
+    $p1 = Pegawai::factory()->create([
         'nama' => 'User Jakarta',
         'nip_baru' => '1234567890',
         'tgl_kgb_terakhir' => now()->subYears(2),
@@ -46,7 +46,17 @@ it('exported data respects the active filters', function () {
         'status_kepegwaian' => 'Aktif',
     ]);
 
-    Pegawai::factory()->create([
+    \App\Models\KgbRecord::create([
+        'pegawai_id' => $p1->id,
+        'jenis_kgb' => 'PNS',
+        'nomor_naskah' => '001/PNS/2026',
+        'tanggal_naskah' => now(),
+        'tmt_baru' => now(),
+        'next_kgb_date' => now()->addYears(2),
+        'data' => [],
+    ]);
+
+    $p2 = Pegawai::factory()->create([
         'nama' => 'User Bandung',
         'nip_baru' => '0987654321',
         'tgl_kgb_terakhir' => now()->subYears(2),
@@ -55,12 +65,22 @@ it('exported data respects the active filters', function () {
         'status_kepegwaian' => 'Aktif',
     ]);
 
+    \App\Models\KgbRecord::create([
+        'pegawai_id' => $p2->id,
+        'jenis_kgb' => 'PPPK',
+        'nomor_naskah' => '002/PPPK/2026',
+        'tanggal_naskah' => now(),
+        'tmt_baru' => now(),
+        'next_kgb_date' => now()->addYears(2),
+        'data' => [],
+    ]);
+
     // Test with kabKota filter
     $kgbService = app(KgbService::class);
     $kgbListJakarta = $kgbService->getUpcomingKgb(6, 'Jakarta');
 
     expect($kgbListJakarta)->toHaveCount(1);
-    expect($kgbListJakarta->first()->kab_kota)->toBe('Jakarta');
+    expect($kgbListJakarta->first()->pegawai->kab_kota)->toBe('Jakarta');
 });
 
 it('generates correct file name format', function () {

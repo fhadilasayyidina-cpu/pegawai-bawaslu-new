@@ -1,4 +1,4 @@
-<div>
+<div class="dashboard-shell">
     <style>
         /* Override chart text colors to dark gray */
         .apexcharts-text,
@@ -16,12 +16,26 @@
         .apexcharts-datalabels text {
             filter: none !important;
         }
+
+        /* Keep dense chart labels readable without overlapping each other. */
+        .apexcharts-xaxis-label,
+        .apexcharts-yaxis-label {
+            font-size: 10px !important;
+        }
+        .apexcharts-legend-text {
+            font-size: 11px !important;
+        }
+        .apexcharts-datalabel,
+        .apexcharts-datalabel-label,
+        .apexcharts-datalabel-value {
+            font-size: 10px !important;
+        }
     </style>
 
     <x-header-page title="Dashboard" :breadcrumbs="[['label' => 'Operator', 'href' => '#'], ['label' => 'Dashboard']]" />
 
     <!-- Filter Kabupaten Kota (Locked) -->
-    <div class="my-4 bg-base-200 p-4 rounded-lg">
+    <div class="dashboard-filter-card my-4 p-5 rounded-2xl">
         <flux:select label="Filter Kabupaten Kota" wire:model.live="kabKota" disabled>
             <flux:select.option :value="$kabKota">{{ $kabKota }}</flux:select.option>
         </flux:select>
@@ -72,10 +86,10 @@
     <div class="space-y-6 mt-6">
         <!-- Section 1: Jenis Kelamin -->
         <div>
-            <h2 class="text-xl font-bold mb-4">Distribusi Jenis Kelamin</h2>
+            <h2 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-brand-gold-500"></span>Distribusi Jenis Kelamin</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Column Chart</h3>
@@ -90,7 +104,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Pie Chart</h3>
@@ -108,10 +122,10 @@
 
         <!-- Section 2: Tingkat Pendidikan -->
         <div>
-            <h2 class="text-xl font-bold mb-4">Distribusi Tingkat Pendidikan</h2>
+            <h2 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-brand-gold-500"></span>Distribusi Tingkat Pendidikan</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Column Chart</h3>
@@ -126,7 +140,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Pie Chart</h3>
@@ -144,10 +158,10 @@
 
         <!-- Section 3: Jenis Jabatan -->
         <div>
-            <h2 class="text-xl font-bold mb-4">Distribusi Jenis Jabatan</h2>
+            <h2 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-brand-gold-500"></span>Distribusi Jenis Jabatan</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Column Chart</h3>
@@ -162,7 +176,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Pie Chart</h3>
@@ -180,10 +194,10 @@
 
         <!-- Section 4: Range Umur -->
         <div>
-            <h2 class="text-xl font-bold mb-4">Distribusi Range Umur</h2>
+            <h2 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-brand-gold-500"></span>Distribusi Range Umur</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Column Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Column Chart</h3>
@@ -198,7 +212,7 @@
                 </div>
 
                 <!-- Pie Chart -->
-                <div class="card bg-base-100 shadow-sm">
+                <div class="dashboard-chart-card card rounded-2xl">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-2">
                             <h3 class="card-title text-sm">Pie Chart</h3>
@@ -215,70 +229,4 @@
         </div>
     </div>
 
-    <script>
-        // Override chart text colors to black
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to update chart colors
-            function updateChartColors() {
-                document.querySelectorAll('.apexcharts-text, .apexcharts-datalabel, .apexcharts-datalabel-label, .apexcharts-datalabel-value').forEach(el => {
-                    el.style.fill = '#374151';
-                    el.style.textShadow = 'none';
-                    el.style.filter = 'none';
-                });
-            }
-
-            // Run immediately and after chart updates
-            updateChartColors();
-
-            // Use MutationObserver to catch dynamically added chart elements
-            const observer = new MutationObserver(function(mutations) {
-                updateChartColors();
-            });
-
-            // Observe all chart containers
-            document.querySelectorAll('[id*="-chart"]').forEach(function(container) {
-                observer.observe(container, { childList: true, subtree: true });
-            });
-
-            // Also run on Livewire updates
-            if (window.Livewire) {
-                window.Livewire.hook('message.processed', () => {
-                    setTimeout(updateChartColors, 100);
-                });
-            }
-        });
-
-        function downloadChart(elementId) {
-            const container = document.getElementById(elementId);
-
-            // Find the Alpine.js component (livewire chart component)
-            // The chart component is nested inside the container
-            const livewireComponent = container.querySelector('[x-data]');
-            if (!livewireComponent) {
-                console.error('Livewire chart component not found for:', elementId);
-                return;
-            }
-
-            // Access the Alpine.js component data to get the chart instance
-            const alpineData = Alpine.$data(livewireComponent);
-            const chart = alpineData?.chart;
-
-            if (!chart) {
-                console.error('Chart instance not found for:', elementId);
-                return;
-            }
-
-            // Use ApexCharts' built-in dataURI() method to export as PNG
-            chart.dataURI().then(({ imgURI }) => {
-                const link = document.createElement('a');
-                link.href = imgURI;
-                link.download = elementId + '-' + new Date().getTime() + '.png';
-                link.click();
-            }).catch((error) => {
-                console.error('Failed to export chart:', error);
-            });
-        }
-    </script>
-
-    @livewireChartsScripts
 </div>

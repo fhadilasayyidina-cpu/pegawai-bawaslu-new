@@ -1,10 +1,9 @@
 <?php
 
-public final class AdminService 
+final class AdminService
 {
-    public public  static function getTotalUserByRole(Type $var = null) : Returntype
+    public static function getTotalUserByRole()
     {
-        # code...
+        // code...
     }
-    
 }

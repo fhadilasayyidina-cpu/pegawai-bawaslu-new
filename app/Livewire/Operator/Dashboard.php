@@ -26,10 +26,9 @@ class Dashboard extends Component
         $this->statistics = app(PegawaiStatisticService::class)->getAllStats($this->kabKota);
     }
 
-
     public function render(): \Illuminate\View\View
     {
-        $colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+        $colors = ['#a6192e', '#e5ad25', '#7b1822', '#f4c542', '#cf4b58', '#c58a12', '#5b1119'];
 
         // Jenis Kelamin - Column Chart
         $jenisKelaminColumnChart = (new ColumnChartModel)

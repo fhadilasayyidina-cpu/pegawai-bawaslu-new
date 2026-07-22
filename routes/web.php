@@ -73,6 +73,14 @@ Route::middleware(['auth'])
             Route::get('/import', function () {
                 return view('pages.admin.kgbs.import');
             })->name('import');
+            Route::get('/create-pns', function () {
+                return view('pages.admin.kgbs.create-pns');
+            })->name('create-pns');
+            Route::get('/create-pppk', function () {
+                return view('pages.admin.kgbs.create-pppk');
+            })->name('create-pppk');
+            Route::get('/pns-pdf', [\App\Http\Controllers\Admin\KgbController::class, 'generatePnsPdf'])->name('pns-pdf');
+            Route::get('/pppk-pdf', [\App\Http\Controllers\Admin\KgbController::class, 'generatePppkPdf'])->name('pppk-pdf');
         });
 
         // Pegawais

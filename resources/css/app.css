@@ -23,19 +23,19 @@
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
 
-    /* Custom Bawaslu Gold and Navy Palette */
-    --color-brand-navy-950: #020617;
-    --color-brand-navy-900: #0f172a;
-    --color-brand-navy-800: #1e293b;
-    --color-brand-navy-700: #334155;
-    --color-brand-navy-600: #475569;
-    --color-brand-navy-500: #64748b;
+    /* Bawaslu: merah marun dan kuning emas. */
+    --color-brand-navy-950: #31080d;
+    --color-brand-navy-900: #5b1119;
+    --color-brand-navy-800: #7b1822;
+    --color-brand-navy-700: #96202b;
+    --color-brand-navy-600: #b52a35;
+    --color-brand-navy-500: #d14952;
 
-    --color-brand-gold-600: #d97706;
-    --color-brand-gold-500: #f59e0b;
-    --color-brand-gold-400: #fbbf24;
-    --color-brand-gold-300: #fcd34d;
-    --color-brand-gold-200: #fde68a;
+    --color-brand-gold-600: #c58a12;
+    --color-brand-gold-500: #e5ad25;
+    --color-brand-gold-400: #f4c542;
+    --color-brand-gold-300: #f8d76b;
+    --color-brand-gold-200: #fcedae;
 
     --color-accent: var(--color-brand-gold-500);
     --color-accent-content: var(--color-brand-gold-600);
@@ -169,4 +169,250 @@ select:focus[data-flux-control] {
 
 .mary-table-pagination {
     @apply p-4
+}
+
+/* Bawaslu application surface */
+body {
+    background:
+        radial-gradient(circle at top right, rgba(229, 173, 37, 0.12), transparent 27rem),
+        linear-gradient(135deg, #fffdf8 0%, #fff8ed 100%);
+}
+
+.dark body {
+    background:
+        radial-gradient(circle at top right, rgba(229, 173, 37, 0.10), transparent 28rem),
+        linear-gradient(135deg, #21080c 0%, #100507 100%);
+}
+
+.dashboard-shell {
+    position: relative;
+    isolation: isolate;
+}
+
+/* Shared application layout: gives every module a single visual language. */
+.app-shell {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(229, 173, 37, 0.16), transparent 28rem),
+        radial-gradient(circle at 55% 100%, rgba(166, 25, 46, 0.07), transparent 34rem),
+        #fffaf3;
+}
+
+.app-sidebar {
+    border-color: rgba(123, 24, 34, 0.12) !important;
+    background: linear-gradient(180deg, #fffdf9 0%, #fff4df 100%) !important;
+    box-shadow: 12px 0 32px -28px rgba(91, 17, 25, 0.52);
+}
+
+.app-main-content {
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 2rem clamp(1rem, 2.5vw, 2.75rem) 3rem;
+}
+
+.brand-lockup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    padding: 0.25rem 0;
+    text-decoration: none;
+}
+
+.brand-lockup__logo {
+    display: block;
+    width: min(100%, 13.75rem);
+    height: auto;
+    max-height: 4.25rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+.brand-lockup__fallback {
+    margin-left: 0.7rem;
+    color: #7b1822;
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.app-nav-active {
+    color: #8f1e2b !important;
+    background: linear-gradient(90deg, rgba(166, 25, 46, 0.12), rgba(229, 173, 37, 0.17)) !important;
+    box-shadow: inset 3px 0 0 #a6192e, 0 6px 14px -12px rgba(91, 17, 25, 0.6);
+}
+
+.app-sidebar [data-flux-sidebar-item]:not(.app-nav-active):hover {
+    color: #8f1e2b;
+    background: rgba(229, 173, 37, 0.13);
+}
+
+.page-heading {
+    position: relative;
+    padding: 0.35rem 0 1.15rem;
+}
+
+.page-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 4rem;
+    height: 0.22rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #a6192e 0 55%, #e5ad25 55%);
+}
+
+.page-heading [data-flux-separator] {
+    opacity: 0.45;
+}
+
+/* MaryUI tables and filter panels across all administration pages. */
+.app-main-content .bg-base-200 {
+    border: 1px solid rgba(123, 24, 34, 0.11);
+    background: rgba(255, 255, 255, 0.82);
+    border-radius: 1rem;
+    box-shadow: 0 12px 28px -25px rgba(91, 17, 25, 0.46);
+}
+
+.app-main-content .table,
+.app-main-content .mary-table-wrapper {
+    overflow: hidden;
+    border: 1px solid rgba(123, 24, 34, 0.11);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 14px 30px -27px rgba(91, 17, 25, 0.42);
+}
+
+.app-main-content .table thead,
+.app-main-content .mary-table-wrapper thead {
+    background: linear-gradient(90deg, rgba(166, 25, 46, 0.09), rgba(229, 173, 37, 0.13));
+    color: #67151e;
+}
+
+.app-main-content .table tbody tr,
+.app-main-content .mary-table-wrapper tbody tr {
+    transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.app-main-content .table tbody tr:hover,
+.app-main-content .mary-table-wrapper tbody tr:hover {
+    background: rgba(229, 173, 37, 0.10);
+}
+
+.app-main-content .btn-primary,
+.app-main-content [data-flux-button][data-variant='primary'] {
+    border: 0 !important;
+    color: #fff !important;
+    background: linear-gradient(135deg, #a6192e, #7b1822) !important;
+    box-shadow: 0 10px 18px -12px rgba(123, 24, 34, 0.8);
+}
+
+.app-main-content .btn-secondary {
+    border-color: rgba(166, 25, 46, 0.25) !important;
+    color: #8f1e2b !important;
+    background: #fff9ef !important;
+}
+
+.dark .app-shell {
+    background: linear-gradient(135deg, #21080c, #100507);
+}
+
+.dark .app-sidebar {
+    border-color: rgba(244, 197, 66, 0.14) !important;
+    background: linear-gradient(180deg, #3b0c12, #21080c) !important;
+}
+
+.dark .brand-lockup__fallback { color: #f8d76b; }
+.dark .app-nav-active { color: #f8d76b !important; }
+.dark .app-main-content .bg-base-200,
+.dark .app-main-content .table,
+.dark .app-main-content .mary-table-wrapper { background: rgba(49, 8, 13, 0.82); }
+
+@media (max-width: 640px) {
+    .app-main-content { padding: 1.25rem 1rem 2rem; }
+    .page-heading { padding-top: 0; }
+}
+
+.dashboard-shell::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -2rem -1rem auto auto;
+    width: 13rem;
+    height: 13rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(229, 173, 37, 0.16), transparent 68%);
+    pointer-events: none;
+}
+
+.dashboard-shell .card,
+.dashboard-chart-card,
+.dashboard-filter-card {
+    border: 1px solid rgba(123, 24, 34, 0.11);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 14px 34px -24px rgba(91, 17, 25, 0.34);
+}
+
+.dark .dashboard-shell .card,
+.dark .dashboard-chart-card,
+.dark .dashboard-filter-card {
+    border-color: rgba(244, 197, 66, 0.18);
+    background: rgba(49, 8, 13, 0.78);
+}
+
+.dashboard-chart-card,
+.dashboard-shell .card {
+    overflow: hidden;
+    animation: chart-card-in 550ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dashboard-chart-card:nth-child(even),
+.dashboard-shell .card:nth-child(even) {
+    animation-delay: 90ms;
+}
+
+.dashboard-shell [id$='-chart'] {
+    animation: chart-reveal 700ms 120ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.statistic-card {
+    animation: statistic-card-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.statistic-card:nth-child(2) { animation-delay: 70ms; }
+.statistic-card:nth-child(3) { animation-delay: 140ms; }
+.statistic-card:nth-child(4) { animation-delay: 210ms; }
+.statistic-card:nth-child(5) { animation-delay: 280ms; }
+
+.statistic-value {
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+}
+
+.dashboard-shell h2 > span {
+    box-shadow: 0 0 0 5px rgba(229, 173, 37, 0.14);
+}
+
+@keyframes statistic-card-in {
+    from { opacity: 0; transform: translateY(18px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes chart-card-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chart-reveal {
+    from { opacity: 0; transform: translateY(8px) scale(0.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-chart-card,
+    .dashboard-shell .card,
+    .dashboard-shell [id$='-chart'],
+    .statistic-card {
+        animation: none;
+    }
 }

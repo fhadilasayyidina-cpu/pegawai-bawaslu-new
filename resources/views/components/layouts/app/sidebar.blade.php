@@ -100,18 +100,19 @@ $dashboardUrl = match ($user->role) {
 ?>
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
         @include('partials.head')
+        @livewireChartsScripts
     </head>
 
-    <body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+    <body class="app-shell min-h-screen text-slate-900 dark:text-slate-100 transition-colors duration-200">
         <x-mary-toast />
         <flux:sidebar sticky collapsible="mobile"
-            class="border-e border-slate-200/50 bg-slate-50 dark:border-slate-800/40 dark:bg-slate-900/90 backdrop-blur-md">
+            class="app-sidebar border-e backdrop-blur-md">
             <flux:sidebar.header class="flex items-center justify-between py-4">
-                <x-app-logo :sidebar="true" href="{{ $dashboardUrl }}" wire:navigate />
+                <x-app-logo :sidebar="true" href="{{ $dashboardUrl }}" />
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
@@ -123,8 +124,8 @@ $dashboardUrl = match ($user->role) {
                                 $isActive = request()->is($item['route']) || request()->is($item['route'] . '/*');
                             @endphp
                             <flux:sidebar.item :icon="$item['icon']" :href="url($item['route'])"
-                                :current="$isActive" wire:navigate 
-                                class="mb-1 transition-all duration-200 rounded-xl px-3 py-2 text-sm font-medium hover:bg-slate-200/40 dark:hover:bg-slate-800/40 {{ $isActive ? 'text-amber-500 dark:text-amber-400 font-semibold bg-slate-200/60 dark:bg-slate-800/60 shadow-xs' : 'text-slate-600 dark:text-slate-400' }}">
+                                :current="$isActive" wire:navigate
+                                class="mb-1 transition-all duration-200 rounded-xl px-3 py-2 text-sm font-medium {{ $isActive ? 'app-nav-active font-semibold shadow-xs' : 'text-slate-600 dark:text-slate-400' }}">
                                 {{ __($item['label']) }}
                             </flux:sidebar.item>
                         @endforeach

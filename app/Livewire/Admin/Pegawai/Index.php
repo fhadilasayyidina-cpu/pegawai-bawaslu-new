@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Admin\Pegawai;
 
+use App\Models\Pegawai;
 use App\Services\Pegawai\ImportPegawaiService;
 use App\Services\Pegawai\PegawaiService;
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -33,6 +35,8 @@ class Index extends Component
 
     public $file;
 
+    public ?array $importResult = null;
+
     public bool $myModal3 = false;
 
     public array $tableHeaders = [
@@ -60,6 +64,18 @@ class Index extends Component
                 $this->jenisKelamin,
                 $this->agama
             );
+    }
+
+    public function getBirthdayEmployeesProperty()
+    {
+        $today = Carbon::today();
+
+        return Pegawai::query()
+            ->whereNotNull('tgl_lahir')
+            ->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
+            ->whereRaw('DAY(tgl_lahir) = ?', [$today->day])
+            ->orderBy('nama')
+            ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
     }
 
     public function mount()
@@ -102,23 +118,20 @@ class Index extends Component
         $this->success('Pegawai berhasil dihapus!');
     }
 
-    public function import()
+    public function import(): void
     {
         $this->validate([
-            'file' => 'required|file',
+            'file' => ['required', 'file', 'mimes:xlsx,xls,csv', 'max:10240'],
         ]);
 
         try {
-            $path = $this->file->store('pegawai/import', 'public');
+            $this->importResult = app(ImportPegawaiService::class)->import($this->file->getRealPath());
 
-            $fullPath = storage_path('app/public/'.$path);
+            $this->success("Import selesai: {$this->importResult['created']} data baru, {$this->importResult['updated']} diperbarui.");
 
-            app(ImportPegawaiService::class)->import($fullPath);
-
-            $this->success('Data Pegawai berhasil diimport!');
-
-            // Close modal after success
             $this->myModal3 = false;
+            $this->reset('file');
+            $this->resetPage();
         } catch (\Exception $e) {
             $this->error('Gagal mengimport data: '.$e->getMessage());
         }
@@ -126,6 +139,8 @@ class Index extends Component
 
     public function render()
     {
-        return view('livewire.admin.pegawai.index');
+        return view('livewire.admin.pegawai.index', [
+            'birthdayEmployees' => $this->birthdayEmployees,
+        ]);
     }
 }

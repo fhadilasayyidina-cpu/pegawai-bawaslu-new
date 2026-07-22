@@ -2,106 +2,81 @@
 
 namespace App\Services\Kgb;
 
-use App\Models\Pegawai;
+use App\Models\KgbRecord;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class KgbService
 {
     /**
-     * Get pegawai yang akan KGB dalam rentang bulan tertentu
+     * Get daftar inputan/riwayat KGB
      *
-     * @param  int|null  $monthsAhead  Jumlah bulan ke depan (default: 6 bulan)
+     * @param  int|null  $monthsAhead  Filter bulan ke depan (0 = Semua)
      * @param  string|null  $kabKota  Filter kabupaten/kota
      */
     public function getUpcomingKgb(?int $monthsAhead = 6, ?string $kabKota = null): Collection
     {
-        $query = Pegawai::query()
-            ->whereNotNull('tgl_kgb_terakhir')
-            ->where('status_kepegwaian', 'Aktif');
+        $query = KgbRecord::query()
+            ->with('pegawai')
+            ->latest('tanggal_naskah')
+            ->latest('id');
 
         if ($kabKota) {
-            $query->where('kab_kota', $kabKota);
+            $query->whereHas('pegawai', function ($q) use ($kabKota) {
+                $q->where('kab_kota', $kabKota);
+            });
         }
 
-        $pegawais = $query->get();
-
-        // If monthsAhead is 0, show all employees (no date filter)
-        if ($monthsAhead === 0) {
-            return $pegawais->map(function ($pegawai) {
-                $lastKgb = Carbon::parse($pegawai->tgl_kgb_terakhir);
-                $nextKgbDate = $lastKgb->copy()->addYears(2);
-                $daysUntil = Carbon::now()->diffInDays($nextKgbDate, false);
-
-                return (object) [
-                    'id' => $pegawai->id,
-                    'nama' => $pegawai->nama,
-                    'nip_baru' => $pegawai->nip_baru,
-                    'email' => $pegawai->email,
-                    'email_gov' => $pegawai->email_gov,
-                    'tgl_kgb_terakhir' => $lastKgb,
-                    'next_kgb_date' => $nextKgbDate,
-                    'days_until_kgb' => $daysUntil,
-                    'status_kepegwaian' => $pegawai->status_kepegwaian,
-                    'jenis_pegawai' => $pegawai->jenis_pegawai,
-                    'unit_kerja' => $pegawai->unit_kerja,
-                    'kab_kota' => $pegawai->kab_kota,
-                ];
-            })->sortBy('next_kgb_date')->values();
+        if ($monthsAhead !== null && $monthsAhead > 0) {
+            $endDate = Carbon::now()->addMonths($monthsAhead);
+            $query->where(function ($q) use ($endDate) {
+                $q->where('tmt_baru', '<=', $endDate)
+                    ->orWhere('next_kgb_date', '<=', $endDate);
+            });
         }
 
-        // Original filtering logic for specific month ranges
-        $now = Carbon::now();
-        $endDate = $now->copy()->addMonths($monthsAhead);
-
-        // Filter pegawai yang KGB-nya jatuh dalam rentang waktu atau sudah lewat
-        return $pegawais->filter(function ($pegawai) use ($endDate) {
-            $nextKgbDate = Carbon::parse($pegawai->tgl_kgb_terakhir)->copy()->addYears(2);
-
-            // Include KGBs that are upcoming within the timeframe OR already passed (overdue)
-            return $nextKgbDate->lte($endDate);
-        })->map(function ($pegawai) {
-            $lastKgb = Carbon::parse($pegawai->tgl_kgb_terakhir);
-            $nextKgbDate = $lastKgb->copy()->addYears(2);
-            $daysUntil = Carbon::now()->diffInDays($nextKgbDate, false);
-
-            return (object) [
-                'id' => $pegawai->id,
-                'nama' => $pegawai->nama,
-                'nip_baru' => $pegawai->nip_baru,
-                'email' => $pegawai->email,
-                'email_gov' => $pegawai->email_gov,
-                'tgl_kgb_terakhir' => $lastKgb,
-                'next_kgb_date' => $nextKgbDate,
-                'days_until_kgb' => $daysUntil,
-                'status_kepegwaian' => $pegawai->status_kepegwaian,
-                'jenis_pegawai' => $pegawai->jenis_pegawai,
-                'unit_kerja' => $pegawai->unit_kerja,
-                'kab_kota' => $pegawai->kab_kota,
-            ];
-        })->sortBy('next_kgb_date')->values();
+        return $query->get();
     }
 
     /**
-     * Get statistik KGB
+     * Get statistik KGB berdasarkan data KGB yang diinput
      */
     public function getStatistics(?int $monthsAhead = 6, ?string $kabKota = null): array
     {
-        $kgbList = $this->getUpcomingKgb($monthsAhead, $kabKota);
+        $query = KgbRecord::query();
+
+        if ($kabKota) {
+            $query->whereHas('pegawai', function ($q) use ($kabKota) {
+                $q->where('kab_kota', $kabKota);
+            });
+        }
+
+        $allKgb = $query->get();
 
         $now = Carbon::now();
 
-        $sudahLewat = $kgbList->filter(fn ($p) => $p->days_until_kgb < 0)->count();
-        $bulanIni = $kgbList->filter(fn ($p) => $p->next_kgb_date->isSameMonth($now))->count();
-        $bulanDepan = $kgbList->filter(fn ($p) => $p->next_kgb_date->isSameMonth($now->copy()->addMonth()))->count();
-        $total = $kgbList->count();
+        $total = $allKgb->count();
+        $pns = $allKgb->where('jenis_kgb', 'PNS')->count();
+        $pppk = $allKgb->where('jenis_kgb', 'PPPK')->count();
+
+        $bulanIni = $allKgb->filter(function ($kgb) use ($now) {
+            return ($kgb->tanggal_naskah && $kgb->tanggal_naskah->isSameMonth($now))
+                || ($kgb->tmt_baru && $kgb->tmt_baru->isSameMonth($now));
+        })->count();
+
+        $bulanDepan = $allKgb->filter(function ($kgb) use ($now) {
+            $nextMonth = $now->copy()->addMonth();
+
+            return ($kgb->tmt_baru && $kgb->tmt_baru->isSameMonth($nextMonth))
+                || ($kgb->next_kgb_date && $kgb->next_kgb_date->isSameMonth($nextMonth));
+        })->count();
 
         return [
             'total' => $total,
-            'sudah_lewat' => $sudahLewat,
+            'pns' => $pns,
+            'pppk' => $pppk,
             'bulan_ini' => $bulanIni,
             'bulan_depan' => $bulanDepan,
-            'lainnya' => $total - $bulanIni - $bulanDepan - $sudahLewat,
         ];
     }
 }
