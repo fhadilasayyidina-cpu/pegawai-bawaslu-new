@@ -398,15 +398,27 @@ class PppkSalaryTable
     {
         $normGol = self::normalizeGolongan($golongan);
 
-        if (! isset($this->salaries[$normGol])) {
-            return null;
-        }
-
         if (! preg_match('/^\s*(\d+)/', (string) $masaKerja, $matches)) {
             return null;
         }
 
         $tahun = (int) $matches[1];
+
+        $dbSalary = \App\Models\SalaryMatrix::where('jenis_pegawai', 'PPPK')
+            ->where(function ($q) use ($golongan, $normGol) {
+                $q->where('golongan', $golongan)
+                    ->orWhere('golongan', $normGol);
+            })
+            ->where('mkg_tahun', $tahun)
+            ->value('gaji_pokok');
+
+        if ($dbSalary !== null && $dbSalary > 0) {
+            return (int) $dbSalary;
+        }
+
+        if (! isset($this->salaries[$normGol])) {
+            return null;
+        }
 
         if (isset($this->salaries[$normGol][$tahun])) {
             return $this->salaries[$normGol][$tahun];

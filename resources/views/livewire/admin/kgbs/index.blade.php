@@ -17,10 +17,17 @@
             </flux:button>
             <flux:button
                 variant="ghost"
+                icon="currency-dollar"
+                wire:click="$set('modalImportGaji', true)"
+            >
+                Import Data Gaji
+            </flux:button>
+            <flux:button
+                variant="ghost"
                 icon="arrow-up-tray"
                 href="/admin/kgbs/import"
             >
-                Import
+                Import Riwayat
             </flux:button>
             <flux:button
                 variant="ghost"
@@ -160,4 +167,31 @@
             </div>
         </x-mary-card>
     </div>
+
+    <!-- Modal Import Data Gaji Terbaru -->
+    <x-modal wire:model="modalImportGaji" title="Import Data Gaji Pokok Terbaru" persistent separator>
+        <form wire:submit="importGaji" enctype="multipart/form-data" class="space-y-5">
+            <div class="rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/5 p-4 text-sm text-slate-700">
+                <p class="font-semibold text-brand-navy-800">Unggah file Excel data gaji pokok terbaru</p>
+                <p class="mt-1">Format file <strong>.xlsx</strong>, <strong>.xls</strong>, atau <strong>.csv</strong> (maksimal 10 MB).</p>
+                <div class="mt-2 text-xs text-slate-600 space-y-1">
+                    <p class="font-semibold text-slate-800">Format Excel yang didukung:</p>
+                    <p>• <strong>Format Matrix:</strong> Baris 1 nama Golongan (misal: <code>I/a</code>, <code>III/c</code>, <code>Golongan IX</code>), Kolom 1 Masa Kerja (Tahun).</p>
+                    <p>• <strong>Format Tabel (Flat):</strong> Memiliki kolom <code>jenis_pegawai</code> (PNS/PPPK), <code>golongan</code>, <code>mkg_tahun</code>, <code>gaji_pokok</code>.</p>
+                </div>
+            </div>
+
+            <div>
+                <label for="file-gaji" class="mb-2 block text-sm font-semibold text-slate-700">Pilih file data gaji terbaru</label>
+                <input id="file-gaji" type="file" wire:model="fileGaji" accept=".xlsx,.xls,.csv" class="block w-full cursor-pointer rounded-xl border border-slate-300 bg-white text-sm file:mr-4 file:border-0 file:bg-brand-navy-800 file:px-4 file:py-3 file:font-semibold file:text-white hover:file:bg-brand-navy-700" />
+                <div wire:loading wire:target="fileGaji" class="mt-2 text-sm text-brand-navy-700">Mengunggah file…</div>
+                @error('fileGaji') <p class="mt-2 text-sm font-medium text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="flex justify-end gap-3 pt-1">
+                <x-mary-button label="Batal" @click="$wire.modalImportGaji = false" />
+                <x-mary-button label="Import Data Gaji" icon="o-arrow-up-tray" class="btn-primary" type="submit" spinner="importGaji" />
+            </div>
+        </form>
+    </x-modal>
 </div>

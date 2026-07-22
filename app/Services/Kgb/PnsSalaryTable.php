@@ -46,8 +46,21 @@ class PnsSalaryTable
         }
 
         $tahun = (int) $matches[1];
+        $normGol = self::normalizeGolongan($golongan);
 
-        return $this->salaries()[self::normalizeGolongan($golongan)][$tahun] ?? null;
+        $dbSalary = \App\Models\SalaryMatrix::where('jenis_pegawai', 'PNS')
+            ->where(function ($q) use ($golongan, $normGol) {
+                $q->where('golongan', $golongan)
+                    ->orWhere('golongan', $normGol);
+            })
+            ->where('mkg_tahun', $tahun)
+            ->value('gaji_pokok');
+
+        if ($dbSalary !== null && $dbSalary > 0) {
+            return (int) $dbSalary;
+        }
+
+        return $this->salaries()[$normGol][$tahun] ?? null;
     }
 
     public function formatMasaKerja(int $tahun): string

@@ -8,10 +8,13 @@ use App\Services\Kgb\KgbService;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Index extends Component
 {
+    use WithFileUploads;
+
     #[Url]
     public ?string $kabKota = null;
 
@@ -19,6 +22,12 @@ class Index extends Component
     public int $monthsAhead = 0; // Default: Semua
 
     public array $kabKotaOptions = [];
+
+    public $fileGaji;
+
+    public bool $modalImportGaji = false;
+
+    public ?array $importGajiResult = null;
 
     public array $monthsOptions = [
         ['id' => 0, 'name' => 'Semua'],
@@ -92,6 +101,30 @@ class Index extends Component
             'type' => 'success',
             'message' => 'Riwayat KGB berhasil dihapus!',
         ]);
+    }
+
+    public function importGaji(): void
+    {
+        $this->validate([
+            'fileGaji' => ['required', 'file', 'mimes:xlsx,xls,csv', 'max:10240'],
+        ]);
+
+        try {
+            $this->importGajiResult = app(\App\Services\Kgb\ImportSalaryService::class)->import($this->fileGaji->getRealPath());
+
+            $this->dispatch('notyf:show', [
+                'type' => 'success',
+                'message' => "Import data gaji berhasil! {$this->importGajiResult['imported']} data nominal gaji diproses.",
+            ]);
+
+            $this->modalImportGaji = false;
+            $this->reset('fileGaji');
+        } catch (\Exception $e) {
+            $this->dispatch('notyf:show', [
+                'type' => 'error',
+                'message' => 'Gagal mengimport data gaji: '.$e->getMessage(),
+            ]);
+        }
     }
 
     public function render()
