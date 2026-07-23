@@ -26,15 +26,50 @@ class Dashboard extends Component
         $this->statistics = app(PegawaiStatisticService::class)->getAllStats($this->kabKota);
     }
 
+    private function makeColumnChart(string $title, bool $horizontal = false): ColumnChartModel
+    {
+        $chart = (new ColumnChartModel)
+            ->setTitle($title)
+            ->setAnimated(true)
+            ->withDataLabels()
+            ->withoutLegend()
+            ->setColumnWidth($horizontal ? 58 : 62)
+            ->setJsonConfig([
+                'chart.fontFamily' => "'Inter, ui-sans-serif, system-ui, sans-serif'",
+                'yaxis.title.text' => "''",
+                'xaxis.labels.style.fontSize' => "'12px'",
+                'yaxis.labels.style.fontSize' => "'12px'",
+                'dataLabels.style.fontSize' => "'12px'",
+                'dataLabels.style.fontWeight' => '600',
+            ]);
+
+        return $horizontal ? $chart->setHorizontal() : $chart;
+    }
+
+    private function makePieChart(string $title): PieChartModel
+    {
+        return (new PieChartModel)
+            ->setTitle($title)
+            ->setAnimated(true)
+            ->withDataLabels()
+            ->legendPositionBottom()
+            ->legendHorizontallyAlignedCenter()
+            ->setJsonConfig([
+                'chart.fontFamily' => "'Inter, ui-sans-serif, system-ui, sans-serif'",
+                'title.style.fontSize' => "'16px'",
+                'dataLabels.style.fontSize' => "'12px'",
+                'dataLabels.style.fontWeight' => '600',
+                'legend.fontSize' => "'12px'",
+                'legend.itemMargin.vertical' => '4',
+            ]);
+    }
+
     public function render(): \Illuminate\View\View
     {
         $colors = ['#a6192e', '#e5ad25', '#7b1822', '#f4c542', '#cf4b58', '#c58a12', '#5b1119'];
 
         // Jenis Kelamin - Column Chart
-        $jenisKelaminColumnChart = (new ColumnChartModel)
-            ->setTitle('Distribusi Jenis Kelamin')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $jenisKelaminColumnChart = $this->makeColumnChart('Distribusi Jenis Kelamin');
 
         foreach ($this->statistics['jenis_kelamin_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -42,10 +77,7 @@ class Dashboard extends Component
         }
 
         // Jenis Kelamin - Pie Chart
-        $jenisKelaminPieChart = (new PieChartModel)
-            ->setTitle('Distribusi Jenis Kelamin')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $jenisKelaminPieChart = $this->makePieChart('Distribusi Jenis Kelamin');
 
         foreach ($this->statistics['jenis_kelamin_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -53,10 +85,7 @@ class Dashboard extends Component
         }
 
         // Tingkat Pendidikan - Column Chart
-        $pendidikanColumnChart = (new ColumnChartModel)
-            ->setTitle('Tingkat Pendidikan')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $pendidikanColumnChart = $this->makeColumnChart('Tingkat Pendidikan');
 
         foreach ($this->statistics['pendidikan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -64,10 +93,7 @@ class Dashboard extends Component
         }
 
         // Tingkat Pendidikan - Pie Chart
-        $pendidikanPieChart = (new PieChartModel)
-            ->setTitle('Tingkat Pendidikan')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $pendidikanPieChart = $this->makePieChart('Tingkat Pendidikan');
 
         foreach ($this->statistics['pendidikan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -75,10 +101,7 @@ class Dashboard extends Component
         }
 
         // Jenis Jabatan - Column Chart
-        $jenisJabatanColumnChart = (new ColumnChartModel)
-            ->setTitle('Distribusi Jenis Jabatan')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $jenisJabatanColumnChart = $this->makeColumnChart('Distribusi Jenis Jabatan', true);
 
         foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -87,10 +110,7 @@ class Dashboard extends Component
         }
 
         // Jenis Jabatan - Pie Chart
-        $jenisJabatanPieChart = (new PieChartModel)
-            ->setTitle('Persentase Jenis Jabatan')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $jenisJabatanPieChart = $this->makePieChart('Persentase Jenis Jabatan');
 
         foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -99,10 +119,7 @@ class Dashboard extends Component
         }
 
         // Range Umur - Column Chart
-        $rangeUmurColumnChart = (new ColumnChartModel)
-            ->setTitle('Distribusi Range Umur')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $rangeUmurColumnChart = $this->makeColumnChart('Distribusi Range Umur');
 
         foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
@@ -111,10 +128,7 @@ class Dashboard extends Component
         }
 
         // Range Umur - Pie Chart
-        $rangeUmurPieChart = (new PieChartModel)
-            ->setTitle('Persentase Range Umur')
-            ->setAnimated(true)
-            ->withDataLabels();
+        $rangeUmurPieChart = $this->makePieChart('Persentase Range Umur');
 
         foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];

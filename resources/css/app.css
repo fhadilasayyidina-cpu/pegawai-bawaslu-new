@@ -404,8 +404,8 @@ body {
 }
 
 @keyframes chart-reveal {
-    from { opacity: 0; transform: translateY(8px) scale(0.985); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { transform: translateY(8px) scale(0.985); }
+    to { transform: translateY(0) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {

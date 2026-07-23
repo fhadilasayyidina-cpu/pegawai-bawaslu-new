@@ -72,6 +72,36 @@ const scheduleDashboardChartRefresh = () => {
     window.setTimeout(refreshDashboardChartStyles, 150);
 };
 
+// Livewire Charts v4 renders through Alpine. During a `wire:navigate` visit or
+// a dashboard filter update, Alpine can initialise before the new chart node
+// has been attached and leave the chart container empty. Retry only containers
+// that failed to create an ApexCharts canvas; rendered charts are untouched.
+const restoreMissingDashboardCharts = () => {
+    if (!window.Alpine || !window.Livewire || !window.ApexCharts) return;
+
+    document.querySelectorAll('.dashboard-shell [x-data]').forEach((element) => {
+        if (element.querySelector('.apexcharts-canvas')) return;
+
+        const livewireRoot = element.closest('[wire\\:id]');
+        const componentId = livewireRoot?.getAttribute('wire:id');
+        const chart = window.Alpine.$data(element);
+        const component = componentId ? window.Livewire.find(componentId) : null;
+
+        if (!component || typeof chart?.drawChart !== 'function') return;
+
+        try {
+            chart.drawChart(component);
+        } catch (error) {
+            // A subsequent scheduled attempt handles components still mounting.
+            console.warn('Dashboard chart will be retried.', error);
+        }
+    });
+};
+
+const scheduleDashboardChartRestore = () => {
+    [250, 800].forEach((delay) => window.setTimeout(restoreMissingDashboardCharts, delay));
+};
+
 window.downloadChart = (elementId) => {
     const container = document.getElementById(elementId);
     const chartElement = container?.querySelector('[x-data]');
@@ -102,3 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('livewire:navigated', scheduleDashboardChartRefresh);
+document.addEventListener('DOMContentLoaded', scheduleDashboardChartRestore);
+document.addEventListener('livewire:navigated', scheduleDashboardChartRestore);
+document.addEventListener('livewire:init', () => {
+    Livewire.hook('morph.updated', () => {
+        scheduleDashboardChartRefresh();
+        scheduleDashboardChartRestore();
+    });
+});

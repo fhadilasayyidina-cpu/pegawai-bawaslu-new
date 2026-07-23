@@ -17,18 +17,21 @@
             filter: none !important;
         }
 
-        /* Keep dense chart labels readable without overlapping each other. */
+        /* Use a legible default size across axes, legends, and values. */
         .apexcharts-xaxis-label,
         .apexcharts-yaxis-label {
-            font-size: 10px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
         }
         .apexcharts-legend-text {
-            font-size: 11px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
         }
         .apexcharts-datalabel,
         .apexcharts-datalabel-label,
         .apexcharts-datalabel-value {
-            font-size: 10px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
         }
     </style>
 
