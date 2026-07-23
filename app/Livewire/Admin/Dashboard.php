@@ -43,11 +43,18 @@ class Dashboard extends Component
     {
         $today = Carbon::today();
 
-        return Pegawai::query()
-            ->whereNotNull('tgl_lahir')
-            ->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
-            ->whereRaw('DAY(tgl_lahir) = ?', [$today->day])
-            ->orderBy('nama')
+        $query = Pegawai::query()
+            ->whereNotNull('tgl_lahir');
+
+        if (\Illuminate\Support\Facades\DB::getDriverName() === 'sqlite') {
+            $query->whereRaw("strftime('%m', tgl_lahir) = ?", [sprintf('%02d', $today->month)])
+                ->whereRaw("strftime('%d', tgl_lahir) = ?", [sprintf('%02d', $today->day)]);
+        } else {
+            $query->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
+                ->whereRaw('DAY(tgl_lahir) = ?', [$today->day]);
+        }
+
+        return $query->orderBy('nama')
             ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
     }
 

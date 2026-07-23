@@ -11,8 +11,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Gunakan create() supaya fitur 'hashed' di Model tetap jalan
-        // Dan Enum Role kamu tervalidasi otomatis
+        // Truncate users to prevent unique constraint errors on email
+        \App\Models\User::truncate();
 
         // 1. Admin Pusat
         User::create([
@@ -50,5 +50,6 @@ class DatabaseSeeder extends Seeder
             'access_scope' => null,
         ]);
 
+        $this->call(PegawaiSeeder::class);
     }
 }

@@ -1,0 +1,987 @@
+﻿C:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe : Running 2.4.1 
+(2022-08-20 11:44:50) with PHP 8.3.30 on Windows NT / 10.0
+At line:1 char:1
++ C:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe C:\laragon\bin\c ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Running 2.4.1 (...ndows NT / 10.0 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Reading ./composer.json (C:\laragon\www\pegawai-bawaslu-new\composer.json)
+Loading config file ./composer.json 
+(C:\laragon\www\pegawai-bawaslu-new\composer.json)
+Checked CA file /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a 
+file.
+Checked directory /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not 
+a directory.
+Checked CA file /etc/ssl/certs/ca-certificates.crt does not exist or it is not 
+a file.
+Checked directory /etc/ssl/certs/ca-certificates.crt does not exist or it is 
+not a directory.
+Checked CA file /etc/ssl/ca-bundle.pem does not exist or it is not a file.
+Checked directory /etc/ssl/ca-bundle.pem does not exist or it is not a 
+directory.
+Checked CA file /usr/local/share/certs/ca-root-nss.crt does not exist or it is 
+not a file.
+Checked directory /usr/local/share/certs/ca-root-nss.crt does not exist or it 
+is not a directory.
+Checked CA file /usr/ssl/certs/ca-bundle.crt does not exist or it is not a 
+file.
+Checked directory /usr/ssl/certs/ca-bundle.crt does not exist or it is not a 
+directory.
+Checked CA file /opt/local/share/curl/curl-ca-bundle.crt does not exist or it 
+is not a file.
+Checked directory /opt/local/share/curl/curl-ca-bundle.crt does not exist or 
+it is not a directory.
+Checked CA file /usr/local/share/curl/curl-ca-bundle.crt does not exist or it 
+is not a file.
+Checked directory /usr/local/share/curl/curl-ca-bundle.crt does not exist or 
+it is not a directory.
+Checked CA file /usr/share/ssl/certs/ca-bundle.crt does not exist or it is not 
+a file.
+Checked directory /usr/share/ssl/certs/ca-bundle.crt does not exist or it is 
+not a directory.
+Checked CA file /etc/ssl/cert.pem does not exist or it is not a file.
+Checked directory /etc/ssl/cert.pem does not exist or it is not a directory.
+Checked CA file /usr/local/etc/ssl/cert.pem does not exist or it is not a file.
+Checked directory /usr/local/etc/ssl/cert.pem does not exist or it is not a 
+directory.
+Checked CA file /usr/local/etc/openssl/cert.pem does not exist or it is not a 
+file.
+Checked directory /usr/local/etc/openssl/cert.pem does not exist or it is not 
+a directory.
+Checked CA file /usr/local/etc/openssl@1.1/cert.pem does not exist or it is 
+not a file.
+Checked directory /usr/local/etc/openssl@1.1/cert.pem does not exist or it is 
+not a directory.
+Checked CA file /etc/pki/tls/certs does not exist or it is not a file.
+Checked directory /etc/pki/tls/certs does not exist or it is not a directory.
+Checked CA file /etc/ssl/certs does not exist or it is not a file.
+Checked directory /etc/ssl/certs does not exist or it is not a directory.
+Checked CA file /etc/ssl does not exist or it is not a file.
+Checked directory /etc/ssl does not exist or it is not a directory.
+Checked CA file /usr/local/share/certs does not exist or it is not a file.
+Checked directory /usr/local/share/certs does not exist or it is not a 
+directory.
+Checked CA file /usr/ssl/certs does not exist or it is not a file.
+Checked directory /usr/ssl/certs does not exist or it is not a directory.
+Checked CA file /opt/local/share/curl does not exist or it is not a file.
+Checked directory /opt/local/share/curl does not exist or it is not a 
+directory.
+Checked CA file /usr/local/share/curl does not exist or it is not a file.
+Checked directory /usr/local/share/curl does not exist or it is not a 
+directory.
+Checked CA file /usr/share/ssl/certs does not exist or it is not a file.
+Checked directory /usr/share/ssl/certs does not exist or it is not a directory.
+Checked CA file /etc/ssl does not exist or it is not a file.
+Checked directory /etc/ssl does not exist or it is not a directory.
+Checked CA file /usr/local/etc/ssl does not exist or it is not a file.
+Checked directory /usr/local/etc/ssl does not exist or it is not a directory.
+Checked CA file /usr/local/etc/openssl does not exist or it is not a file.
+Checked directory /usr/local/etc/openssl does not exist or it is not a 
+directory.
+Checked CA file /usr/local/etc/openssl@1.1 does not exist or it is not a file.
+Checked directory /usr/local/etc/openssl@1.1 does not exist or it is not a 
+directory.
+Checked CA file C:\Users\Lenovo\AppData\Local\Temp\ope902C.tmp: valid
+Executing command (C:\laragon\www\pegawai-bawaslu-new): git branch -a 
+--no-color --no-abbrev -v
+Reading C:/Users/Lenovo/AppData/Roaming/Composer/composer.json 
+(C:\Users\Lenovo\AppData\Roaming\Composer\composer.json)
+Loading config file C:/Users/Lenovo/AppData/Roaming/Composer/composer.json 
+(C:\Users\Lenovo\AppData\Roaming\Composer\composer.json)
+Reading C:\laragon\www\pegawai-bawaslu-new/vendor/composer/installed.json 
+(C:\laragon\www\pegawai-bawaslu-new\vendor\composer\installed.json)
+Reading 
+C:/Users/Lenovo/AppData/Roaming/Composer/vendor/composer/installed.json 
+(C:\Users\Lenovo\AppData\Roaming\Composer\vendor\composer\installed.json)
+Loading plugin Pest\Plugin\Manager (from pestphp/pest-plugin)
+Generating optimized autoload files
+Warning: Ambiguous class resolution, "Larastan\Larastan\ApplicationResolver" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\ApplicationResolver.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nun
+omaduro/larastan/src\ApplicationResolver.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedEmailViewCollector" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collectors\UsedEmailV
+iewCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\Collectors\UsedEmailViewCollector.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedRouteFacadeViewCollector" was found in both "
+C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collectors\Used
+RouteFacadeViewCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\Collectors\UsedRouteFacadeViewCollector.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedTranslationFacadeCollector" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collector
+s\UsedTranslationFacadeCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/v
+endor/nunomaduro/larastan/src\Collectors\UsedTranslationFacadeCollector.php", 
+the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedTranslationFunctionCollector" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collector
+s\UsedTranslationFunctionCollector.php" and "C:/laragon/www/pegawai-bawaslu-new
+/vendor/nunomaduro/larastan/src\Collectors\UsedTranslationFunctionCollector.php
+", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedTranslationTranslatorCollector" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collector
+s\UsedTranslationTranslatorCollector.php" and "C:/laragon/www/pegawai-bawaslu-n
+ew/vendor/nunomaduro/larastan/src\Collectors\UsedTranslationTranslatorCollector
+.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedTranslationViewCollector" was found in both "
+C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collectors\Used
+TranslationViewCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\Collectors\UsedTranslationViewCollector.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedViewFacadeMakeCollector" was found in both "C
+:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collectors\UsedV
+iewFacadeMakeCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\Collectors\UsedViewFacadeMakeCollector.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedViewFunctionCollector" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collectors\UsedVie
+wFunctionCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\Collectors\UsedViewFunctionCollector.php", the first will be 
+used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedViewInAnotherViewCollector" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collector
+s\UsedViewInAnotherViewCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/v
+endor/nunomaduro/larastan/src\Collectors\UsedViewInAnotherViewCollector.php", 
+the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Collectors\UsedViewMakeCollector" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Collectors\UsedViewMak
+eCollector.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\Collectors\UsedViewMakeCollector.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Concerns\HasContainer" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Concerns\HasContainer.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Concerns\HasContainer.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Concerns\LoadsAuthModel" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\Concerns\LoadsAuthModel.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Concerns
+\LoadsAuthModel.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Contracts\Methods\PassableContract" was found in both "C:/la
+ragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Contracts\Methods\Pa
+ssableContract.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Contracts\Methods\PassableContract.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Contracts\Methods\Pipes\PipeContract" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Contracts\Methods\
+Pipes\PipeContract.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\Contracts\Methods\Pipes\PipeContract.php", the first will be 
+used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Contracts\Types\PassableContract" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Contracts\Types\Passab
+leContract.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\Contracts\Types\PassableContract.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Contracts\Types\Pipes\PipeContract" was found in both "C:/la
+ragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Contracts\Types\Pipe
+s\PipeContract.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Contracts\Types\Pipes\PipeContract.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Internal\ComposerHelper" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\Internal\ComposerHelper.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Internal
+\ComposerHelper.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Internal\ConfigHelper" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Internal\ConfigHelper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Internal\ConfigHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Internal\ConsoleApplicationHelper" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Internal\ConsoleAppli
+cationHelper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\Internal\ConsoleApplicationHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Internal\ConsoleApplicationResolver" was found in both "C:/l
+aragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Internal\ConsoleApp
+licationResolver.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro
+/larastan/src\Internal\ConsoleApplicationResolver.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\LarastanStubFilesExtension" was found in both "C:/laragon/ww
+w/pegawai-bawaslu-new/vendor/larastan/larastan/src\LarastanStubFilesExtension.p
+hp" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Lara
+stanStubFilesExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\BuilderHelper" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Methods\BuilderHelper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Methods\BuilderHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\EloquentBuilderForwardsCallsExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Methods\E
+loquentBuilderForwardsCallsExtension.php" and "C:/laragon/www/pegawai-bawaslu-n
+ew/vendor/nunomaduro/larastan/src\Methods\EloquentBuilderForwardsCallsExtension
+.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\Extension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Methods\Extension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadur
+o/larastan/src\Methods\Extension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\HigherOrderCollectionProxyExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Methods\H
+igherOrderCollectionProxyExtension.php" and "C:/laragon/www/pegawai-bawaslu-new
+/vendor/nunomaduro/larastan/src\Methods\HigherOrderCollectionProxyExtension.php
+", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\HigherOrderTapProxyExtension" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Methods\HigherOrde
+rTapProxyExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\Methods\HigherOrderTapProxyExtension.php", the first will be 
+used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\Kernel" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Methods\Kernel.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Methods\Kernel.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\Macro" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Methods\Macro.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/la
+rastan/src\Methods\Macro.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\MacroMethodsClassReflectionExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Methods\M
+acroMethodsClassReflectionExtension.php" and "C:/laragon/www/pegawai-bawaslu-ne
+w/vendor/nunomaduro/larastan/src\Methods\MacroMethodsClassReflectionExtension.p
+hp", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\ModelFactoryMethodsClassReflectionExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Methods\ModelFactoryMethodsClassReflectionExtension.php" and "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/nunomaduro/larastan/src\Methods\ModelFactoryMethodsCla
+ssReflectionExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\ModelForwardsCallsExtension" was found in both "C:/l
+aragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Methods\ModelForwar
+dsCallsExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro
+/larastan/src\Methods\ModelForwardsCallsExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\Passable" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Methods\Passable.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro
+/larastan/src\Methods\Passable.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\Pipes\Auths" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Methods\Pipes\Auths.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nun
+omaduro/larastan/src\Methods\Pipes\Auths.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\Pipes\Contracts" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\Methods\Pipes\Contracts.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Methods\
+Pipes\Contracts.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Methods\Pipes\Facades" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Methods\Pipes\Facades.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Methods\Pipes\Facades.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\Pipes\Managers" was found in both "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/larastan/larastan/src\Methods\Pipes\Managers.php" and 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Methods\Pipe
+s\Managers.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\Pipes\SelfClass" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\Methods\Pipes\SelfClass.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Methods\
+Pipes\SelfClass.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\RedirectResponseMethodsClassReflectionExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Methods\RedirectResponseMethodsClassReflectionExtension.php" and "C:/larago
+n/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Methods\RedirectRespon
+seMethodsClassReflectionExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\RelationForwardsCallsExtension" was found in both "C
+:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Methods\Relation
+ForwardsCallsExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\Methods\RelationForwardsCallsExtension.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\StorageMethodsClassReflectionExtension" was found 
+in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Method
+s\StorageMethodsClassReflectionExtension.php" and "C:/laragon/www/pegawai-bawas
+lu-new/vendor/nunomaduro/larastan/src\Methods\StorageMethodsClassReflectionExte
+nsion.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Methods\ViewWithMethodsClassReflectionExtension" was found 
+in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Method
+s\ViewWithMethodsClassReflectionExtension.php" and "C:/laragon/www/pegawai-bawa
+slu-new/vendor/nunomaduro/larastan/src\Methods\ViewWithMethodsClassReflectionEx
+tension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\HigherOrderCollectionProxyPropertyExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Properties\HigherOrderCollectionProxyPropertyExtension.php" and "C:/laragon/www
+/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Properties\HigherOrderColle
+ctionProxyPropertyExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\MigrationHelper" was found in both "C:/laragon/ww
+w/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\MigrationHelper.p
+hp" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Prop
+erties\MigrationHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ModelAccessorExtension" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\ModelAcces
+sorExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\Properties\ModelAccessorExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ModelCastHelper" was found in both "C:/laragon/ww
+w/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\ModelCastHelper.p
+hp" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Prop
+erties\ModelCastHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ModelProperty" was found in both "C:/laragon/www/
+pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\ModelProperty.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Properti
+es\ModelProperty.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ModelPropertyExtension" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\ModelPrope
+rtyExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\Properties\ModelPropertyExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ModelPropertyHelper" was found in both "C:/larago
+n/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\ModelProperty
+Helper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/
+src\Properties\ModelPropertyHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ModelRelationsExtension" was found in both "C:/la
+ragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\ModelRela
+tionsExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Properties\ModelRelationsExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\ReflectionTypeContainer" was found in both "C:/la
+ragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\Reflectio
+nTypeContainer.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Properties\ReflectionTypeContainer.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\Schema\MySqlDataTypeToPhpTypeConverter" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Properties\Schema\MySqlDataTypeToPhpTypeConverter.php" and "C:/laragon/www/pega
+wai-bawaslu-new/vendor/nunomaduro/larastan/src\Properties\Schema\MySqlDataTypeT
+oPhpTypeConverter.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\SchemaAggregator" was found in both "C:/laragon/w
+ww/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\SchemaAggregator
+.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Pr
+operties\SchemaAggregator.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\SchemaColumn" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\Properties\SchemaColumn.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Properti
+es\SchemaColumn.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\SchemaTable" was found in both "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/larastan/larastan/src\Properties\SchemaTable.php" and 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Properties\S
+chemaTable.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Properties\SquashedMigrationHelper" was found in both "C:/la
+ragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Properties\SquashedM
+igrationHelper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Properties\SquashedMigrationHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\AnnotationScopeMethodParameterReflection" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Reflection\AnnotationScopeMethodParameterReflection.php" and "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/nunomaduro/larastan/src\Reflection\AnnotationScopeMeth
+odParameterReflection.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\AnnotationScopeMethodReflection" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflectio
+n\AnnotationScopeMethodReflection.php" and "C:/laragon/www/pegawai-bawaslu-new/
+vendor/nunomaduro/larastan/src\Reflection\AnnotationScopeMethodReflection.php",
+ the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\DynamicWhereMethodReflection" was found in both "
+C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflection\Dyna
+micWhereMethodReflection.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\Reflection\DynamicWhereMethodReflection.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\DynamicWhereParameterReflection" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflectio
+n\DynamicWhereParameterReflection.php" and "C:/laragon/www/pegawai-bawaslu-new/
+vendor/nunomaduro/larastan/src\Reflection\DynamicWhereParameterReflection.php",
+ the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\EloquentBuilderMethodReflection" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflectio
+n\EloquentBuilderMethodReflection.php" and "C:/laragon/www/pegawai-bawaslu-new/
+vendor/nunomaduro/larastan/src\Reflection\EloquentBuilderMethodReflection.php",
+ the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\ModelScopeMethodReflection" was found in both "C:
+/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflection\ModelS
+copeMethodReflection.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunoma
+duro/larastan/src\Reflection\ModelScopeMethodReflection.php", the first will 
+be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\ReflectionHelper" was found in both "C:/laragon/w
+ww/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflection\ReflectionHelper
+.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Re
+flection\ReflectionHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Reflection\StaticMethodReflection" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Reflection\StaticMeth
+odReflection.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\Reflection\StaticMethodReflection.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\AppEnvironmentReturnTypeExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTyp
+es\AppEnvironmentReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-n
+ew/vendor/nunomaduro/larastan/src\ReturnTypes\AppEnvironmentReturnTypeExtension
+.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\AppFacadeEnvironmentReturnTypeExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+ReturnTypes\AppFacadeEnvironmentReturnTypeExtension.php" and "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\AppFacadeEnvironme
+ntReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\ApplicationMakeDynamicReturnTypeExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+ReturnTypes\ApplicationMakeDynamicReturnTypeExtension.php" and "C:/laragon/www/
+pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\ApplicationMakeD
+ynamicReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\AppMakeDynamicReturnTypeExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTyp
+es\AppMakeDynamicReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-n
+ew/vendor/nunomaduro/larastan/src\ReturnTypes\AppMakeDynamicReturnTypeExtension
+.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\AppMakeHelper" was found in both "C:/laragon/www
+/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\AppMakeHelper.php
+" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Return
+Types\AppMakeHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\AuthExtension" was found in both "C:/laragon/www
+/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\AuthExtension.php
+" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Return
+Types\AuthExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\AuthManagerExtension" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\AuthManage
+rExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\ReturnTypes\AuthManagerExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\CollectionF
+ilterRejectDynamicReturnTypeExtension" was found in both "C:/laragon/www/pegawa
+i-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\CollectionFilterRejectDy
+namicReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\ReturnTypes\CollectionFilterRejectDynamicReturnTypeExtens
+ion.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\CollectionW
+hereNotNullDynamicReturnTypeExtension" was found in both "C:/laragon/www/pegawa
+i-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\CollectionWhereNotNullDy
+namicReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\ReturnTypes\CollectionWhereNotNullDynamicReturnTypeExtens
+ion.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ConfigFacad
+eCollectionDynamicStaticMethodReturnTypeExtension" was found in both "C:/larago
+n/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ConfigFacade
+CollectionDynamicStaticMethodReturnTypeExtension.php" and "C:/laragon/www/pegaw
+ai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\ConfigFacadeCollectio
+nDynamicStaticMethodReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ConfigRepos
+itoryDynamicMethodReturnTypeExtension" was found in both "C:/laragon/www/pegawa
+i-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ConfigRepositoryDynamicM
+ethodReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\ReturnTypes\ConfigRepositoryDynamicMethodReturnTypeExtens
+ion.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ConsoleComm
+and\ArgumentDynamicReturnTypeExtension" was found in both "C:/laragon/www/pegaw
+ai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ConsoleCommand\Argument
+DynamicReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/
+nunomaduro/larastan/src\ReturnTypes\ConsoleCommand\ArgumentDynamicReturnTypeExt
+ension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ConsoleComm
+and\HasArgumentDynamicReturnTypeExtension" was found in both "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ConsoleCommand\HasAr
+gumentDynamicReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/v
+endor/nunomaduro/larastan/src\ReturnTypes\ConsoleCommand\HasArgumentDynamicRetu
+rnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ConsoleComm
+and\HasOptionDynamicReturnTypeExtension" was found in both "C:/laragon/www/pega
+wai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ConsoleCommand\HasOpti
+onDynamicReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendo
+r/nunomaduro/larastan/src\ReturnTypes\ConsoleCommand\HasOptionDynamicReturnType
+Extension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ConsoleComm
+and\OptionDynamicReturnTypeExtension" was found in both "C:/laragon/www/pegawai
+-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ConsoleCommand\OptionDyna
+micReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\ReturnTypes\ConsoleCommand\OptionDynamicReturnTypeExtension
+.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ContainerAr
+rayAccessDynamicMethodReturnTypeExtension" was found in both "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ContainerArrayAccess
+DynamicMethodReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/v
+endor/nunomaduro/larastan/src\ReturnTypes\ContainerArrayAccessDynamicMethodRetu
+rnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\ContainerMakeDynamicReturnTypeExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+ReturnTypes\ContainerMakeDynamicReturnTypeExtension.php" and "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\ContainerMakeDynam
+icReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\DateExtension" was found in both "C:/laragon/www
+/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\DateExtension.php
+" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Return
+Types\DateExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\DoubleUnderscoreHelperReturnTypeExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+ReturnTypes\DoubleUnderscoreHelperReturnTypeExtension.php" and "C:/laragon/www/
+pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\DoubleUnderscore
+HelperReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\EloquentBuilderExtension" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Eloque
+ntBuilderExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\ReturnTypes\EloquentBuilderExtension.php", the first will be 
+used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\FactoryDynamicMethodReturnTypeExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+ReturnTypes\FactoryDynamicMethodReturnTypeExtension.php" and "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\FactoryDynamicMeth
+odReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\FormRequest
+SafeDynamicMethodReturnTypeExtension" was found in both "C:/laragon/www/pegawai
+-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\FormRequestSafeDynamicMet
+hodReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\ReturnTypes\FormRequestSafeDynamicMethodReturnTypeExtension
+.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\GuardDynamicStaticMethodReturnTypeExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\ReturnTypes\GuardDynamicStaticMethodReturnTypeExtension.php" and "C:/larago
+n/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\GuardDynam
+icStaticMethodReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\GuardExtension" was found in both "C:/laragon/ww
+w/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\GuardExtension.p
+hp" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Retu
+rnTypes\GuardExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\AppExtension" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\Ap
+pExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\ReturnTypes\Helpers\AppExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\AuthExtension" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\A
+uthExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\ReturnTypes\Helpers\AuthExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\CollectExtension" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helper
+s\CollectExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\ReturnTypes\Helpers\CollectExtension.php", the first will be 
+used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\Helpers\Con
+figFunctionDynamicFunctionReturnTypeExtension" was found in both "C:/laragon/ww
+w/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\ConfigFu
+nctionDynamicFunctionReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawas
+lu-new/vendor/nunomaduro/larastan/src\ReturnTypes\Helpers\ConfigFunctionDynamic
+FunctionReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\Helpers\Env
+FunctionDynamicFunctionReturnTypeExtension" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\EnvFunction
+DynamicFunctionReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new
+/vendor/nunomaduro/larastan/src\ReturnTypes\Helpers\EnvFunctionDynamicFunctionR
+eturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\LiteralExtension" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helper
+s\LiteralExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\ReturnTypes\Helpers\LiteralExtension.php", the first will be 
+used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\NowAndTodayExtension" was found in both 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\He
+lpers\NowAndTodayExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/
+nunomaduro/larastan/src\ReturnTypes\Helpers\NowAndTodayExtension.php", the 
+first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\ResponseExtension" was found in both "C:
+/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpe
+rs\ResponseExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunoma
+duro/larastan/src\ReturnTypes\Helpers\ResponseExtension.php", the first will 
+be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\StrExtension" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\St
+rExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\ReturnTypes\Helpers\StrExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\TapExtension" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\Ta
+pExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\ReturnTypes\Helpers\TapExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\ValidatorExtension" was found in both "C
+:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Help
+ers\ValidatorExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\ReturnTypes\Helpers\ValidatorExtension.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\Helpers\ValueExtension" was found in both "C:/la
+ragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Helpers\
+ValueExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\ReturnTypes\Helpers\ValueExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\HigherOrderTapProxyExtension" was found in both 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Hi
+gherOrderTapProxyExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/
+nunomaduro/larastan/src\ReturnTypes\HigherOrderTapProxyExtension.php", the 
+first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\LangGetReturnTypeExtension" was found in both "C
+:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Lang
+GetReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\ReturnTypes\LangGetReturnTypeExtension.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\ModelDynamicStaticMethodReturnTypeExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\ReturnTypes\ModelDynamicStaticMethodReturnTypeExtension.php" and "C:/larago
+n/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\ModelDynam
+icStaticMethodReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\ReturnTypes\ModelFactor
+yDynamicStaticMethodReturnTypeExtension" was found in both "C:/laragon/www/pega
+wai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\ModelFactoryDynamicSta
+ticMethodReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendo
+r/nunomaduro/larastan/src\ReturnTypes\ModelFactoryDynamicStaticMethodReturnType
+Extension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\ModelOnlyDynamicMethodReturnTypeExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+ReturnTypes\ModelOnlyDynamicMethodReturnTypeExtension.php" and "C:/laragon/www/
+pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\ModelOnlyDynamic
+MethodReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\NewModelQueryDynamicMethodReturnTypeExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\ReturnTypes\NewModelQueryDynamicMethodReturnTypeExtension.php" and "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\NewModel
+QueryDynamicMethodReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\RelationCollectionExtension" was found in both "
+C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\Rel
+ationCollectionExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\ReturnTypes\RelationCollectionExtension.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\RequestFileExtension" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\RequestFil
+eExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\ReturnTypes\RequestFileExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\RequestRouteExtension" was found in both "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\RequestRo
+uteExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/lar
+astan/src\ReturnTypes\RequestRouteExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\RequestUserExtension" was found in both "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\RequestUse
+rExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/laras
+tan/src\ReturnTypes\RequestUserExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\StorageDynamicStaticMethodReturnTypeExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\ReturnTypes\StorageDynamicStaticMethodReturnTypeExtension.php" and "C:/lara
+gon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\ReturnTypes\StorageD
+ynamicStaticMethodReturnTypeExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\TestCaseExtension" was found in both "C:/laragon
+/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTypes\TestCaseExten
+sion.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/sr
+c\ReturnTypes\TestCaseExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\TransHelperReturnTypeExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTyp
+es\TransHelperReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/
+vendor/nunomaduro/larastan/src\ReturnTypes\TransHelperReturnTypeExtension.php",
+ the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\ReturnTypes\TranslatorGetReturnTypeExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\ReturnTyp
+es\TranslatorGetReturnTypeExtension.php" and "C:/laragon/www/pegawai-bawaslu-ne
+w/vendor/nunomaduro/larastan/src\ReturnTypes\TranslatorGetReturnTypeExtension.p
+hp", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Rules\CheckDispatchArgu
+mentTypesCompatibleWithClassConstructorRule" was found in both "C:/laragon/www/
+pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\CheckDispatchArgumentTyp
+esCompatibleWithClassConstructorRule.php" and "C:/laragon/www/pegawai-bawaslu-n
+ew/vendor/nunomaduro/larastan/src\Rules\CheckDispatchArgumentTypesCompatibleWit
+hClassConstructorRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\ConfigCollectionRule" was found in both "C:/laragon/ww
+w/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\ConfigCollectionRule.p
+hp" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Rule
+s\ConfigCollectionRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\ConsoleCommand\UndefinedArgumentOrOptionRule" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Rules\ConsoleCommand\UndefinedArgumentOrOptionRule.php" and "C:/laragon/www/peg
+awai-bawaslu-new/vendor/nunomaduro/larastan/src\Rules\ConsoleCommand\UndefinedA
+rgumentOrOptionRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\DeferrableServiceProviderMissingProvidesRule" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Rules\DeferrableServiceProviderMissingProvidesRule.php" and "C:/laragon/www/peg
+awai-bawaslu-new/vendor/nunomaduro/larastan/src\Rules\DeferrableServiceProvider
+MissingProvidesRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\ModelAppendsRule" was found in both "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/larastan/larastan/src\Rules\ModelAppendsRule.php" and 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Rules\ModelA
+ppendsRule.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Rules\ModelRuleHelper" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Rules\ModelRuleHelper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Rules\ModelRuleHelper.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoAuthFacadeInRequestScopeRule" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoAuthFacade
+InRequestScopeRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\Rules\NoAuthFacadeInRequestScopeRule.php", the first will be 
+used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoAuthHelperInRequestScopeRule" was found in both "C:/
+laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoAuthHelper
+InRequestScopeRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomadu
+ro/larastan/src\Rules\NoAuthHelperInRequestScopeRule.php", the first will be 
+used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoEnvCallsOutsideOfConfigRule" was found in both "C:/l
+aragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoEnvCallsOut
+sideOfConfigRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro
+/larastan/src\Rules\NoEnvCallsOutsideOfConfigRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoMissingTranslationsRule" was found in both "C:/larag
+on/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoMissingTranslat
+ionsRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larasta
+n/src\Rules\NoMissingTranslationsRule.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Rules\NoModelMakeRule" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Rules\NoModelMakeRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Rules\NoModelMakeRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoPublicModelScopeAndAccessorRule" was found in both "
+C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoPublicM
+odelScopeAndAccessorRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\Rules\NoPublicModelScopeAndAccessorRule.php", the first 
+will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoUnnecessaryCollectionCallRule" was found in both "C:
+/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoUnnecessa
+ryCollectionCallRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunoma
+duro/larastan/src\Rules\NoUnnecessaryCollectionCallRule.php", the first will 
+be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\NoUnnecessaryEnumerableToArrayCallsRule" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\NoU
+nnecessaryEnumerableToArrayCallsRule.php" and "C:/laragon/www/pegawai-bawaslu-n
+ew/vendor/nunomaduro/larastan/src\Rules\NoUnnecessaryEnumerableToArrayCallsRule
+.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\OctaneCompatibilityRule" was found in both "C:/laragon
+/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\OctaneCompatibility
+Rule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/sr
+c\Rules\OctaneCompatibilityRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\RelationExistenceRule" was found in both "C:/laragon/w
+ww/pegawai-bawaslu-new/vendor/larastan/larastan/src\Rules\RelationExistenceRule
+.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Ru
+les\RelationExistenceRule.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Rules\UnusedViewsRule" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Rules\UnusedViewsRule.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/n
+unomaduro/larastan/src\Rules\UnusedViewsRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\UselessConstructs\NoUselessValueFunctionCallsRule" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Rules\UselessConstructs\NoUselessValueFunctionCallsRule.php" and "C:/larago
+n/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Rules\UselessConstruct
+s\NoUselessValueFunctionCallsRule.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Rules\UselessConstructs\NoUselessWithFunctionCallsRule" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Rules\UselessConstructs\NoUselessWithFunctionCallsRule.php" and "C:/laragon/www
+/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Rules\UselessConstructs\NoU
+selessWithFunctionCallsRule.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\SQL\ColumnDefinition" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\SQL\ColumnDefinition.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\SQL\ColumnDefinition.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\SQL\IamcalSqlParser" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\SQL\IamcalSqlParser.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nun
+omaduro/larastan/src\SQL\IamcalSqlParser.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\SQL\PhpMyAdminSqlParser" was found in both "C:/laragon/www/p
+egawai-bawaslu-new/vendor/larastan/larastan/src\SQL\PhpMyAdminSqlParser.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\SQL\PhpM
+yAdminSqlParser.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\SQL\SqlParser" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+SQL\SqlParser.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/la
+rastan/src\SQL\SqlParser.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\SQL\SqlParserFactory" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\SQL\SqlParserFactory.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\SQL\SqlParserFactory.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\SQL\SqlParserFailure" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\SQL\SqlParserFailure.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\SQL\SqlParserFailure.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\SQL\TableDefinition" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\SQL\TableDefinition.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nun
+omaduro/larastan/src\SQL\TableDefinition.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Support\CollectionHelper" was found in both "C:/laragon/www/
+pegawai-bawaslu-new/vendor/larastan/larastan/src\Support\CollectionHelper.php" 
+and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Support\
+CollectionHelper.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Support\ConfigParser" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Support\ConfigParser.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\Support\ConfigParser.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Support\HigherOrderCollectionProxyHelper" was found in both 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Support\Higher
+OrderCollectionProxyHelper.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/
+nunomaduro/larastan/src\Support\HigherOrderCollectionProxyHelper.php", the 
+first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Support\ViewFileHelper" was found in both "C:/laragon/www/pe
+gawai-bawaslu-new/vendor/larastan/larastan/src\Support\ViewFileHelper.php" and 
+"C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Support\View
+FileHelper.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Support\ViewParser" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Support\ViewParser.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nuno
+maduro/larastan/src\Support\ViewParser.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\AbortIfFunctionTypeSpecifyingExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Types\Abo
+rtIfFunctionTypeSpecifyingExtension.php" and "C:/laragon/www/pegawai-bawaslu-ne
+w/vendor/nunomaduro/larastan/src\Types\AbortIfFunctionTypeSpecifyingExtension.p
+hp", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\CollectionOf\CollectionOfType" was found in both "C:/l
+aragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Types\CollectionOf\
+CollectionOfType.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro
+/larastan/src\Types\CollectionOf\CollectionOfType.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\CollectionOf\CollectionOfTypeNodeResolverExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Types\CollectionOf\CollectionOfTypeNodeResolverExtension.php" and "C:/larag
+on/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Types\CollectionOf\Co
+llectionOfTypeNodeResolverExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\Factory\ModelFactoryType" was found in both "C:/larago
+n/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Types\Factory\ModelFacto
+ryType.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/
+src\Types\Factory\ModelFactoryType.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\GenericEloquentBuilderTypeNodeResolverExtension" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Types\GenericEloquentBuilderTypeNodeResolverExtension.php" and "C:/laragon/www/
+pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Types\GenericEloquentBuilder
+TypeNodeResolverExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\GenericEloquentCollectionTypeNodeResolverExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Types\GenericEloquentCollectionTypeNodeResolverExtension.php" and "C:/larag
+on/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Types\GenericEloquent
+CollectionTypeNodeResolverExtension.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\ModelProperty\GenericModelPropertyType" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Types\Mod
+elProperty\GenericModelPropertyType.php" and "C:/laragon/www/pegawai-bawaslu-ne
+w/vendor/nunomaduro/larastan/src\Types\ModelProperty\GenericModelPropertyType.p
+hp", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\ModelProperty\ModelPropertyTypeNodeResolverExtension" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Types\ModelProperty\ModelPropertyTypeNodeResolverExtension.php" and "C:/lar
+agon/www/pegawai-bawaslu-new/vendor/nunomaduro/larastan/src\Types\ModelProperty
+\ModelPropertyTypeNodeResolverExtension.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Types\Passable" was 
+found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\
+Types\Passable.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nunomaduro/l
+arastan/src\Types\Passable.php", the first will be used.
+Warning: Ambiguous class resolution, "Larastan\Larastan\Types\ViewStringType" 
+was found in both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/
+src\Types\ViewStringType.php" and "C:/laragon/www/pegawai-bawaslu-new/vendor/nu
+nomaduro/larastan/src\Types\ViewStringType.php", the first will be used.
+Warning: Ambiguous class resolution, 
+"Larastan\Larastan\Types\ViewStringTypeNodeResolverExtension" was found in 
+both "C:/laragon/www/pegawai-bawaslu-new/vendor/larastan/larastan/src\Types\Vie
+wStringTypeNodeResolverExtension.php" and "C:/laragon/www/pegawai-bawaslu-new/v
+endor/nunomaduro/larastan/src\Types\ViewStringTypeNodeResolverExtension.php", 
+the first will be used.
+Class App\Statistic\UserStatistic located in C:/laragon/www/pegawai-bawaslu-new
+/app\Http\Services\Statistic\UserStatistic.php does not comply with psr-4 
+autoloading standard. Skipping.
+Class App\Services\User\UserService located in C:/laragon/www/pegawai-bawaslu-n
+ew/app\Http\Services\User\UserService.blade.php does not comply with psr-4 
+autoloading standard. Skipping.
+> post-autoload-dump: Pest\Plugin\Manager->registerPlugins
+> post-autoload-dump: Illuminate\Foundation\ComposerScripts::postAutoloadDump
+
+In autoload.php line 12:
+                                                                            
+  [Error]                                                                   
+  Class "ComposerAutoloaderInitae2800ca9fca4c688f385f702e5a9367" not found  
+                                                                            
+
+Exception trace:
+  at C:\laragon\www\pegawai-bawaslu-new\vendor\autoload.php:12
+ require_once() at C:\laragon\www\pegawai-bawaslu-new\vendor\laravel\framework\
+src\Illuminate\Foundation\ComposerScripts.php:48
+ Illuminate\Foundation\ComposerScripts::postAutoloadDump() at phar://C:/laragon
+/bin/composer/composer.phar/src/Composer/EventDispatcher/EventDispatcher.php:38
+6
+ Composer\EventDispatcher\EventDispatcher->executeEventPhpScript() at phar://C:
+/laragon/bin/composer/composer.phar/src/Composer/EventDispatcher/EventDispatche
+r.php:246
+ Composer\EventDispatcher\EventDispatcher->doDispatch() at phar://C:/laragon/bi
+n/composer/composer.phar/src/Composer/EventDispatcher/EventDispatcher.php:123
+ Composer\EventDispatcher\EventDispatcher->dispatchScript() at phar://C:/larago
+n/bin/composer/composer.phar/src/Composer/Autoload/AutoloadGenerator.php:437
+ Composer\Autoload\AutoloadGenerator->dump() at phar://C:/laragon/bin/composer/
+composer.phar/src/Composer/Command/DumpAutoloadCommand.php:99
+ Composer\Command\DumpAutoloadCommand->execute() at phar://C:/laragon/bin/compo
+ser/composer.phar/vendor/symfony/console/Command/Command.php:298
+ Symfony\Component\Console\Command\Command->run() at phar://C:/laragon/bin/comp
+oser/composer.phar/vendor/symfony/console/Application.php:1024
+ Symfony\Component\Console\Application->doRunCommand() at phar://C:/laragon/bin
+/composer/composer.phar/vendor/symfony/console/Application.php:299
+ Symfony\Component\Console\Application->doRun() at phar://C:/laragon/bin/compos
+er/composer.phar/src/Composer/Console/Application.php:343
+ Composer\Console\Application->doRun() at phar://C:/laragon/bin/composer/compos
+er.phar/vendor/symfony/console/Application.php:171
+ Symfony\Component\Console\Application->run() at phar://C:/laragon/bin/composer
+/composer.phar/src/Composer/Console/Application.php:138
+ Composer\Console\Application->run() at 
+phar://C:/laragon/bin/composer/composer.phar/bin/composer:88
+ require() at C:\laragon\bin\composer\composer.phar:29
+
+dump-autoload [-o|--optimize] [-a|--classmap-authoritative] [--apcu] 
+[--apcu-prefix APCU-PREFIX] [--dev] [--no-dev] [--ignore-platform-req 
+IGNORE-PLATFORM-REQ] [--ignore-platform-reqs] [--strict-psr]
+

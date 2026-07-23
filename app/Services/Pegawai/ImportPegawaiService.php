@@ -272,7 +272,11 @@ class ImportPegawaiService
             // Identitas
             'nip_baru' => $this->normalizeNip($row['nip_baru'] ?? null),
             'nip_lama' => $row['nip_lama'] ?? null,
-            'nama' => $row['nama'] ?? null,
+            'nama' => isset($row['nama']) ? (
+                (!empty($row['gelar_blk']) && $row['gelar_blk'] !== '-' && !str_contains($row['nama'], $row['gelar_blk'])) 
+                    ? ($row['nama'] . ', ' . $row['gelar_blk']) 
+                    : $row['nama']
+            ) : null,
             'gelar_depan' => $row['gelar_depan'] ?? null,
             'gelar_blk' => $row['gelar_blk'] ?? null,
             'tempat_lahir_nama' => $row['tempat_lahir_nama'] ?? null,
