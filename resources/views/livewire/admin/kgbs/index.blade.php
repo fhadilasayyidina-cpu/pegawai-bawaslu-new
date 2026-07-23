@@ -129,12 +129,12 @@
                                         <flux:button icon="ellipsis-horizontal" variant="ghost" />
                                         <flux:menu>
                                             @if(($kgb->jenis_kgb ?? '') === 'PNS')
-                                                <flux:menu.item :href="route('admin.kgbs.pns-pdf', $kgb->data ?? [])" target="_blank" icon="printer">
-                                                    Cetak PDF
+                                                <flux:menu.item :href="route('admin.kgbs.pns-pdf', $kgb->data ?? [])" target="_blank" icon="arrow-down-tray">
+                                                    Unduh Surat (Word)
                                                 </flux:menu.item>
                                             @else
-                                                <flux:menu.item :href="route('admin.kgbs.pppk-pdf', $kgb->data ?? [])" target="_blank" icon="printer">
-                                                    Cetak PDF
+                                                <flux:menu.item :href="route('admin.kgbs.pppk-pdf', $kgb->data ?? [])" target="_blank" icon="arrow-down-tray">
+                                                    Unduh Surat (Word)
                                                 </flux:menu.item>
                                             @endif
                                             @if($kgb->pegawai_id)

@@ -109,7 +109,7 @@ test('submitting pppk form updates pegawai and redirects to pdf', function () {
     expect($pegawai->tgl_kgb_terakhir->format('Y-m-d'))->toBe('2026-01-01');
 });
 
-test('pns pdf route generates pdf', function () {
+test('pns pdf route generates word document', function () {
     $user = User::factory()->create();
     $pegawai = Pegawai::factory()->create();
 
@@ -133,10 +133,10 @@ test('pns pdf route generates pdf', function () {
     ]));
 
     $response->assertStatus(200);
-    $response->assertHeader('content-type', 'application/pdf');
+    $response->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 });
 
-test('pppk pdf route generates pdf', function () {
+test('pppk pdf route generates word document', function () {
     $user = User::factory()->create();
     $pegawai = Pegawai::factory()->create();
 
@@ -163,7 +163,7 @@ test('pppk pdf route generates pdf', function () {
     ]));
 
     $response->assertStatus(200);
-    $response->assertHeader('content-type', 'application/pdf');
+    $response->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
 });
 
 test('authenticated user can delete kgb record', function () {
