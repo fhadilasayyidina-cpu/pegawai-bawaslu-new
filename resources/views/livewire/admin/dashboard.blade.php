@@ -33,6 +33,12 @@
             font-size: 12px !important;
             font-weight: 600 !important;
         }
+
+        /* The job-category pie has many legend items: keep its legend compact
+           so the chart itself remains the visual focus. */
+        #jj-pie-chart .apexcharts-legend-text {
+            font-size: 10px !important;
+        }
     </style>
 
     <x-header-page title="Dashboard" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Dashboard']]" />

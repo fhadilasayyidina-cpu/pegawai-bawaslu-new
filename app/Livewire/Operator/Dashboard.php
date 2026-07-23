@@ -46,22 +46,28 @@ class Dashboard extends Component
         return $horizontal ? $chart->setHorizontal() : $chart;
     }
 
-    private function makePieChart(string $title): PieChartModel
+    private function makePieChart(string $title, bool $compactLegend = false): PieChartModel
     {
+        $config = [
+            'chart.fontFamily' => "'Inter, ui-sans-serif, system-ui, sans-serif'",
+            'title.style.fontSize' => "'16px'",
+            'dataLabels.style.fontSize' => "'12px'",
+            'dataLabels.style.fontWeight' => '600',
+            'legend.fontSize' => $compactLegend ? "'10px'" : "'12px'",
+            'legend.itemMargin.vertical' => $compactLegend ? '1' : '4',
+        ];
+
+        if ($compactLegend) {
+            $config['plotOptions.pie.customScale'] = '1.12';
+        }
+
         return (new PieChartModel)
             ->setTitle($title)
             ->setAnimated(true)
             ->withDataLabels()
             ->legendPositionBottom()
             ->legendHorizontallyAlignedCenter()
-            ->setJsonConfig([
-                'chart.fontFamily' => "'Inter, ui-sans-serif, system-ui, sans-serif'",
-                'title.style.fontSize' => "'16px'",
-                'dataLabels.style.fontSize' => "'12px'",
-                'dataLabels.style.fontWeight' => '600',
-                'legend.fontSize' => "'12px'",
-                'legend.itemMargin.vertical' => '4',
-            ]);
+            ->setJsonConfig($config);
     }
 
     public function render(): \Illuminate\View\View
@@ -110,7 +116,7 @@ class Dashboard extends Component
         }
 
         // Jenis Jabatan - Pie Chart
-        $jenisJabatanPieChart = $this->makePieChart('Persentase Jenis Jabatan');
+        $jenisJabatanPieChart = $this->makePieChart('Persentase Jenis Jabatan', true);
 
         foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
             $color = $colors[$index % count($colors)];
