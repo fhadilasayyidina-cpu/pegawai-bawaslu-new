@@ -67,8 +67,8 @@ class KgbController extends Controller
         $templatePath = storage_path('app/templates/kgb-pppk.docx');
         $template = new TemplateProcessor($templatePath);
 
-        $template->setValue('nomor_naskah', $request->query('nomor_naskah', '-'));
-        $template->setValue('tanggal_naskah', $this->formatTanggalIndo($request->query('tanggal_naskah')));
+        $template->setValue('nomor_naskah', '${nomor_naskah}');
+        $template->setValue('tanggal_naskah', '${tanggal_naskah}');
         $template->setValue('ibu_kota_provinsi', $request->query('ibu_kota_provinsi', 'Makassar'));
         $template->setValue('provinsi_upper', 'SULAWESI SELATAN');
         $template->setValue('provinsi_title', 'Sulawesi Selatan');

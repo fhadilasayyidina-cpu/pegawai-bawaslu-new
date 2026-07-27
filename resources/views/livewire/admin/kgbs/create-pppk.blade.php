@@ -24,22 +24,7 @@
                     icon="o-user"
                 />
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <x-mary-input
-                        label="Nomor Keputusan KGB"
-                        wire:model="nomor_naskah"
-                        placeholder="Contoh: 002/BAWASLU/RI/00/2026"
-                        required
-                        icon="o-document"
-                    />
 
-                    <flux:input
-                        label="Tanggal Keputusan"
-                        type="date"
-                        wire:model="tanggal_naskah"
-                        required
-                    />
-                </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <x-mary-input

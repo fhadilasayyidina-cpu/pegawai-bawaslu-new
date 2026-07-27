@@ -68,8 +68,6 @@ class CreatePppk extends Component
     {
         return [
             'pegawai_id' => 'required|exists:pegawais,id',
-            'nomor_naskah' => 'required|string',
-            'tanggal_naskah' => 'required|date',
             'ibu_kota_provinsi' => 'required|string',
             'ni_pppk' => 'required|string',
             'jabatan_golongan' => 'required|string',
@@ -222,6 +220,13 @@ class CreatePppk extends Component
             $validatedData['sk_mkg_bulan'],
         );
         unset($validatedData['sk_mkg_tahun'], $validatedData['sk_mkg_bulan']);
+
+        $validatedData['nomor_naskah'] = sprintf(
+            'KGB-PPPK/%d/%s',
+            $this->pegawai_id,
+            Carbon::parse($validatedData['tmt_baru'])->format('Ymd'),
+        );
+        $validatedData['tanggal_naskah'] = now()->toDateString();
 
         DB::transaction(function () use ($validatedData) {
             $pegawai = Pegawai::findOrFail($this->pegawai_id);

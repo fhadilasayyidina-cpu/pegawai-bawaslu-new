@@ -81,8 +81,6 @@ test('submitting pppk form updates pegawai and redirects to pdf', function () {
 
     Livewire::test(CreatePppk::class)
         ->set('pegawai_id', $pegawai->id)
-        ->set('nomor_naskah', '002/PPPK-KGB/2026')
-        ->set('tanggal_naskah', '2026-07-16')
         ->set('ibu_kota_provinsi', 'Makassar')
         ->set('ni_pppk', '123456')
         ->set('jabatan_golongan', 'Ahli Pertama')
