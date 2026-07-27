@@ -24,6 +24,15 @@
             </flux:button>
             <flux:button
                 variant="ghost"
+                icon="document-arrow-down"
+                wire:click="exportGaji"
+                wire:loading.attr="disabled"
+            >
+                <span wire:loading.remove>Export Data Gaji</span>
+                <span wire:loading>Exporting...</span>
+            </flux:button>
+            <flux:button
+                variant="ghost"
                 icon="arrow-up-tray"
                 href="/admin/kgbs/import"
             >
@@ -172,7 +181,18 @@
     <x-modal wire:model="modalImportGaji" title="Import Data Gaji Pokok Terbaru" persistent separator>
         <form wire:submit="importGaji" enctype="multipart/form-data" class="space-y-5">
             <div class="rounded-xl border border-brand-gold-500/20 bg-brand-gold-500/5 p-4 text-sm text-slate-700">
-                <p class="font-semibold text-brand-navy-800">Unggah file Excel data gaji pokok terbaru</p>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <p class="font-semibold text-brand-navy-800">Unggah file Excel data gaji pokok terbaru</p>
+                    <flux:button
+                        variant="subtle"
+                        size="sm"
+                        icon="arrow-down-tray"
+                        wire:click="exportGaji"
+                        type="button"
+                    >
+                        Unduh Excel Data Gaji
+                    </flux:button>
+                </div>
                 <p class="mt-1">Format file <strong>.xlsx</strong>, <strong>.xls</strong>, atau <strong>.csv</strong> (maksimal 10 MB).</p>
                 <div class="mt-2 text-xs text-slate-600 space-y-1">
                     <p class="font-semibold text-slate-800">Format Excel yang didukung:</p>

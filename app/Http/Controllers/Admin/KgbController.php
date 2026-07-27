@@ -28,8 +28,8 @@ class KgbController extends Controller
 
         $pangkatGolongan = trim(($pegawai->pangkat ?? '-').' / '.($pegawai->gol_nama ?? '-'), ' /');
 
-        $template->setValue('nomor_naskah', $request->query('nomor_naskah', '-'));
-        $template->setValue('tanggal_naskah', $this->formatTanggalIndo($request->query('tanggal_naskah')));
+        $template->setValue('nomor_naskah', '${nomor_naskah}');
+        $template->setValue('tanggal_naskah', '${tanggal_naskah}');
         $template->setValue('ibu_kota_provinsi', $request->query('ibu_kota_provinsi', 'Makassar'));
         $template->setValue('provinsi_title', 'Sulawesi Selatan');
         $template->setValue('nama', $pegawai->nama);
@@ -47,7 +47,7 @@ class KgbController extends Controller
         $template->setValue('golongan_ruang_baru', $request->query('golongan_ruang_baru', '-'));
         $template->setValue('tmt_baru', $this->formatTanggalIndo($request->query('tmt_baru')));
         $template->setValue('next_kgb_date', $this->formatTanggalIndo($request->query('next_kgb_date')));
-        $template->setValue('ttd_pengirim', $request->query('ttd_pengirim', ''));
+        $template->setValue('ttd_pengirim', '${ttd_pengirim}');
         $template->setValue('nama_kasek', $request->query('nama_kasek', '-'));
 
         $pegawaiName = str_replace([' ', '/'], '-', strtolower($pegawai->nama));

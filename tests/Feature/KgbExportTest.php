@@ -97,3 +97,16 @@ it('generates correct file name format', function () {
     // The test should pass if the download response is returned
     expect(true)->toBeTrue();
 });
+
+it('can export salary matrix data to excel', function () {
+    $admin = \App\Models\User::factory()->create();
+
+    Livewire::actingAs($admin)
+        ->test(\App\Livewire\Admin\Kgbs\Index::class)
+        ->call('exportGaji')
+        ->assertHasNoErrors()
+        ->assertDispatched('notyf:show', [
+            'type' => 'success',
+            'message' => 'Data Gaji KGB berhasil diexport!',
+        ]);
+});

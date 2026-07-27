@@ -92,6 +92,21 @@ class Index extends Component
         return response()->download($filePath)->deleteFileAfterSend(true);
     }
 
+    public function exportGaji(): BinaryFileResponse
+    {
+        $fileName = 'data_gaji_kgb_'.date('Y-m-d_His').'.xlsx';
+        $filePath = storage_path('app/temp/'.$fileName);
+
+        app(\App\Services\Kgb\ExportSalaryService::class)->export($filePath);
+
+        $this->dispatch('notyf:show', [
+            'type' => 'success',
+            'message' => 'Data Gaji KGB berhasil diexport!',
+        ]);
+
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    }
+
     public function delete(int $id): void
     {
         $kgb = KgbRecord::findOrFail($id);
