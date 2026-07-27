@@ -191,7 +191,7 @@
 
                 <x-slot:actions>
                     <flux:button type="submit" variant="primary" class="w-full md:w-auto">
-                        Cetak PDF & Simpan
+                        Cetak & Simpan
                     </flux:button>
                 </x-slot:actions>
             </x-mary-form>

@@ -113,12 +113,6 @@
             color="warning"
         />
 
-        <x-statistic-card
-            title="PPNPN"
-            :value="$statistics['ppnpn']"
-            desc="PPNPN"
-            color="secondary"
-        />
     </div>
 
     <!-- Charts Section -->
