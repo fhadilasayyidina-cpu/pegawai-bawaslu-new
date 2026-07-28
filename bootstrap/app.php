@@ -13,6 +13,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->priority([
+            \App\Http\Middleware\AutoLoginForDev::class, // Harus di atas Authenticate!
+
+        ]);
+    })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'check.role' => CheckRole::class,

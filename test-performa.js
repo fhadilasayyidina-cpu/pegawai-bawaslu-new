@@ -3,8 +3,8 @@ import { sleep, check } from 'k6';
 
 
 export const options = {
-    vus: 3,       // Simulasikan 20 pengguna palsu
-    duration: '2s', // Uji selama 30 detik
+    vus: 30,       // Simulasikan 20 pengguna palsu
+    duration: '10s', // Uji selama 30 detik
 };
 
 export default function () {

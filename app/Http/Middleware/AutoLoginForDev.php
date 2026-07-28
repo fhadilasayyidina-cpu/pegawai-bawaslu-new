@@ -17,6 +17,7 @@ class AutoLoginForDev
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         // Hanya aktif di lingkungan lokal untuk keamanan
         if (app()->environment('local')) {
             Log::debug("AutoLoginForDev Middleware called");
