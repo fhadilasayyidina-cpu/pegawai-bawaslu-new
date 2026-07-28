@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -175,4 +177,19 @@ Route::middleware(['auth'])
         })->name('dashboard');
     });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
+
+
+if (app()->environment('local')) {
+    Route::get('/tes-k6-langsung', function () {
+        // Tulis log langsung di sini untuk pembuktian
+        Log::debug("Rute khusus k6 berhasil dipanggil!");
+
+        // Paksa login user ID 4
+        Auth::loginUsingId(4);
+
+        // Panggil controller dashboard Anda secara manual
+        // Ganti 'DashboardController' sesuai nama asli controller Anda
+        return;
+    });
+}
