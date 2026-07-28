@@ -17,7 +17,7 @@ Route::get('/cuti/{id}/pdf', [\App\Http\Controllers\Admin\CutiController::class,
     ->name('cuti.pdf');
 
 // Admin routes
-Route::middleware(['auth'])
+Route::middleware(['auth', 'check.role:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -135,7 +135,7 @@ Route::middleware(['auth'])
     });
 
 // Operator routes
-Route::middleware(['auth'])
+Route::middleware(['auth', 'check.role:operator'])
     ->prefix('operator')
     ->name('operator.')
     ->group(function () {
