@@ -1,24 +1,58 @@
 import http from 'k6/http';
-import { sleep, check } from 'k6';
-
+import { check, group } from 'k6';
 
 export const options = {
-    vus: 30,       // Simulasikan 20 pengguna palsu
-    duration: '10s', // Uji selama 30 detik
+    vus: 10,
+    duration: '10s',
 };
 
 export default function () {
-    // Sesuaikan URL ini dengan alamat local server Laragon Anda
-    let url = 'http://127.0.0.1:8000/admin/dashboard';
-    let res = http.get(url);
-    http.get(url);
 
+    group('Speed Test', () => {
+        const res = http.get(
+            'http://192.168.1.7:82/speed-test',
+            {
+                tags: {
+                    endpoint: 'speed-test',
+                },
+            }
+        );
 
-    // PERINTAH CEK: Pastikan halaman mengandung kata "Pegawai" atau "Dashboard"
-    check(res, {
-        'apakah benar halaman dashboard': (r) => r.body.includes('Dashboard'),
+        check(res, {
+            'speed-test 200': (r) => r.status === 200,
+        });
     });
 
 
-    sleep(1);
+    group('Login', () => {
+        const res = http.get(
+            'http://192.168.1.7:82/login',
+            {
+                tags: {
+                    endpoint: 'login',
+                },
+            }
+        );
+
+        check(res, {
+            'login 200': (r) => r.status === 200,
+        });
+    });
+
+
+    group('Dashboard', () => {
+        const res = http.get(
+            'http://192.168.1.7:82/admin/dashboard',
+            {
+                tags: {
+                    endpoint: 'dashboard',
+                },
+            }
+        );
+
+        check(res, {
+            'dashboard 200': (r) => r.status === 200,
+        });
+    });
+
 }
