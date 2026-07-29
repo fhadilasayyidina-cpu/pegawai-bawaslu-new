@@ -2,47 +2,45 @@
 
 namespace App\Services\Statistic;
 
+use Illuminate\Support\Facades\Cache;
 use App\Models\Pegawai;
+use App\Enums\JenisPegawai;
 
 class PegawaiStatisticService
 {
-    public function getTotalPegawai(?string $kabKota = null): int
+    public function getSummary(?string $kabKota = null): array
     {
-        return Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
-            ->count();
-    }
+        $data = Pegawai::when(
+            $kabKota,
+            fn($q) =>
+            $q->where('kab_kota', $kabKota)
+        )
+            ->selectRaw("
+            COUNT(*) as total,
+            SUM(jenis_pegawai = ?) as pns_organik,
+            SUM(jenis_pegawai = ?) as pppk,
+            SUM(jenis_pegawai = ?) as pns_dpk,
+            SUM(jenis_pegawai = ?) as ppnpn
+        ", [
+                JenisPegawai::PNS_ORGANIK->value,
+                JenisPegawai::PPPK->value,
+                JenisPegawai::PNS_DPK->value,
+                JenisPegawai::PPNPN->value,
+            ])
+            ->first();
 
-    public function getPegawaiOrganik(?string $kabKota = null): int
-    {
-        return Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
-            ->where('jenis_pegawai', 'like', '%organik%')
-            ->count();
-    }
-
-    public function getPegawaiDPK(?string $kabKota = null): int
-    {
-        return Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
-            ->where('jenis_pegawai', 'like', '%dpk%')
-            ->count();
-    }
-
-    public function getPegawaiPPPK(?string $kabKota = null): int
-    {
-        return Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
-            ->where('jenis_pegawai', 'like', '%PPPK%')
-            ->count();
-    }
-
-    public function getPegawaiPPNPN(?string $kabKota = null): int
-    {
-        return Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
-            ->where('jenis_pegawai', 'like', '%PPNPN%')
-            ->count();
+        return [
+            'total' => (int) $data->total,
+            'organik' => (int) $data->pns_organik,
+            'pppk' => (int) $data->pppk,
+            'dpk' => (int) $data->pns_dpk,
+            'ppnpn' => (int) $data->ppnpn,
+        ];
     }
 
     public function getJenisKelaminChart(?string $kabKota = null): array
     {
-        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+        $data = Pegawai::when($kabKota, fn($q) => $q->where('kab_kota', $kabKota))
             ->selectRaw('jenis_kelamin, COUNT(*) as total')
             ->groupBy('jenis_kelamin')
             ->pluck('total', 'jenis_kelamin');
@@ -55,7 +53,7 @@ class PegawaiStatisticService
 
     public function getTingkatPendidikanChart(?string $kabKota = null): array
     {
-        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+        $data = Pegawai::when($kabKota, fn($q) => $q->where('kab_kota', $kabKota))
             ->selectRaw('tingkat_pendidikan_nama, COUNT(*) as total')
             ->groupBy('tingkat_pendidikan_nama')
             ->orderByDesc('total')
@@ -69,7 +67,7 @@ class PegawaiStatisticService
 
     public function getJenisJabatanChart(?string $kabKota = null): array
     {
-        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+        $data = Pegawai::when($kabKota, fn($q) => $q->where('kab_kota', $kabKota))
             ->selectRaw('jenis_jabatan_nama, COUNT(*) as total')
             ->groupBy('jenis_jabatan_nama')
             ->orderByDesc('total')
@@ -83,7 +81,7 @@ class PegawaiStatisticService
 
     public function getRangeUmurChart(?string $kabKota = null): array
     {
-        $data = Pegawai::when($kabKota, fn ($q) => $q->where('kab_kota', $kabKota))
+        $data = Pegawai::when($kabKota, fn($q) => $q->where('kab_kota', $kabKota))
             ->selectRaw('range_umur, COUNT(*) as total')
             ->whereNotNull('range_umur')
             ->groupBy('range_umur')
@@ -98,16 +96,23 @@ class PegawaiStatisticService
 
     public function getAllStats(?string $kabKota = null): array
     {
-        return [
-            'total' => $this->getTotalPegawai($kabKota),
-            'pppk' => $this->getPegawaiPPPK($kabKota),
-            'organik' => $this->getPegawaiOrganik($kabKota),
-            'dpk' => $this->getPegawaiDPK($kabKota),
-            'ppnpn' => $this->getPegawaiPPNPN($kabKota),
-            'jenis_kelamin_chart' => $this->getJenisKelaminChart($kabKota),
-            'pendidikan_chart' => $this->getTingkatPendidikanChart($kabKota),
-            'jenis_jabatan_chart' => $this->getJenisJabatanChart($kabKota),
-            'range_umur_chart' => $this->getRangeUmurChart($kabKota),
-        ];
+        $cacheKey = 'dashboard_stats_' . ($kabKota ?: 'semua');
+
+        return Cache::remember(
+            $cacheKey,
+            now()->addHours(6),
+            function () use ($kabKota) {
+
+                $summary = $this->getSummary($kabKota);
+
+                return [
+                    ...$summary,
+                    'jenis_kelamin_chart' => $this->getJenisKelaminChart($kabKota),
+                    'pendidikan_chart' => $this->getTingkatPendidikanChart($kabKota),
+                    'jenis_jabatan_chart' => $this->getJenisJabatanChart($kabKota),
+                    'range_umur_chart' => $this->getRangeUmurChart($kabKota),
+                ];
+            }
+        );
     }
 }

@@ -8,6 +8,8 @@ use App\Services\Statistic\PegawaiStatisticService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -16,16 +18,31 @@ class Dashboard extends Component
 
     public array $kabKotaOptions = [];
 
-    public array $statistics = [];
+    // public array $statistics = [];
+
+    private array $colors = [
+        '#a6192e',
+        '#e5ad25',
+        '#7b1822',
+        '#f4c542',
+        '#cf4b58',
+        '#c58a12',
+        '#5b1119',
+    ];
 
     public function mount(): void
     {
-        $kabKotaList = app(PegawaiService::class)->getKabKota()->toArray();
+        $kabKotaList = Cache::rememberForever('dashboard-kabkota-options', function () {
+            return app(PegawaiService::class)->getKabKota()->toArray();
+        });
 
-        // Tambahkan opsi "Semua" di awal
-        array_unshift($kabKotaList, (object) ['id' => '', 'name' => 'Semua Kabupaten/Kota']);
+        array_unshift($kabKotaList, (object) [
+            'id' => '',
+            'name' => 'Semua Kabupaten/Kota',
+        ]);
 
         $this->kabKotaOptions = $kabKotaList;
+
         $this->loadStatistics();
     }
 
@@ -36,30 +53,16 @@ class Dashboard extends Component
 
     private function loadStatistics(): void
     {
-        $this->statistics = app(PegawaiStatisticService::class)->getAllStats($this->kabKota);
+        $this->statistics = app(PegawaiStatisticService::class)
+            ->getAllStats($this->kabKota);
     }
 
-    public function getBirthdayEmployeesProperty()
-    {
-        $today = Carbon::today();
-
-        $query = Pegawai::query()
-            ->whereNotNull('tgl_lahir');
-
-        if (\Illuminate\Support\Facades\DB::getDriverName() === 'sqlite') {
-            $query->whereRaw("strftime('%m', tgl_lahir) = ?", [sprintf('%02d', $today->month)])
-                ->whereRaw("strftime('%d', tgl_lahir) = ?", [sprintf('%02d', $today->day)]);
-        } else {
-            $query->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
-                ->whereRaw('DAY(tgl_lahir) = ?', [$today->day]);
-        }
-
-        return $query->orderBy('nama')
-            ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
-    }
-
-    private function makeColumnChart(string $title, bool $horizontal = false): ColumnChartModel
-    {
+    private function buildColumnChart(
+        string $title,
+        array $chartData,
+        bool $horizontal = false,
+        bool $allowFallbackLabel = false
+    ): ColumnChartModel {
         $chart = (new ColumnChartModel)
             ->setTitle($title)
             ->setAnimated(true)
@@ -75,11 +78,31 @@ class Dashboard extends Component
                 'dataLabels.style.fontWeight' => '600',
             ]);
 
-        return $horizontal ? $chart->setHorizontal() : $chart;
+        if ($horizontal) {
+            $chart->setHorizontal();
+        }
+
+        foreach ($chartData['labels'] ?? [] as $index => $label) {
+            $displayLabel = $allowFallbackLabel
+                ? ($label ?: 'Tidak Teridentifikasi')
+                : $label;
+
+            $chart->addColumn(
+                $displayLabel,
+                $chartData['values'][$index] ?? 0,
+                $this->colors[$index % count($this->colors)]
+            );
+        }
+
+        return $chart;
     }
 
-    private function makePieChart(string $title, bool $compactLegend = false): PieChartModel
-    {
+    private function buildPieChart(
+        string $title,
+        array $chartData,
+        bool $compactLegend = false,
+        bool $allowFallbackLabel = false
+    ): PieChartModel {
         $config = [
             'chart.fontFamily' => "'Inter, ui-sans-serif, system-ui, sans-serif'",
             'title.style.fontSize' => "'16px'",
@@ -93,99 +116,146 @@ class Dashboard extends Component
             $config['plotOptions.pie.customScale'] = '1.12';
         }
 
-        return (new PieChartModel)
+        $chart = (new PieChartModel)
             ->setTitle($title)
             ->setAnimated(true)
             ->withDataLabels()
             ->legendPositionBottom()
             ->legendHorizontallyAlignedCenter()
             ->setJsonConfig($config);
+
+        foreach ($chartData['labels'] ?? [] as $index => $label) {
+            $displayLabel = $allowFallbackLabel
+                ? ($label ?: 'Tidak Teridentifikasi')
+                : $label;
+
+            $chart->addSlice(
+                $displayLabel,
+                $chartData['values'][$index] ?? 0,
+                $this->colors[$index % count($this->colors)]
+            );
+        }
+
+        return $chart;
+    }
+
+    // =======================
+    // CHART GETTERS
+    // =======================
+
+    // private function getJenisKelaminColumnChart(): ColumnChartModel
+    // {
+    //     return $this->buildColumnChart(
+    //         'Distribusi Jenis Kelamin',
+    //         $this->statistics['jenis_kelamin_chart'] ?? []
+    //     );
+    // }
+
+    // private function getJenisKelaminPieChart(): PieChartModel
+    // {
+    //     return $this->buildPieChart(
+    //         'Distribusi Jenis Kelamin',
+    //         $this->statistics['jenis_kelamin_chart'] ?? []
+    //     );
+    // }
+
+    // private function getPendidikanColumnChart(): ColumnChartModel
+    // {
+    //     return $this->buildColumnChart(
+    //         'Tingkat Pendidikan',
+    //         $this->statistics['pendidikan_chart'] ?? []
+    //     );
+    // }
+
+    // private function getPendidikanPieChart(): PieChartModel
+    // {
+    //     return $this->buildPieChart(
+    //         'Tingkat Pendidikan',
+    //         $this->statistics['pendidikan_chart'] ?? []
+    //     );
+    // }
+
+    // private function getJenisJabatanColumnChart(): ColumnChartModel
+    // {
+    //     return $this->buildColumnChart(
+    //         'Distribusi Jenis Jabatan',
+    //         $this->statistics['jenis_jabatan_chart'] ?? [],
+    //         true,
+    //         true
+    //     );
+    // }
+
+    // private function getJenisJabatanPieChart(): PieChartModel
+    // {
+    //     return $this->buildPieChart(
+    //         'Persentase Jenis Jabatan',
+    //         $this->statistics['jenis_jabatan_chart'] ?? [],
+    //         true,
+    //         true
+    //     );
+    // }
+
+    // private function getRangeUmurColumnChart(): ColumnChartModel
+    // {
+    //     return $this->buildColumnChart(
+    //         'Distribusi Range Umur',
+    //         $this->statistics['range_umur_chart'] ?? [],
+    //         false,
+    //         true
+    //     );
+    // }
+
+    // private function getRangeUmurPieChart(): PieChartModel
+    // {
+    //     return $this->buildPieChart(
+    //         'Persentase Range Umur',
+    //         $this->statistics['range_umur_chart'] ?? [],
+    //         false,
+    //         true
+    //     );
+    // }
+
+    public function getBirthdayEmployeesProperty()
+    {
+        $today = Carbon::today();
+
+        return Cache::remember(
+            'dashboard-birthday-' . $today->toDateString(),
+            now()->addHours(12),
+            function () use ($today) {
+                $query = Pegawai::query()
+                    ->whereNotNull('tgl_lahir');
+
+                if (DB::getDriverName() === 'sqlite') {
+                    $query->whereRaw("strftime('%m', tgl_lahir) = ?", [sprintf('%02d', $today->month)])
+                        ->whereRaw("strftime('%d', tgl_lahir) = ?", [sprintf('%02d', $today->day)]);
+                } else {
+                    $query->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
+                        ->whereRaw('DAY(tgl_lahir) = ?', [$today->day]);
+                }
+
+                return $query->orderBy('nama')
+                    ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
+            }
+        );
     }
 
     public function render(): \Illuminate\View\View
     {
-        $colors = ['#a6192e', '#e5ad25', '#7b1822', '#f4c542', '#cf4b58', '#c58a12', '#5b1119'];
+        return view('livewire.admin.dashboard', [
+            // 'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
+            // 'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
 
-        // Jenis Kelamin - Column Chart
-        $jenisKelaminColumnChart = $this->makeColumnChart('Distribusi Jenis Kelamin');
+            // 'pendidikanColumnChart' => $this->getPendidikanColumnChart(),
+            // 'pendidikanPieChart' => $this->getPendidikanPieChart(),
 
-        foreach ($this->statistics['jenis_kelamin_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $jenisKelaminColumnChart->addColumn($label, $this->statistics['jenis_kelamin_chart']['values'][$index] ?? 0, $color);
-        }
+            // 'jenisJabatanColumnChart' => $this->getJenisJabatanColumnChart(),
+            // 'jenisJabatanPieChart' => $this->getJenisJabatanPieChart(),
 
-        // Jenis Kelamin - Pie Chart
-        $jenisKelaminPieChart = $this->makePieChart('Distribusi Jenis Kelamin');
+            // 'rangeUmurColumnChart' => $this->getRangeUmurColumnChart(),
+            // 'rangeUmurPieChart' => $this->getRangeUmurPieChart(),
 
-        foreach ($this->statistics['jenis_kelamin_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $jenisKelaminPieChart->addSlice($label, $this->statistics['jenis_kelamin_chart']['values'][$index] ?? 0, $color);
-        }
-
-        // Tingkat Pendidikan - Column Chart
-        $pendidikanColumnChart = $this->makeColumnChart('Tingkat Pendidikan');
-
-        foreach ($this->statistics['pendidikan_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $pendidikanColumnChart->addColumn($label, $this->statistics['pendidikan_chart']['values'][$index] ?? 0, $color);
-        }
-
-        // Tingkat Pendidikan - Pie Chart
-        $pendidikanPieChart = $this->makePieChart('Tingkat Pendidikan');
-
-        foreach ($this->statistics['pendidikan_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $pendidikanPieChart->addSlice($label, $this->statistics['pendidikan_chart']['values'][$index] ?? 0, $color);
-        }
-
-        // Jenis Jabatan - Column Chart
-        $jenisJabatanColumnChart = $this->makeColumnChart('Distribusi Jenis Jabatan', true);
-
-        foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $displayLabel = $label ?: 'Tidak Teridentifikasi';
-            $jenisJabatanColumnChart->addColumn($displayLabel, $this->statistics['jenis_jabatan_chart']['values'][$index] ?? 0, $color);
-        }
-
-        // Jenis Jabatan - Pie Chart
-        $jenisJabatanPieChart = $this->makePieChart('Persentase Jenis Jabatan', true);
-
-        foreach ($this->statistics['jenis_jabatan_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $displayLabel = $label ?: 'Tidak Teridentifikasi';
-            $jenisJabatanPieChart->addSlice($displayLabel, $this->statistics['jenis_jabatan_chart']['values'][$index] ?? 0, $color);
-        }
-
-        // Range Umur - Column Chart
-        $rangeUmurColumnChart = $this->makeColumnChart('Distribusi Range Umur');
-
-        foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $displayLabel = $label ?: 'Tidak Teridentifikasi';
-            $rangeUmurColumnChart->addColumn($displayLabel, $this->statistics['range_umur_chart']['values'][$index] ?? 0, $color);
-        }
-
-        // Range Umur - Pie Chart
-        $rangeUmurPieChart = $this->makePieChart('Persentase Range Umur');
-
-        foreach ($this->statistics['range_umur_chart']['labels'] ?? [] as $index => $label) {
-            $color = $colors[$index % count($colors)];
-            $displayLabel = $label ?: 'Tidak Teridentifikasi';
-            $rangeUmurPieChart->addSlice($displayLabel, $this->statistics['range_umur_chart']['values'][$index] ?? 0, $color);
-        }
-
-        $birthdayEmployees = $this->birthdayEmployees;
-
-        return view('livewire.admin.dashboard', compact(
-            'jenisKelaminColumnChart',
-            'jenisKelaminPieChart',
-            'pendidikanColumnChart',
-            'pendidikanPieChart',
-            'jenisJabatanColumnChart',
-            'jenisJabatanPieChart',
-            'rangeUmurColumnChart',
-            'rangeUmurPieChart',
-            'birthdayEmployees',
-        ));
+            'birthdayEmployees' => $this->birthdayEmployees,
+        ]);
     }
 }
