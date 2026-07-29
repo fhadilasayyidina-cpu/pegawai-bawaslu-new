@@ -20,9 +20,11 @@ class AutoLoginForDev
 
         // Hanya aktif di lingkungan lokal untuk keamanan
         if (app()->environment('local')) {
+            $adminUser = User::where('role', 'admin')->first();
+            
             Log::debug("AutoLoginForDev Middleware called");
             if (!Auth::check()) {
-                Auth::loginUsingId(4);
+                Auth::login($adminUser);
             }
         }
 
