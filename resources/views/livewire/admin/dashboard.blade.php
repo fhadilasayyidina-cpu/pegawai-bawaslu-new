@@ -92,18 +92,18 @@
 
     <!-- Statistic Cards -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-        {{-- <x-statistic-card title="Total Pegawai" :value="$statistics['total']" desc="Total seluruh pegawai" color="primary" />
+        <x-statistic-card title="Total Pegawai" :value="$statistics['total']" desc="Total seluruh pegawai" color="primary" />
 
         <x-statistic-card title="PPPK" :value="$statistics['pppk']" desc="Pegawai PPPK" color="success" />
 
         <x-statistic-card title="PNS Organik" :value="$statistics['organik']" desc="PNS Organik" color="info" />
 
-        <x-statistic-card title="PNS DPK" :value="$statistics['dpk']" desc="PNS DPK" color="warning" /> --}}
+        <x-statistic-card title="PNS DPK" :value="$statistics['dpk']" desc="PNS DPK" color="warning" />
 
     </div>
 
     <!-- Charts Section -->
-    {{-- <div class="space-y-8 mt-8">
+    <div class="space-y-8 mt-8">
         <!-- Section 1: Jenis Kelamin -->
         <div>
             <h2 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2">
@@ -251,6 +251,6 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
 </div>

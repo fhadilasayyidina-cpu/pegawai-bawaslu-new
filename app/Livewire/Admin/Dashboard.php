@@ -18,7 +18,7 @@ class Dashboard extends Component
 
     public array $kabKotaOptions = [];
 
-    // public array $statistics = [];
+    public array $statistics = [];
 
     private array $colors = [
         '#a6192e',
@@ -143,77 +143,77 @@ class Dashboard extends Component
     // CHART GETTERS
     // =======================
 
-    // private function getJenisKelaminColumnChart(): ColumnChartModel
-    // {
-    //     return $this->buildColumnChart(
-    //         'Distribusi Jenis Kelamin',
-    //         $this->statistics['jenis_kelamin_chart'] ?? []
-    //     );
-    // }
+    private function getJenisKelaminColumnChart(): ColumnChartModel
+    {
+        return $this->buildColumnChart(
+            'Distribusi Jenis Kelamin',
+            $this->statistics['jenis_kelamin_chart'] ?? []
+        );
+    }
 
-    // private function getJenisKelaminPieChart(): PieChartModel
-    // {
-    //     return $this->buildPieChart(
-    //         'Distribusi Jenis Kelamin',
-    //         $this->statistics['jenis_kelamin_chart'] ?? []
-    //     );
-    // }
+    private function getJenisKelaminPieChart(): PieChartModel
+    {
+        return $this->buildPieChart(
+            'Distribusi Jenis Kelamin',
+            $this->statistics['jenis_kelamin_chart'] ?? []
+        );
+    }
 
-    // private function getPendidikanColumnChart(): ColumnChartModel
-    // {
-    //     return $this->buildColumnChart(
-    //         'Tingkat Pendidikan',
-    //         $this->statistics['pendidikan_chart'] ?? []
-    //     );
-    // }
+    private function getPendidikanColumnChart(): ColumnChartModel
+    {
+        return $this->buildColumnChart(
+            'Tingkat Pendidikan',
+            $this->statistics['pendidikan_chart'] ?? []
+        );
+    }
 
-    // private function getPendidikanPieChart(): PieChartModel
-    // {
-    //     return $this->buildPieChart(
-    //         'Tingkat Pendidikan',
-    //         $this->statistics['pendidikan_chart'] ?? []
-    //     );
-    // }
+    private function getPendidikanPieChart(): PieChartModel
+    {
+        return $this->buildPieChart(
+            'Tingkat Pendidikan',
+            $this->statistics['pendidikan_chart'] ?? []
+        );
+    }
 
-    // private function getJenisJabatanColumnChart(): ColumnChartModel
-    // {
-    //     return $this->buildColumnChart(
-    //         'Distribusi Jenis Jabatan',
-    //         $this->statistics['jenis_jabatan_chart'] ?? [],
-    //         true,
-    //         true
-    //     );
-    // }
+    private function getJenisJabatanColumnChart(): ColumnChartModel
+    {
+        return $this->buildColumnChart(
+            'Distribusi Jenis Jabatan',
+            $this->statistics['jenis_jabatan_chart'] ?? [],
+            true,
+            true
+        );
+    }
 
-    // private function getJenisJabatanPieChart(): PieChartModel
-    // {
-    //     return $this->buildPieChart(
-    //         'Persentase Jenis Jabatan',
-    //         $this->statistics['jenis_jabatan_chart'] ?? [],
-    //         true,
-    //         true
-    //     );
-    // }
+    private function getJenisJabatanPieChart(): PieChartModel
+    {
+        return $this->buildPieChart(
+            'Persentase Jenis Jabatan',
+            $this->statistics['jenis_jabatan_chart'] ?? [],
+            true,
+            true
+        );
+    }
 
-    // private function getRangeUmurColumnChart(): ColumnChartModel
-    // {
-    //     return $this->buildColumnChart(
-    //         'Distribusi Range Umur',
-    //         $this->statistics['range_umur_chart'] ?? [],
-    //         false,
-    //         true
-    //     );
-    // }
+    private function getRangeUmurColumnChart(): ColumnChartModel
+    {
+        return $this->buildColumnChart(
+            'Distribusi Range Umur',
+            $this->statistics['range_umur_chart'] ?? [],
+            false,
+            true
+        );
+    }
 
-    // private function getRangeUmurPieChart(): PieChartModel
-    // {
-    //     return $this->buildPieChart(
-    //         'Persentase Range Umur',
-    //         $this->statistics['range_umur_chart'] ?? [],
-    //         false,
-    //         true
-    //     );
-    // }
+    private function getRangeUmurPieChart(): PieChartModel
+    {
+        return $this->buildPieChart(
+            'Persentase Range Umur',
+            $this->statistics['range_umur_chart'] ?? [],
+            false,
+            true
+        );
+    }
 
     public function getBirthdayEmployeesProperty()
     {
@@ -243,17 +243,17 @@ class Dashboard extends Component
     public function render(): \Illuminate\View\View
     {
         return view('livewire.admin.dashboard', [
-            // 'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
-            // 'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
+            'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
+            'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
 
-            // 'pendidikanColumnChart' => $this->getPendidikanColumnChart(),
-            // 'pendidikanPieChart' => $this->getPendidikanPieChart(),
+            'pendidikanColumnChart' => $this->getPendidikanColumnChart(),
+            'pendidikanPieChart' => $this->getPendidikanPieChart(),
 
-            // 'jenisJabatanColumnChart' => $this->getJenisJabatanColumnChart(),
-            // 'jenisJabatanPieChart' => $this->getJenisJabatanPieChart(),
+            'jenisJabatanColumnChart' => $this->getJenisJabatanColumnChart(),
+            'jenisJabatanPieChart' => $this->getJenisJabatanPieChart(),
 
-            // 'rangeUmurColumnChart' => $this->getRangeUmurColumnChart(),
-            // 'rangeUmurPieChart' => $this->getRangeUmurPieChart(),
+            'rangeUmurColumnChart' => $this->getRangeUmurColumnChart(),
+            'rangeUmurPieChart' => $this->getRangeUmurPieChart(),
 
             'birthdayEmployees' => $this->birthdayEmployees,
         ]);
