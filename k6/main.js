@@ -8,17 +8,17 @@ export const options = {
     duration: '10s',
 };
 
-const BASE_URL = 'http://127.0.0.1:8000';
+const BASE_URL = 'http://192.168.17.59:82';
 
 export default function () {
-    // Jalankan Speed Test
-    runSpeedTest(BASE_URL);
+    // // Jalankan Speed Test
+    // runSpeedTest(BASE_URL);
 
-    // Jalankan Login dan ambil tokennya
-    const token = runLogin(BASE_URL);
+    // // Jalankan Login dan ambil tokennya
+    // const token = runLogin(BASE_URL);
 
     // Jalankan Dashboard menggunakan token dari proses login
-    runDashboard(BASE_URL, token);
+    runDashboard(BASE_URL);
 
     // Jeda antar iterasi
     sleep(1);

@@ -4,7 +4,7 @@ import { check, group } from 'k6';
 export function runLogin(baseUrl) {
     group('Login', () => {
         const res = http.get(
-            'http://127.0.0.1:8000/login',
+            `${baseUrl}/login`,
             {
                 tags: {
                     endpoint: 'login',
