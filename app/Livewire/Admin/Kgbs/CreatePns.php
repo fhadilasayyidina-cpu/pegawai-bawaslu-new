@@ -191,11 +191,7 @@ class CreatePns extends Component
         );
         unset($validatedData['sk_mkg_tahun'], $validatedData['sk_mkg_bulan']);
 
-        $validatedData['nomor_naskah'] = sprintf(
-            'KGB-PNS/%d/%s',
-            $this->pegawai_id,
-            \Carbon\Carbon::parse($validatedData['tmt_baru'])->format('Ymd'),
-        );
+        $validatedData['nomor_naskah'] = '-';
         $validatedData['tanggal_naskah'] = now()->toDateString();
 
         DB::transaction(function () use ($validatedData) {
@@ -206,11 +202,12 @@ class CreatePns extends Component
             KgbRecord::updateOrCreate(
                 [
                     'pegawai_id' => $pegawai->id,
-                    'nomor_naskah' => $validatedData['nomor_naskah'],
+                    'tmt_baru' => $validatedData['tmt_baru'],
                 ],
                 [
                     'created_by' => auth()->id(),
                     'jenis_kgb' => 'PNS',
+                    'nomor_naskah' => '-',
                     'tanggal_naskah' => $validatedData['tanggal_naskah'],
                     'tmt_baru' => $validatedData['tmt_baru'],
                     'next_kgb_date' => $validatedData['next_kgb_date'],
