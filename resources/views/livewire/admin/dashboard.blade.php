@@ -48,7 +48,7 @@
     <x-header-page title="Dashboard" :breadcrumbs="[['label' => 'Admin', 'href' => '#'], ['label' => 'Dashboard']]" />
 
     {{-- Birthday Reminder --}}
-    @if ($birthdayEmployees->isNotEmpty())
+    @if ($pegawaiUlangTahun->isNotEmpty())
         <div class="birthday-banner my-4 rounded-2xl overflow-hidden"
             style="background: linear-gradient(135deg, #a6192e 0%, #7b1822 40%, #e5ad25 100%); box-shadow: 0 8px 32px rgba(166,25,46,0.35);">
             <div class="flex items-center gap-4 px-6 py-4">
@@ -58,18 +58,18 @@
                         🎉 Selamat Ulang Tahun Hari Ini!
                         <span
                             class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30">
-                            {{ $birthdayEmployees->count() }} Pegawai
+                            {{ $pegawaiUlangTahun->count() }} Pegawai
                         </span>
                     </h3>
                     <div class="flex flex-wrap gap-2 mt-2">
-                        @foreach ($birthdayEmployees as $emp)
+                        @foreach ($pegawaiUlangTahun as $emp)
                             <a href="/admin/pegawais/{{ $emp->id }}/details"
                                 class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400 text-slate-900 border border-amber-300 shadow-md transition-all duration-200 hover:scale-105 animate-pulse">
                                 <span>🎉</span>
                                 <span>{{ $emp->nama }}</span>
                                 <span class="opacity-90">({{ $emp->tgl_lahir?->format('d/m') }})</span>
-                                @if ($emp->jabatan_nama)
-                                    <span class="opacity-75">— {{ $emp->jabatan_nama }}</span>
+                                @if ($emp->unit_kerja)
+                                    <span class="opacity-75">— {{ $emp->unit_kerja }}</span>
                                 @endif
                             </a>
                         @endforeach

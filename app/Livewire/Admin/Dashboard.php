@@ -7,7 +7,9 @@ use App\Services\Pegawai\PegawaiService;
 use App\Services\Statistic\PegawaiStatisticService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
+
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -19,6 +21,7 @@ class Dashboard extends Component
     public array $kabKotaOptions = [];
 
     public array $statistics = [];
+
 
     private array $colors = [
         '#a6192e',
@@ -215,32 +218,14 @@ class Dashboard extends Component
         );
     }
 
-    public function getBirthdayEmployeesProperty()
+    public function loadUlangTahun(PegawaiService $service): void
     {
-        $today = Carbon::today();
-
-        return Cache::remember(
-            'dashboard-birthday-' . $today->toDateString(),
-            now()->addHours(12),
-            function () use ($today) {
-                $query = Pegawai::query()
-                    ->whereNotNull('tgl_lahir');
-
-                if (DB::getDriverName() === 'sqlite') {
-                    $query->whereRaw("strftime('%m', tgl_lahir) = ?", [sprintf('%02d', $today->month)])
-                        ->whereRaw("strftime('%d', tgl_lahir) = ?", [sprintf('%02d', $today->day)]);
-                } else {
-                    $query->whereRaw('MONTH(tgl_lahir) = ?', [$today->month])
-                        ->whereRaw('DAY(tgl_lahir) = ?', [$today->day]);
-                }
-
-                return $query->orderBy('nama')
-                    ->get(['id', 'nama', 'jabatan_nama', 'tgl_lahir', 'foto']);
-            }
-        );
+        // Fix typo properti & pastikan selalu jadi Collection Laravel
+        $this->pegawaiUlangTahun = collect($service->getUlangTahunHariIni());
     }
 
-    public function render(): \Illuminate\View\View
+
+    public function render(PegawaiService $pegawaiService)
     {
         return view('livewire.admin.dashboard', [
             'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
@@ -254,8 +239,9 @@ class Dashboard extends Component
 
             'rangeUmurColumnChart' => $this->getRangeUmurColumnChart(),
             'rangeUmurPieChart' => $this->getRangeUmurPieChart(),
+            'pegawaiUlangTahun' => $pegawaiService->getUlangTahunHariIni(),
 
-            'birthdayEmployees' => $this->birthdayEmployees,
+
         ]);
     }
 }

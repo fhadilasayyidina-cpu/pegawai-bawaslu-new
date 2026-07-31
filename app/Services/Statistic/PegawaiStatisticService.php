@@ -2,9 +2,11 @@
 
 namespace App\Services\Statistic;
 
+use App\Cache\PegawaiCache;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Pegawai;
 use App\Enums\JenisPegawai;
+use Illuminate\Support\Facades\Log;
 
 class PegawaiStatisticService
 {
@@ -96,21 +98,53 @@ class PegawaiStatisticService
 
     public function getAllStats(?string $kabKota = null): array
     {
-        $cacheKey = 'dashboard_stats_' . ($kabKota ?: 'semua');
 
         return Cache::remember(
-            $cacheKey,
+            PegawaiCache::dashboardStats(),
             now()->addHours(6),
             function () use ($kabKota) {
 
+                $start = microtime(true);
+
                 $summary = $this->getSummary($kabKota);
+
+
+
+                $jenisKelamin = $this->getJenisKelaminChart($kabKota);
+
+
+
+                $pendidikan = $this->getTingkatPendidikanChart($kabKota);
+
+
+
+                $jabatan = $this->getJenisJabatanChart($kabKota);
+
+
+
+                $umur = $this->getRangeUmurChart($kabKota);
+
+                // Hitung durasi eksekusi dalam milidetik (ms)
+                $duration = round((microtime(true) - $start) * 1000, 2);
+                $threshold = 100; // Threshold dalam ms (misal: 100 ms)
+
+                // Log warning HANYA jika eksekusi melebihi threshold
+                if ($duration > $threshold) {
+                    Log::warning("PERFORMANCE WARNING: getAllStats() memakan waktu terlalu lama!", [
+                        'duration' => "{$duration} ms",
+                        'threshold' => "{$threshold} ms",
+                        'filter_kab_kota' => $kabKota ?? 'semua',
+                    ]);
+                }
+
+
 
                 return [
                     ...$summary,
-                    'jenis_kelamin_chart' => $this->getJenisKelaminChart($kabKota),
-                    'pendidikan_chart' => $this->getTingkatPendidikanChart($kabKota),
-                    'jenis_jabatan_chart' => $this->getJenisJabatanChart($kabKota),
-                    'range_umur_chart' => $this->getRangeUmurChart($kabKota),
+                    'jenis_kelamin_chart' => $jenisKelamin,
+                    'pendidikan_chart' => $pendidikan,
+                    'jenis_jabatan_chart' => $jabatan,
+                    'range_umur_chart' => $umur,
                 ];
             }
         );
