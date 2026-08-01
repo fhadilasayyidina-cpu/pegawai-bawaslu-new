@@ -183,7 +183,11 @@ require __DIR__ . '/settings.php';
 
 if (app()->environment('local') || app()->environment('development')) {
     Route::get('/test', function () {
-        Log::debug("Test route accessed");
-        return "Test route accessed";
+        // Hitung selisih waktu dari awal Laravel booting sampai baris ini dieksekusi
+        $durasiBootingDanRoute = (microtime(true) - LARAVEL_START) * 1000;
+
+        Log::debug("Waktu dari awal booting sampai rute: " . round($durasiBootingDanRoute, 2) . " ms");
+
+        return "Test route accessed dalam " . round($durasiBootingDanRoute, 2) . " ms";
     });
 }
