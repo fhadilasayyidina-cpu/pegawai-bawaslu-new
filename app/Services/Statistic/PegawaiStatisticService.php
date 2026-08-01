@@ -99,8 +99,12 @@ class PegawaiStatisticService
     public function getAllStats(?string $kabKota = null): array
     {
 
+        logger([
+            'kabKota_diterima' => $kabKota,
+        ]);
+
         return Cache::remember(
-            PegawaiCache::dashboardStats(),
+            PegawaiCache::dashboardStats($kabKota),
             now()->addHours(6),
             function () use ($kabKota) {
 

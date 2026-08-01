@@ -2,6 +2,9 @@
 
 namespace App\Cache;
 
+use App\Models\Pegawai;
+use Illuminate\Support\Facades\Cache;
+
 class PegawaiCache
 {
     public static function ulangTahunHariIni(): string
@@ -23,5 +26,10 @@ class PegawaiCache
     {
         cache()->forget(self::ulangTahunHariIni());
         cache()->forget(self::kabKotaOptions());
+
+
+        Pegawai::select('kab_kota')->distinct()->pluck('kab_kota')->each(function ($kabKota) {
+            Cache::forget(self::dashboardStats($kabKota));
+        });
     }
 }
