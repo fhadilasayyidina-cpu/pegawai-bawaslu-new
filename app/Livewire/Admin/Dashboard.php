@@ -7,8 +7,7 @@ use App\Services\Pegawai\PegawaiService;
 use App\Services\Statistic\PegawaiStatisticService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
-
-
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -173,6 +172,8 @@ class Dashboard extends Component
 
     public function render(PegawaiService $pegawaiService)
     {
+        $durasi = (microtime(true) - LARAVEL_START) * 1000;
+        Log::info("DURASI REAL DASHBOARD: " . round($durasi, 2) . " ms");
         return view('livewire.admin.dashboard', [
             'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
             'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),

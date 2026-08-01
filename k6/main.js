@@ -20,6 +20,5 @@ export default function () {
     // Jalankan Dashboard menggunakan token dari proses login
     runDashboard(BASE_URL);
 
-    // Jeda antar iterasi
-    sleep(1);
+
 }
