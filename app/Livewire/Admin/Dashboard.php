@@ -2,16 +2,13 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Pegawai;
+
 use App\Services\Pegawai\PegawaiService;
 use App\Services\Statistic\PegawaiStatisticService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -35,9 +32,8 @@ class Dashboard extends Component
 
     public function mount(): void
     {
-        $kabKotaList = Cache::rememberForever('dashboard-kabkota-options', function () {
-            return app(PegawaiService::class)->getKabKota()->toArray();
-        });
+        $kabKotaList = app(PegawaiService::class)->getKabKota()->toArray();
+
 
         array_unshift($kabKotaList, (object) [
             'id' => '',
@@ -162,22 +158,6 @@ class Dashboard extends Component
         );
     }
 
-    private function getPendidikanColumnChart(): ColumnChartModel
-    {
-        return $this->buildColumnChart(
-            'Tingkat Pendidikan',
-            $this->statistics['pendidikan_chart'] ?? []
-        );
-    }
-
-    private function getPendidikanPieChart(): PieChartModel
-    {
-        return $this->buildPieChart(
-            'Tingkat Pendidikan',
-            $this->statistics['pendidikan_chart'] ?? []
-        );
-    }
-
     private function getJenisJabatanColumnChart(): ColumnChartModel
     {
         return $this->buildColumnChart(
@@ -230,9 +210,6 @@ class Dashboard extends Component
         return view('livewire.admin.dashboard', [
             'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
             'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
-
-            'pendidikanColumnChart' => $this->getPendidikanColumnChart(),
-            'pendidikanPieChart' => $this->getPendidikanPieChart(),
 
             'jenisJabatanColumnChart' => $this->getJenisJabatanColumnChart(),
             'jenisJabatanPieChart' => $this->getJenisJabatanPieChart(),
