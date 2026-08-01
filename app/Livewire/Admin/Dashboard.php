@@ -158,46 +158,6 @@ class Dashboard extends Component
         );
     }
 
-    private function getJenisJabatanColumnChart(): ColumnChartModel
-    {
-        return $this->buildColumnChart(
-            'Distribusi Jenis Jabatan',
-            $this->statistics['jenis_jabatan_chart'] ?? [],
-            true,
-            true
-        );
-    }
-
-    private function getJenisJabatanPieChart(): PieChartModel
-    {
-        return $this->buildPieChart(
-            'Persentase Jenis Jabatan',
-            $this->statistics['jenis_jabatan_chart'] ?? [],
-            true,
-            true
-        );
-    }
-
-    private function getRangeUmurColumnChart(): ColumnChartModel
-    {
-        return $this->buildColumnChart(
-            'Distribusi Range Umur',
-            $this->statistics['range_umur_chart'] ?? [],
-            false,
-            true
-        );
-    }
-
-    private function getRangeUmurPieChart(): PieChartModel
-    {
-        return $this->buildPieChart(
-            'Persentase Range Umur',
-            $this->statistics['range_umur_chart'] ?? [],
-            false,
-            true
-        );
-    }
-
     public function loadUlangTahun(PegawaiService $service): void
     {
         // Fix typo properti & pastikan selalu jadi Collection Laravel
@@ -210,12 +170,6 @@ class Dashboard extends Component
         return view('livewire.admin.dashboard', [
             'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
             'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
-
-            'jenisJabatanColumnChart' => $this->getJenisJabatanColumnChart(),
-            'jenisJabatanPieChart' => $this->getJenisJabatanPieChart(),
-
-            'rangeUmurColumnChart' => $this->getRangeUmurColumnChart(),
-            'rangeUmurPieChart' => $this->getRangeUmurPieChart(),
             'pegawaiUlangTahun' => $pegawaiService->getUlangTahunHariIni(),
 
 
