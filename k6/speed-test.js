@@ -3,12 +3,12 @@ import { check, group } from 'k6';
 
 export function runSpeedTest(baseUrl) {
     group('Speed Test', () => {
-        const res = http.get(`${baseUrl}/speed-test`, {
-            tags: { endpoint: 'speed-test' },
+        const res = http.get(`${baseUrl}/test`, {
+            tags: { endpoint: 'test' },
         });
 
         check(res, {
-            'speed-test status 200': (r) => r.status === 200,
+            'test status 200': (r) => r.status === 200,
         });
     });
 }
