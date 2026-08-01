@@ -3,13 +3,17 @@
 namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Services\Statistic\PegawaiStatisticService;
+use Livewire\Attributes\Reactive;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
 
 class RangeUmurSection extends Component
 {
+    #[Reactive]
     public ?string $kabKota = null;
+
+    #[Reactive]
+    public array $statistics = [];
 
     public array $chartData = [];
 
@@ -24,14 +28,12 @@ class RangeUmurSection extends Component
     ];
 
     public function mount(
-        ?string $kabKota = null,
-        PegawaiStatisticService $service
+        ?string $kabKota = null
     ) {
         $this->kabKota = $kabKota;
 
-        $stats = $service->getAllStats($kabKota);
-
-        $this->chartData = $stats['range_umur_chart'] ?? [];
+        // Use pre-loaded statistics from parent to avoid redundant getAllStats() calls
+        $this->chartData = $this->statistics['range_umur_chart'] ?? [];
     }
 
     private function makeColumnChart(): ColumnChartModel

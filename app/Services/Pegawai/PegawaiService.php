@@ -15,7 +15,8 @@ class PegawaiService
         ?string $kabKota = null,
         ?string $rangeUmur = null,
         ?string $jenisKelamin = null,
-        ?string $agama = null
+        ?string $agama = null,
+        array $with = []
     ): LengthAwarePaginator {
         $query = Pegawai::query();
 
@@ -47,6 +48,10 @@ class PegawaiService
 
         if ($agama) {
             $query->where('agama_nama', $agama);
+        }
+
+        if (!empty($with)) {
+            $query->with($with);
         }
 
         return $query->orderBy('nama', 'asc')->paginate(10);

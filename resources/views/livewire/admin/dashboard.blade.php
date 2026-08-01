@@ -142,11 +142,11 @@
         </div>
 
         <!-- Section 2: Tingkat Pendidikan -->
-        <livewire:dashboard.pendidikan-section :kab-kota="$kabKota" :key="'pendidikan-' . $kabKota" lazy />
+        <livewire:dashboard.pendidikan-section :kab-kota="$kabKota" :statistics="$statistics" :key="'pendidikan-' . $kabKota" lazy />
 
-        <livewire:dashboard.jabatan-section :kab-kota="$kabKota" :key="'pendidikan-' . $kabKota" lazy />
+        <livewire:dashboard.jabatan-section :kab-kota="$kabKota" :statistics="$statistics" :key="'jabatan-' . $kabKota" lazy />
 
-        <livewire:dashboard.range-umur-section :kab-kota="$kabKota" :key="'pendidikan-' . $kabKota" lazy />
+        <livewire:dashboard.range-umur-section :kab-kota="$kabKota" :statistics="$statistics" :key="'umur-' . $kabKota" lazy />
     </div>
 
 </div>

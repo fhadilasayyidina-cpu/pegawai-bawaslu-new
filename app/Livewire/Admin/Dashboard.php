@@ -18,6 +18,7 @@ class Dashboard extends Component
     public array $kabKotaOptions = [];
 
     public array $statistics = [];
+    public $pegawaiUlangTahun = null;
 
 
     private array $colors = [
@@ -43,6 +44,9 @@ class Dashboard extends Component
         $this->kabKotaOptions = $kabKotaList;
 
         $this->loadStatistics();
+
+        // Load today's birthdays once and reuse during render to avoid repeated cache/DB calls
+        $this->pegawaiUlangTahun = collect(app(PegawaiService::class)->getUlangTahunHariIni());
     }
 
     public function updatedKabKota(): void
@@ -165,14 +169,12 @@ class Dashboard extends Component
     }
 
 
-    public function render(PegawaiService $pegawaiService)
+    public function render()
     {
         return view('livewire.admin.dashboard', [
             'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
             'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
-            'pegawaiUlangTahun' => $pegawaiService->getUlangTahunHariIni(),
-
-
+            'pegawaiUlangTahun' => $this->pegawaiUlangTahun,
         ]);
     }
 }
