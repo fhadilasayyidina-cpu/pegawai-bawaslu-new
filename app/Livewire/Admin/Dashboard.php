@@ -32,15 +32,6 @@ class Dashboard extends Component
     ];
 
 
-    private array $colors = [
-        '#a6192e',
-        '#e5ad25',
-        '#7b1822',
-        '#f4c542',
-        '#cf4b58',
-        '#c58a12',
-        '#5b1119',
-    ];
 
     public function mount(): void
     {
