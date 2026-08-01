@@ -181,16 +181,9 @@ Route::middleware(['auth'])
 require __DIR__ . '/settings.php';
 
 
-if (app()->environment('local')) {
-    Route::get('/tes-k6-langsung', function () {
-        // Tulis log langsung di sini untuk pembuktian
-        Log::debug("Rute khusus k6 berhasil dipanggil!");
-
-        // Paksa login user ID 4
-        Auth::loginUsingId(4);
-
-        // Panggil controller dashboard Anda secara manual
-        // Ganti 'DashboardController' sesuai nama asli controller Anda
-        return;
+if (app()->environment('local') || app()->environment('development')) {
+    Route::get('/test', function () {
+        Log::debug("Test route accessed");
+        return "Test route accessed";
     });
 }
