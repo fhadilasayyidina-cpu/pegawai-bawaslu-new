@@ -18,6 +18,18 @@ class Dashboard extends Component
     public array $kabKotaOptions = [];
 
     public array $statistics = [];
+    public $pegawaiUlangTahun = null;
+
+
+    private array $colors = [
+        '#a6192e',
+        '#e5ad25',
+        '#7b1822',
+        '#f4c542',
+        '#cf4b58',
+        '#c58a12',
+        '#5b1119',
+    ];
 
 
     private array $colors = [
@@ -43,6 +55,9 @@ class Dashboard extends Component
         $this->kabKotaOptions = $kabKotaList;
 
         $this->loadStatistics();
+
+        // Load today's birthdays once and reuse during render to avoid repeated cache/DB calls
+        $this->pegawaiUlangTahun = collect(app(PegawaiService::class)->getUlangTahunHariIni());
     }
 
     public function updatedKabKota(): void

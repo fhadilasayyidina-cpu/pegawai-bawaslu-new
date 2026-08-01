@@ -15,7 +15,8 @@ class PegawaiService
         ?string $kabKota = null,
         ?string $rangeUmur = null,
         ?string $jenisKelamin = null,
-        ?string $agama = null
+        ?string $agama = null,
+        array $with = []
     ): LengthAwarePaginator {
         $query = Pegawai::query();
 
