@@ -31,6 +31,17 @@ class Dashboard extends Component
         '#5b1119',
     ];
 
+
+    private array $colors = [
+        '#a6192e',
+        '#e5ad25',
+        '#7b1822',
+        '#f4c542',
+        '#cf4b58',
+        '#c58a12',
+        '#5b1119',
+    ];
+
     public function mount(): void
     {
         $kabKotaList = app(PegawaiService::class)->getKabKota()->toArray();
@@ -169,12 +180,14 @@ class Dashboard extends Component
     }
 
 
-    public function render()
+    public function render(PegawaiService $pegawaiService)
     {
         return view('livewire.admin.dashboard', [
             'jenisKelaminColumnChart' => $this->getJenisKelaminColumnChart(),
             'jenisKelaminPieChart' => $this->getJenisKelaminPieChart(),
-            'pegawaiUlangTahun' => $this->pegawaiUlangTahun,
+            'pegawaiUlangTahun' => $pegawaiService->getUlangTahunHariIni(),
+
+
         ]);
     }
 }

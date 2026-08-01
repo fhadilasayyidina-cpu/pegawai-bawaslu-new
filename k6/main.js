@@ -8,7 +8,7 @@ export const options = {
     duration: '10s',
 };
 
-const BASE_URL = 'http://192.168.1.7:82';
+const BASE_URL = 'http://192.168.17.59:82';
 
 export default function () {
     // // Jalankan Speed Test

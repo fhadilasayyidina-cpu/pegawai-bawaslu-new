@@ -3,17 +3,13 @@
 namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
-use Livewire\Attributes\Reactive;
+use App\Services\Statistic\PegawaiStatisticService;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Asantibanez\LivewireCharts\Models\PieChartModel;
 
 class JabatanSection extends Component
 {
-    #[Reactive]
     public ?string $kabKota = null;
-
-    #[Reactive]
-    public array $statistics = [];
 
     public array $chartData = [];
 
@@ -28,12 +24,14 @@ class JabatanSection extends Component
     ];
 
     public function mount(
-        ?string $kabKota = null
+        ?string $kabKota = null,
+        PegawaiStatisticService $service
     ) {
         $this->kabKota = $kabKota;
 
-        // Use pre-loaded statistics from parent to avoid redundant getAllStats() calls
-        $this->chartData = $this->statistics['jenis_jabatan_chart'] ?? [];
+        $stats = $service->getAllStats($kabKota);
+
+        $this->chartData = $stats['jenis_jabatan_chart'] ?? [];
     }
 
     private function makeColumnChart(): ColumnChartModel

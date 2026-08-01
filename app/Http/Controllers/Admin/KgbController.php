@@ -87,7 +87,7 @@ class KgbController extends Controller
         $template->setValue('gaji_baru', $request->query('gaji_baru', '-'));
         $template->setValue('masa_kerja_baru', $request->query('masa_kerja_baru', '-'));
         $template->setValue('tmt_baru', $this->formatTanggalIndo($request->query('tmt_baru')));
-        $template->setValue('ttd_pengirim', $request->query('ttd_pengirim', ''));
+        $template->setValue('ttd_pengirim', '${ttd_pengirim}');
         $template->setValue('nama_kasek', $request->query('nama_kasek', '-'));
 
         $pegawaiName = str_replace([' ', '/'], '-', strtolower($pegawai->nama));

@@ -50,10 +50,6 @@ class PegawaiService
             $query->where('agama_nama', $agama);
         }
 
-        if (!empty($with)) {
-            $query->with($with);
-        }
-
         return $query->orderBy('nama', 'asc')->paginate(10);
     }
 
