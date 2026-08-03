@@ -11,11 +11,13 @@ use Mary\Traits\Toast;
 
 class Import extends Component
 {
-    use WithFileUploads, Toast;
+    use Toast, WithFileUploads;
 
     public $file;
 
     public $kabKota = null;
+
+    public string $jenisAbsen = 'wfo';
 
     public $result = null;
 
@@ -30,12 +32,17 @@ class Import extends Component
         $this->validate([
             'file' => ['required', 'file', 'mimes:xlsx,xls,csv', 'max:10240'],
             'kabKota' => ['nullable', 'string'],
+            'jenisAbsen' => ['required', 'string', 'in:wfo,wfh'],
         ]);
 
         $service = app(ImportAbsensiService::class);
         $filePath = $this->file->getRealPath();
 
-        $this->result = $service->import($filePath, Auth::id(), $this->kabKota);
+        if ($this->jenisAbsen === 'wfo') {
+            $this->result = $service->importAbsenWfo($filePath, Auth::id(), $this->kabKota);
+        } else {
+            $this->result = $service->importAbsenWfh($filePath, Auth::id(), $this->kabKota);
+        }
 
         if ($this->result['success'] ?? false) {
             $this->success($this->result['message']);

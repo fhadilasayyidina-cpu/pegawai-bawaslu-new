@@ -193,14 +193,117 @@ class ImportAbsensiService
 
     public function importAbsenWfh($filepath, $createdById, $kabKota = null): array
     {
-        return [
-            'success' => false,
-            'message' => 'Metode import WFH belum diimplementasikan.',
-            'imported' => 0,
-            'skipped' => 0,
-            'failed' => 0,
-            'errors' => [],
-        ];
+        if (! file_exists($filepath)) {
+            return [
+                'success' => false,
+                'message' => "File tidak ditemukan di path: {$filepath}",
+                'imported' => 0,
+                'skipped' => 0,
+                'failed' => 0,
+                'errors' => ['File tidak ditemukan.'],
+            ];
+        }
+
+        $imported = 0;
+        $skipped = 0;
+        $failed = 0;
+        $errors = [];
+
+        try {
+            DB::beginTransaction();
+
+            FastExcel::import($filepath, function ($line) use (&$imported, &$skipped, &$failed, &$errors, $createdById, $kabKota) {
+                $noId = $this->getRowValue($line, ['no. id', 'noid', 'idabsensi', 'id_absensi', 'id']);
+                $tanggalRaw = $this->getRowValue($line, ['tanggal', 'date', 'tgl']);
+                $scanMasukRaw = $this->getRowValue($line, ['scan masuk', 'scanmasuk', 'masuk', 'in']);
+                $scanPulangRaw = $this->getRowValue($line, ['scan pulang', 'scanpulang', 'pulang', 'out']);
+
+                if (empty($noId) || empty($tanggalRaw)) {
+                    $skipped++;
+
+                    return;
+                }
+
+                // Find Pegawai by id_absensi
+                $query = Pegawai::where('id_absensi', trim((string) $noId));
+                if ($kabKota) {
+                    $query->where('kab_kota', $kabKota);
+                }
+                $pegawai = $query->first();
+
+                if (! $pegawai) {
+                    $failed++;
+                    $errors[] = "Pegawai dengan ID Absensi '{$noId}' tidak ditemukan".($kabKota ? ' di wilayah filter tersebut.' : '.');
+
+                    return;
+                }
+
+                // Parse Date
+                $tanggal = null;
+                try {
+                    if ($tanggalRaw instanceof \DateTime) {
+                        $tanggal = Carbon::instance($tanggalRaw);
+                    } else {
+                        $tanggalStr = trim((string) $tanggalRaw);
+                        if (preg_match('/^\d{1,2}\/\d{1,2}\/\d{4}$/', $tanggalStr)) {
+                            $tanggal = Carbon::createFromFormat('d/m/Y', $tanggalStr);
+                        } else {
+                            $tanggal = Carbon::parse($tanggalStr);
+                        }
+                    }
+                } catch (Exception $e) {
+                    $failed++;
+                    $errors[] = "Format tanggal tidak valid untuk ID '{$noId}': '{$tanggalRaw}'";
+
+                    return;
+                }
+
+                $scanMasuk = $this->parseTime($scanMasukRaw);
+                $scanPulang = $this->parseTime($scanPulangRaw);
+
+                // Set status based on scan masuk presence
+                $status = ! empty($scanMasuk) ? StatusAbsensi::HADIR : StatusAbsensi::BOLOS;
+
+                Absensi::updateOrCreate(
+                    [
+                        'pegawai_id' => $pegawai->id,
+                        'tanggal' => $tanggal->format('Y-m-d'),
+                    ],
+                    [
+                        'nip' => $pegawai->nip_baru,
+                        'scan_masuk' => $scanMasuk,
+                        'scan_pulang' => $scanPulang,
+                        'status' => $status,
+                        'jenis_absen' => JenisAbsen::WFH,
+                        'created_by' => $createdById,
+                    ]
+                );
+
+                $imported++;
+            });
+
+            DB::commit();
+
+            return [
+                'success' => true,
+                'message' => "Import data absensi WFH berhasil. {$imported} data diimport, {$skipped} dilewati, {$failed} gagal.",
+                'imported' => $imported,
+                'skipped' => $skipped,
+                'failed' => $failed,
+                'errors' => $errors,
+            ];
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return [
+                'success' => false,
+                'message' => 'Gagal memproses import data: '.$e->getMessage(),
+                'imported' => $imported,
+                'skipped' => $skipped,
+                'failed' => $failed,
+                'errors' => [$e->getMessage()],
+            ];
+        }
     }
 
     private function getRowValue(array $row, array $possibleKeys)
