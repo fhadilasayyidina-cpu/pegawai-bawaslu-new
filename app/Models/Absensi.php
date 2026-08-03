@@ -15,6 +15,8 @@ class Absensi extends Model
         'pegawai_id',
         'nip',
         'tanggal',
+        'scan_masuk',
+        'scan_pulang',
         'status',
         'jenis_absen',
         'keterangan',

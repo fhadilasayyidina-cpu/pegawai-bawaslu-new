@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('pegawai_id')->constrained('pegawais')->onDelete('cascade');
             $table->string('nip')->nullable();
             $table->date('tanggal');
+            $table->time('scan_masuk')->nullable();
+            $table->time('scan_pulang')->nullable();
             $table->string('status');
             $table->string('jenis_absen');
             $table->text('keterangan')->nullable();
