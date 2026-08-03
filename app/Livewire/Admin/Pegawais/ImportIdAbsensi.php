@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Admin\Pegawais;
 
+use App\Services\Absensi\ImportAbsensiService;
 use App\Services\Pegawai\ImportIdAbsensiService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Mary\Traits\Toast;
+
 
 class ImportIdAbsensi extends Component
 {
@@ -29,12 +31,12 @@ class ImportIdAbsensi extends Component
             'file' => ['required', 'file', 'mimes:xlsx,xls', 'max:10240'],
         ]);
 
-        $service = app(ImportIdAbsensiService::class);
+        $service = app(ImportAbsensiService::class);
         $filePath = $this->file->getRealPath();
 
-        $this->result = $service->import($filePath, Auth::id());
+        $this->result = $service->importAbsensiId($filePath);
 
-        if ($this->result['success'] ?? false) {
+        if ($this->result['status'] ?? false) {
             $this->success($this->result['message']);
         } else {
             $this->error($this->result['message'] ?? 'Import failed');
@@ -43,7 +45,7 @@ class ImportIdAbsensi extends Component
 
     public function downloadTemplate()
     {
-        return Storage::disk('public')->download('templates/id-absensi-template.xlsx');
+        return app(ImportAbsensiService::class)->downloadTemplateImportAbsensiId();
     }
 
     public function render()

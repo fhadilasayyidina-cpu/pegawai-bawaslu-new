@@ -11,8 +11,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Truncate users to prevent unique constraint errors on email
-        \App\Models\User::truncate();
+
 
         // 1. Admin Pusat
         User::create([

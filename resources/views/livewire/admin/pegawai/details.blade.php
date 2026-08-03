@@ -42,6 +42,10 @@
                             <flux:badge variant="primary" class="mt-2">
                                 {{ $pegawai->nip_baru }}
                             </flux:badge>
+
+                            <flux:badge variant="secondary" class="mt-2">
+                                Id Absensi : {{ $pegawai->id_absensi ?: '-' }}
+                            </flux:badge>
                         </div>
                     </x-mary-card>
                 </div>
@@ -100,7 +104,8 @@
                                 <div>
                                     <flux:text class="text-sm text-gray-500 dark:text-gray-400">KGB Terakhir</flux:text>
                                     @if ($pegawai->tgl_kgb_terakhir)
-                                        <flux:heading size="sm">{{ $pegawai->tgl_kgb_terakhir->translatedFormat('d F Y') }}
+                                        <flux:heading size="sm">
+                                            {{ $pegawai->tgl_kgb_terakhir->translatedFormat('d F Y') }}
                                         </flux:heading>
                                     @else
                                         <flux:text class="text-gray-400">Belum ada data</flux:text>
@@ -118,7 +123,8 @@
                                     <flux:text class="text-sm text-gray-500 dark:text-gray-400">Perkiraan KGB Berikutnya
                                     </flux:text>
                                     @if ($this->nextKgbDate)
-                                        <flux:heading size="sm">{{ $this->nextKgbDate->translatedFormat('d F Y') }}
+                                        <flux:heading size="sm">
+                                            {{ $this->nextKgbDate->translatedFormat('d F Y') }}
                                         </flux:heading>
                                         <flux:text class="text-xs text-gray-500">(+2 tahun dari KGB terakhir)
                                         </flux:text>
@@ -177,7 +183,8 @@
                     <x-mary-input label="Gelar Depan" wire:model="identitasForm.gelar_depan" />
                     <x-mary-input label="Gelar Belakang" wire:model="identitasForm.gelar_blk" />
                     <x-mary-input label="Tempat Lahir" wire:model="identitasForm.tempat_lahir_nama" />
-                    <flux:input label="Tanggal Lahir" type="date" wire:model="identitasForm.tgl_lahir" description="{{ $pegawai->tgl_lahir ? $pegawai->tgl_lahir->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="Tanggal Lahir" type="date" wire:model="identitasForm.tgl_lahir"
+                        description="{{ $pegawai->tgl_lahir ? $pegawai->tgl_lahir->translatedFormat('d F Y') : '' }}" />
                     <x-mary-input label="Usia" wire:model="identitasForm.usia" readonly />
                     <x-mary-input label="Range Umur" wire:model="identitasForm.range_umur" />
                     <flux:select label="Jenis Kelamin" wire:model="identitasForm.jenis_kelamin">
@@ -239,7 +246,8 @@
                             </a>
                         @endif
                     </div>
-                    <flux:input label="TMT Golongan" type="date" wire:model="jabatanForm.tmt_golongan" description="{{ $pegawai->tmt_golongan ? $pegawai->tmt_golongan->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="TMT Golongan" type="date" wire:model="jabatanForm.tmt_golongan"
+                        description="{{ $pegawai->tmt_golongan ? $pegawai->tmt_golongan->translatedFormat('d F Y') : '' }}" />
                     <flux:input label="Masa Kerja Golongan" type="number" wire:model="jabatanForm.mkgol" />
                     <x-mary-input label="Jenis Jabatan" wire:model="jabatanForm.jenis_jabatan_nama" />
                     <x-mary-input label="Jabatan" wire:model="jabatanForm.jabatan_nama" />
@@ -256,7 +264,8 @@
                             </a>
                         @endif
                     </div>
-                    <flux:input label="TMT Jabatan" type="date" wire:model="jabatanForm.tmt_jabatan" description="{{ $pegawai->tmt_jabatan ? $pegawai->tmt_jabatan->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="TMT Jabatan" type="date" wire:model="jabatanForm.tmt_jabatan"
+                        description="{{ $pegawai->tmt_jabatan ? $pegawai->tmt_jabatan->translatedFormat('d F Y') : '' }}" />
                     <x-mary-input label="Jabatan Non-Definitif" wire:model="jabatanForm.jabatan_non_definitif" />
                     <x-mary-input label="Jabatan Non-Definitif 1" wire:model="jabatanForm.jabatan_non_definitif_1" />
                     <flux:input label="Masa Kerja Jabatan" type="number" wire:model="jabatanForm.mkjab" />
@@ -326,8 +335,10 @@
                             </a>
                         @endif
                     </div>
-                    <flux:input label="Tanggal SK CPNS" type="date" wire:model="administrasiForm.tgl_sk_cpns" description="{{ $pegawai->tgl_sk_cpns ? $pegawai->tgl_sk_cpns->translatedFormat('d F Y') : '' }}" />
-                    <flux:input label="TMT CPNS" type="date" wire:model="administrasiForm.tmt_cpns" description="{{ $pegawai->tmt_cpns ? $pegawai->tmt_cpns->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="Tanggal SK CPNS" type="date" wire:model="administrasiForm.tgl_sk_cpns"
+                        description="{{ $pegawai->tgl_sk_cpns ? $pegawai->tgl_sk_cpns->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="TMT CPNS" type="date" wire:model="administrasiForm.tmt_cpns"
+                        description="{{ $pegawai->tmt_cpns ? $pegawai->tmt_cpns->translatedFormat('d F Y') : '' }}" />
                     <x-mary-input label="Nomor SK PNS" wire:model="administrasiForm.nomor_sk_pns" />
                     <div>
                         <flux:input label="Link Google Drive SK PNS" wire:model="administrasiForm.sk_pns_drive_link"
@@ -340,15 +351,19 @@
                             </a>
                         @endif
                     </div>
-                    <flux:input label="Tanggal SK PNS" type="date" wire:model="administrasiForm.tgl_sk_pns" description="{{ $pegawai->tgl_sk_pns ? $pegawai->tgl_sk_pns->translatedFormat('d F Y') : '' }}" />
-                    <flux:input label="TMT PNS" type="date" wire:model="administrasiForm.tmt_pns" description="{{ $pegawai->tmt_pns ? $pegawai->tmt_pns->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="Tanggal SK PNS" type="date" wire:model="administrasiForm.tgl_sk_pns"
+                        description="{{ $pegawai->tgl_sk_pns ? $pegawai->tgl_sk_pns->translatedFormat('d F Y') : '' }}" />
+                    <flux:input label="TMT PNS" type="date" wire:model="administrasiForm.tmt_pns"
+                        description="{{ $pegawai->tmt_pns ? $pegawai->tmt_pns->translatedFormat('d F Y') : '' }}" />
                     <x-mary-input label="No SK DPK Penugasan Kontrak"
                         wire:model="administrasiForm.no_sk_dpk_penugasan_kontrak" />
                     <flux:input label="Tanggal SK DPK" type="date"
-                        wire:model="administrasiForm.tgl_sk_dpk_penugasan_kontrak" description="{{ $pegawai->tgl_sk_dpk_penugasan_kontrak ? $pegawai->tgl_sk_dpk_penugasan_kontrak->translatedFormat('d F Y') : '' }}" />
+                        wire:model="administrasiForm.tgl_sk_dpk_penugasan_kontrak"
+                        description="{{ $pegawai->tgl_sk_dpk_penugasan_kontrak ? $pegawai->tgl_sk_dpk_penugasan_kontrak->translatedFormat('d F Y') : '' }}" />
                     <x-mary-textarea label="Keterangan" wire:model="administrasiForm.keterangan" rows="3" />
                     <flux:input label="Tanggal KGB Terakhir" type="date"
-                        wire:model="administrasiForm.tgl_kgb_terakhir" description="{{ $pegawai->tgl_kgb_terakhir ? $pegawai->tgl_kgb_terakhir->translatedFormat('d F Y') : '' }}" />
+                        wire:model="administrasiForm.tgl_kgb_terakhir"
+                        description="{{ $pegawai->tgl_kgb_terakhir ? $pegawai->tgl_kgb_terakhir->translatedFormat('d F Y') : '' }}" />
                     <div>
                         <flux:input label="Link Google Drive SK KGB" wire:model="administrasiForm.sk_kgb_drive_link"
                             placeholder="https://drive.google.com/..." />

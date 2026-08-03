@@ -1,11 +1,7 @@
 <div>
     <x-header-page title="Import ID Absensi" :breadcrumbs="$breadcrumbs">
         <x-slot:actions>
-            <flux:button
-                variant="ghost"
-                icon="x-mark"
-                href="/admin/absensis"
-            >
+            <flux:button variant="ghost" icon="x-mark" href="/admin/absensis">
                 Kembali
             </flux:button>
         </x-slot:actions>
@@ -26,13 +22,7 @@
 
                 <form wire:submit="import">
                     <div class="space-y-4">
-                        <flux:input
-                            label="Pilih File"
-                            type="file"
-                            wire:model="file"
-                            accept=".xlsx,.xls"
-                            required
-                        />
+                        <flux:input label="Pilih File" type="file" wire:model="file" accept=".xlsx,.xls" required />
 
                         @error('file')
                             <flux:text color="danger">{{ $message }}</flux:text>
@@ -42,18 +32,10 @@
                     <flux:spacer />
 
                     <div class="flex justify-end gap-2">
-                        <flux:button
-                            type="button"
-                            variant="ghost"
-                            href="/admin/absensis"
-                        >
+                        <flux:button type="button" variant="ghost" href="/admin/absensis">
                             Batal
                         </flux:button>
-                        <flux:button
-                            type="submit"
-                            variant="primary"
-                            wire:loading.attr="disabled"
-                        >
+                        <flux:button type="submit" variant="primary" wire:loading.attr="disabled">
                             <span wire:loading.remove>Import Data</span>
                             <span wire:loading>Memproses...</span>
                         </flux:button>
@@ -88,25 +70,21 @@
 
                     <flux:callout variant="info">
                         <div class="text-sm">
-                            <strong>Aturan:</strong> NIP harus sesuai dengan data pegawai di sistem. ID Absensi harus unik.
+                            <strong>Aturan:</strong> NIP harus sesuai dengan data pegawai di sistem. ID Absensi harus
+                            unik.
                         </div>
                     </flux:callout>
                 </div>
 
                 <flux:spacer />
 
-                <flux:button
-                    wire:click="downloadTemplate"
-                    variant="ghost"
-                    icon="arrow-down-tray"
-                    class="w-full"
-                >
+                <flux:button wire:click="downloadTemplate" variant="ghost" icon="arrow-down-tray" class="w-full">
                     Download Template
                 </flux:button>
             </x-mary-card>
 
             <!-- Hasil Import -->
-            @if($result)
+            @if ($result)
                 <x-mary-card>
                     <flux:heading size="md" level="3" class="mb-4">
                         Hasil Import
@@ -115,27 +93,27 @@
                     <div class="space-y-3">
                         <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
                             <flux:text class="font-medium text-green-700">Berhasil</flux:text>
-                            <flux:text class="text-green-700 font-bold">{{ $result['imported'] }}</flux:text>
+                            <flux:text class="text-green-700 font-bold">{{ $result['total_updated'] }}</flux:text>
                         </div>
 
                         <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
                             <flux:text class="font-medium text-yellow-700">Dilewati</flux:text>
-                            <flux:text class="text-yellow-700 font-bold">{{ $result['skipped'] }}</flux:text>
+                            <flux:text class="text-yellow-700 font-bold">{{ $result['total_skipped'] }}</flux:text>
                         </div>
 
-                        <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                        {{-- <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
                             <flux:text class="font-medium text-red-700">Gagal</flux:text>
-                            <flux:text class="text-red-700 font-bold">{{ $result['failed'] }}</flux:text>
-                        </div>
+                            <flux:text class="text-red-700 font-bold">{{ $result['not_found_nip'] }}</flux:text>
+                        </div> --}}
                     </div>
 
-                    @if(!empty($result['errors']))
+                    @if (!empty($result['errors']))
                         <flux:spacer />
                         <flux:heading size="sm" level="4" class="mb-2">
                             Detail Error
                         </flux:heading>
                         <div class="max-h-48 overflow-y-auto text-xs space-y-1">
-                            @foreach($result['errors'] as $error)
+                            @foreach ($result['errors'] as $error)
                                 <div class="text-red-600">{{ $error }}</div>
                             @endforeach
                         </div>

@@ -10,7 +10,7 @@ class PegawaiSeeder extends Seeder
 {
     public function run(): void
     {
-        Pegawai::truncate();
+
 
         $path = database_path('seeders/data/pegawai.xlsx');
 
