@@ -1,0 +1,10 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app/
+
+    # Level 0 (Paling santai) sampai 9 (Paling ketat). 
+    # Level 5 sangat direkomendasikan karena sudah mendeteksi unused variables & typo!
+    level: 5

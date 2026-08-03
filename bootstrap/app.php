@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Middleware\AutoLoginForDev;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Auth;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -10,27 +13,17 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->priority([
+            \App\Http\Middleware\AutoLoginForDev::class, // Harus di atas Authenticate!
+
+        ]);
+    })
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->redirectUsersTo(function () {
-            $user = auth()->user();
-
-            if (!$user) return '/login';
-
-            // Gunakan match untuk pengecekan role
-            return match ($user->role) {
-                \App\Enums\Role::ADMIN    => '/admin/dashboard',
-                \App\Enums\Role::OPERATOR => '/operator/dashboard',
-                \App\Enums\Role::PEGAWAI  => '/pegawai/dashboard',
-
-                // Jika role tidak dikenal, logout dan buang ke login
-                default => (function () {
-                    auth()->logout();
-                    request()->session()->invalidate();
-                    request()->session()->regenerateToken();
-                    return '/login';
-                })(),
-            };
-        });
+        $middleware->alias([
+            'check.role' => CheckRole::class,
+            'auto.login.test' => AutoLoginForDev::class,
+        ]);
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {

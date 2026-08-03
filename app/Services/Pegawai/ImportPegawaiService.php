@@ -2,9 +2,11 @@
 
 namespace App\Services\Pegawai;
 
+use App\Cache\PegawaiCache;
 use App\Models\Pegawai;
 use Exception;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
+
 
 class ImportPegawaiService
 {
@@ -41,7 +43,7 @@ class ImportPegawaiService
 
                 if (empty($pegawaiData['nip_baru']) || empty($pegawaiData['nama'])) {
                     $this->result['skipped']++;
-                    $this->result['errors'][] = 'Baris '.($index + 2).': NIP atau nama kosong, data dilewati';
+                    $this->result['errors'][] = 'Baris ' . ($index + 2) . ': NIP atau nama kosong, data dilewati';
 
                     continue;
                 }
@@ -49,7 +51,7 @@ class ImportPegawaiService
                 // Status bersifat opsional agar file data sederhana (NIP dan nama) tetap dapat diimpor.
                 if (! empty($pegawaiData['status_kepegwaian']) && $pegawaiData['status_kepegwaian'] !== 'AKTIF') {
                     $this->result['skipped']++;
-                    $this->result['errors'][] = 'Baris '.($index + 2).': Status tidak AKTIF, data dilewati';
+                    $this->result['errors'][] = 'Baris ' . ($index + 2) . ': Status tidak AKTIF, data dilewati';
 
                     continue;
                 }
@@ -63,9 +65,10 @@ class ImportPegawaiService
                 $pegawai->wasRecentlyCreated ? $this->result['created']++ : $this->result['updated']++;
             } catch (Exception $e) {
                 $this->result['failed']++;
-                $this->result['errors'][] = 'Baris '.($index + 2).': '.$e->getMessage();
+                $this->result['errors'][] = 'Baris ' . ($index + 2) . ': ' . $e->getMessage();
             }
         }
+        PegawaiCache::clearAllPegawaiCache();
 
         return $this->result;
     }
@@ -273,9 +276,9 @@ class ImportPegawaiService
             'nip_baru' => $this->normalizeNip($row['nip_baru'] ?? null),
             'nip_lama' => $row['nip_lama'] ?? null,
             'nama' => isset($row['nama']) ? (
-                (!empty($row['gelar_blk']) && $row['gelar_blk'] !== '-' && !str_contains($row['nama'], $row['gelar_blk'])) 
-                    ? ($row['nama'] . ', ' . $row['gelar_blk']) 
-                    : $row['nama']
+                (!empty($row['gelar_blk']) && $row['gelar_blk'] !== '-' && !str_contains($row['nama'], $row['gelar_blk']))
+                ? ($row['nama'] . ', ' . $row['gelar_blk'])
+                : $row['nama']
             ) : null,
             'gelar_depan' => $row['gelar_depan'] ?? null,
             'gelar_blk' => $row['gelar_blk'] ?? null,

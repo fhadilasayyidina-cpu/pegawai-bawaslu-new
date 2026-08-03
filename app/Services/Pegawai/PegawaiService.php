@@ -4,6 +4,9 @@ namespace App\Services\Pegawai;
 
 use App\Models\Pegawai;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Models\User;
+use App\Cache\PegawaiCache;
+use Illuminate\Support\Facades\Cache;
 
 class PegawaiService
 {
@@ -12,7 +15,8 @@ class PegawaiService
         ?string $kabKota = null,
         ?string $rangeUmur = null,
         ?string $jenisKelamin = null,
-        ?string $agama = null
+        ?string $agama = null,
+        array $with = []
     ): LengthAwarePaginator {
         $query = Pegawai::query();
 
@@ -23,10 +27,10 @@ class PegawaiService
 
         if ($search) {
             $query->where(function ($q) use ($search) {
-                $q->where('nama', 'like', '%'.$search.'%')
-                    ->orWhere('nip_baru', 'like', '%'.$search.'%')
-                    ->orWhere('nik', 'like', '%'.$search.'%')
-                    ->orWhere('jabatan_nama', 'like', '%'.$search.'%');
+                $q->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('nip_baru', 'like', '%' . $search . '%')
+                    ->orWhere('nik', 'like', '%' . $search . '%')
+                    ->orWhere('jabatan_nama', 'like', '%' . $search . '%');
             });
         }
 
@@ -46,7 +50,7 @@ class PegawaiService
             $query->where('agama_nama', $agama);
         }
 
-        return $query->orderBy('nama')->paginate(10);
+        return $query->orderBy('nama', 'asc')->paginate(10);
     }
 
     public function getPegawaiById(int $id): ?Pegawai
@@ -66,14 +70,17 @@ class PegawaiService
 
     public function getKabKota()
     {
-        return Pegawai::query()
-            ->toBase() // ⬅️ ini kuncinya
-            ->selectRaw('kab_kota as id, kab_kota as name')
-            ->whereNotNull('kab_kota')
-            ->where('kab_kota', '!=', '')
-            ->distinct()
-            ->orderBy('kab_kota')
-            ->get();
+        return Cache::rememberForever(
+            PegawaiCache::kabKotaOptions(),
+            fn() => Pegawai::query()
+                ->toBase() // ⬅️ ini kuncinya
+                ->selectRaw('kab_kota as id, kab_kota as name')
+                ->whereNotNull('kab_kota')
+                ->where('kab_kota', '!=', '')
+                ->distinct()
+                ->orderBy('kab_kota')
+                ->get()
+        );
     }
 
     public function getAllForSelect(): array
@@ -81,7 +88,7 @@ class PegawaiService
         return Pegawai::query()
             ->orderBy('nama')
             ->get()
-            ->map(fn ($p) => [
+            ->map(fn($p) => [
                 'id' => $p->id,
                 'name' => "{$p->nama} - {$p->nip_baru}",
             ])
@@ -122,5 +129,22 @@ class PegawaiService
             ->distinct()
             ->orderBy('agama_nama')
             ->get();
+    }
+
+    public function getUlangTahunHariIni()
+    {
+        $pegawais = Cache::remember(PegawaiCache::ulangTahunHariIni(), now()->endOfDay(), function () {
+            return Pegawai::select(
+                'id',
+                'nama',
+                'nik',
+                'unit_kerja',
+                'tgl_lahir'
+            )->whereMonth('tgl_lahir', '=', now()->month, 'and')
+                ->whereDay('tgl_lahir', '=', now()->day, 'and')
+                ->orderBy('nama')->get();
+        });
+
+        return $pegawais;
     }
 }
