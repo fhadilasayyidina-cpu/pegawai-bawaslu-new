@@ -4,6 +4,7 @@ namespace App\Services\Absensi;
 
 use App\Enums\JenisAbsen;
 use App\Enums\StatusAbsensi;
+use App\Helpers\Absensi\AbsensiStatusHelper;
 use App\Models\Absensi;
 use App\Models\Pegawai;
 use App\Support\ExcelHelper as SupportExcelHelper;
@@ -17,19 +18,17 @@ use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class ImportAbsensiService
 {
+
+    public function __construct(
+        private ImportAbsensiWfhService $importWfhAbsensiService
+    ) {}
+
     public function downloadTemplateImportAbsensiId()
     {
         return Storage::disk('public')->download('templates/id-absensi-template.xlsx');
     }
 
-    private function determineStatus(?string $scanMasuk, ?string $scanPulang): StatusAbsensi
-    {
-        if ($scanMasuk || $scanPulang) {
-            return StatusAbsensi::HADIR;
-        }
 
-        return StatusAbsensi::BOLOS;
-    }
 
     private function parseDate($tanggalRaw): Carbon
     {
@@ -76,7 +75,13 @@ class ImportAbsensiService
 
 
 
-
+    /**
+     * Proses import absensi dengan format mesin fingerprint.
+     *
+     * Saat ini hanya digunakan untuk WFO.
+     * Import WFH memiliki format Excel berbeda sehingga diproses
+     * melalui ImportWfhAbsensiService.
+     */
     private function importAbsensiByType(
         string $filepath,
         int $createdById,
@@ -167,7 +172,7 @@ class ImportAbsensiService
                 $scanMasuk = $this->parseTime($scanMasukRaw);
                 $scanPulang = $this->parseTime($scanPulangRaw);
 
-                $status = $this->determineStatus($scanMasuk, $scanPulang);
+                $status = AbsensiStatusHelper::determine($scanMasuk, $scanPulang);
 
                 $pegawai = $pegawaiMap[trim((string) $noId)] ?? null;
 
@@ -186,7 +191,7 @@ class ImportAbsensiService
                         'scan_masuk' => $scanMasuk,
                         'scan_pulang' => $scanPulang,
                         'status' => $status,
-                        'jenis_absen' => $jenisAbsen,
+                        'jenis_absen' => JenisAbsen::WFO,
                         'created_by' => $createdById,
                     ]
                 );
@@ -287,12 +292,14 @@ class ImportAbsensiService
 
 
 
-    public function importAbsenWfh($filepath, $createdById, $kabKota = null): array
-    {
-        return $this->importAbsensiByType(
+    public function importAbsenWfh(
+        $filepath,
+        $createdById,
+        $kabKota = null
+    ): array {
+        return $this->importWfhAbsensiService->import(
             $filepath,
             $createdById,
-            JenisAbsen::WFH,
             $kabKota
         );
     }
