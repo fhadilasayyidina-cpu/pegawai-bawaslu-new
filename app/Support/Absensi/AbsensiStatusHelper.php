@@ -12,6 +12,6 @@ class AbsensiStatusHelper
     ): StatusAbsensi {
         return ($scanMasuk || $scanPulang)
             ? StatusAbsensi::HADIR
-            : StatusAbsensi::BOLOS;
+            : StatusAbsensi::TIDAK_HADIR;
     }
 }

@@ -8,5 +8,5 @@ enum StatusAbsensi: string
     case IZIN = 'Izin';
     case SAKIT = 'Sakit';
     case CUTI = 'Cuti';
-    case BOLOS = 'Bolos';
+    case TIDAK_HADIR = 'Tidak Hadir';
 }

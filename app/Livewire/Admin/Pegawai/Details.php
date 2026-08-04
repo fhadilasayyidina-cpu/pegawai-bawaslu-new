@@ -11,13 +11,14 @@ use App\Models\Pegawai;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Mary\Traits\Toast;
 
 class Details extends Component
 {
-
     use Toast;
     use WithFileUploads;
+    use WithPagination;
 
     public Pegawai $pegawai;
 
@@ -45,6 +46,13 @@ class Details extends Component
     public function getAbsensiStatisticsProperty(): array
     {
         return app(\App\Services\Absensi\AbsensiStatisticService::class)->getStatistics(
+            pegawaiId: $this->pegawai->id
+        );
+    }
+
+    public function getAbsensisProperty()
+    {
+        return app(\App\Services\Absensi\AbsensiService::class)->getAll(
             pegawaiId: $this->pegawai->id
         );
     }

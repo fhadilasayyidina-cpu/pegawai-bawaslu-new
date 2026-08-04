@@ -40,7 +40,7 @@ class AbsensiStatisticService
             'izin' => (clone $query)->where('status', \App\Enums\StatusAbsensi::IZIN->value)->count(),
             'sakit' => (clone $query)->where('status', \App\Enums\StatusAbsensi::SAKIT->value)->count(),
             'cuti' => (clone $query)->where('status', \App\Enums\StatusAbsensi::CUTI->value)->count(),
-            'bolos' => (clone $query)->where('status', \App\Enums\StatusAbsensi::BOLOS->value)->count(),
+            'tidak_hadir' => (clone $query)->where('status', \App\Enums\StatusAbsensi::TIDAK_HADIR->value)->count(),
         ];
     }
 }
