@@ -74,6 +74,11 @@ class ImportAbsensiService
         JenisAbsen $jenisAbsen,
         ?string $kabKota = null
     ): array {
+
+        Log::debug('Filter kabupaten import:', [
+            'kabKota' => $kabKota,
+        ]);
+
         if (! file_exists($filepath)) {
             return [
                 'success' => false,
@@ -96,7 +101,11 @@ class ImportAbsensiService
             $pegawaiMap = Pegawai::query()
                 ->when($kabKota, fn($q) => $q->where('kab_kota', $kabKota))
                 ->get(['id', 'nip_baru', 'id_absensi'])->keyBy(fn($p) => trim((string) $p->id_absensi));
-
+            Log::debug('Pegawai map import:', [
+                'kabKota' => $kabKota,
+                'total' => $pegawaiMap->count(),
+                'sample' => $pegawaiMap->take(5)->keys()->toArray(),
+            ]);
             FastExcel::import($filepath, function ($line) use (
                 &$imported,
                 &$skipped,
@@ -156,6 +165,14 @@ class ImportAbsensiService
 
 
                 $pegawai = $pegawaiMap[trim((string) $noId)] ?? null;
+
+                if (! $pegawai) {
+                    $failed++;
+                    $errors[] = "Pegawai dengan ID Absensi 
+                    '{$noId}' tidak ditemukan" . ($kabKota ? ' di wilayah filter tersebut.' : '.');
+                    return;
+                }
+
                 Absensi::updateOrCreate(
                     ['pegawai_id' => $pegawai->id, 'tanggal' => $tanggal
                         ->format('Y-m-d'),],
