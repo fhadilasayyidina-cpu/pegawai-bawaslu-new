@@ -9,6 +9,7 @@ use App\Models\Pegawai;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
@@ -66,7 +67,7 @@ class ImportAbsensiService
             ];
         } catch (Exception $e) {
             DB::rollBack();
-            throw new Exception('Gagal memproses import data: '.$e->getMessage());
+            throw new Exception('Gagal memproses import data: ' . $e->getMessage());
         }
     }
 
@@ -104,6 +105,7 @@ class ImportAbsensiService
                 $scanPulangRaw = $this->getRowValue($line, ['scan pulang', 'scanpulang', 'pulang', 'out']);
 
                 if (empty($noId) || empty($tanggalRaw)) {
+                    Log::debug("Skipping row due to missing ID or date: " . json_encode($line));
                     $skipped++;
 
                     return;
@@ -118,7 +120,7 @@ class ImportAbsensiService
 
                 if (! $pegawai) {
                     $failed++;
-                    $errors[] = "Pegawai dengan ID Absensi '{$noId}' tidak ditemukan".($kabKota ? ' di wilayah filter tersebut.' : '.');
+                    $errors[] = "Pegawai dengan ID Absensi '{$noId}' tidak ditemukan" . ($kabKota ? ' di wilayah filter tersebut.' : '.');
 
                     return;
                 }
@@ -182,7 +184,7 @@ class ImportAbsensiService
 
             return [
                 'success' => false,
-                'message' => 'Gagal memproses import data: '.$e->getMessage(),
+                'message' => 'Gagal memproses import data: ' . $e->getMessage(),
                 'imported' => $imported,
                 'skipped' => $skipped,
                 'failed' => $failed,
@@ -233,7 +235,7 @@ class ImportAbsensiService
 
                 if (! $pegawai) {
                     $failed++;
-                    $errors[] = "Pegawai dengan ID Absensi '{$noId}' tidak ditemukan".($kabKota ? ' di wilayah filter tersebut.' : '.');
+                    $errors[] = "Pegawai dengan ID Absensi '{$noId}' tidak ditemukan" . ($kabKota ? ' di wilayah filter tersebut.' : '.');
 
                     return;
                 }
@@ -297,7 +299,7 @@ class ImportAbsensiService
 
             return [
                 'success' => false,
-                'message' => 'Gagal memproses import data: '.$e->getMessage(),
+                'message' => 'Gagal memproses import data: ' . $e->getMessage(),
                 'imported' => $imported,
                 'skipped' => $skipped,
                 'failed' => $failed,
