@@ -36,6 +36,11 @@
                             @endforeach
                         </flux:select>
 
+                        <flux:radio.group wire:model="jenisAbsen" label="Jenis Absensi">
+                            <flux:radio value="wfo" label="WFO (Work From Office)" />
+                            <flux:radio value="wfh" label="WFH (Work From Home)" />
+                        </flux:radio.group>
+
                         <flux:input
                             label="Pilih File"
                             type="file"

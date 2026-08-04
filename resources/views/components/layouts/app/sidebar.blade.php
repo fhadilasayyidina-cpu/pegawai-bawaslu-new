@@ -109,8 +109,7 @@ $dashboardUrl = match ($user->role) {
 
     <body class="app-shell min-h-screen text-slate-900 dark:text-slate-100 transition-colors duration-200">
         <x-mary-toast />
-        <flux:sidebar sticky collapsible="mobile"
-            class="app-sidebar border-e backdrop-blur-md">
+        <flux:sidebar sticky collapsible="mobile" class="app-sidebar border-e backdrop-blur-md">
             <flux:sidebar.header class="flex items-center justify-between py-4">
                 <x-app-logo :sidebar="true" href="{{ $dashboardUrl }}" />
                 <flux:sidebar.collapse class="lg:hidden" />
@@ -123,8 +122,8 @@ $dashboardUrl = match ($user->role) {
                             @php
                                 $isActive = request()->is($item['route']) || request()->is($item['route'] . '/*');
                             @endphp
-                            <flux:sidebar.item :icon="$item['icon']" :href="url($item['route'])"
-                                :current="$isActive" wire:navigate
+                            <flux:sidebar.item :icon="$item['icon']" :href="url($item['route'])" :current="$isActive"
+                                wire:navigate
                                 class="mb-1 transition-all duration-200 rounded-xl px-3 py-2 text-sm font-medium {{ $isActive ? 'app-nav-active font-semibold shadow-xs' : 'text-slate-600 dark:text-slate-400' }}">
                                 {{ __($item['label']) }}
                             </flux:sidebar.item>
@@ -132,7 +131,6 @@ $dashboardUrl = match ($user->role) {
                     </flux:sidebar.group>
                 @endforeach
             </flux:sidebar.nav>
-
 
             {{-- <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
@@ -148,11 +146,8 @@ $dashboardUrl = match ($user->role) {
 
             <flux:spacer />
 
-
-
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
-
 
         <!-- Mobile User Menu -->
         <flux:header class="lg:hidden">
@@ -201,6 +196,8 @@ $dashboardUrl = match ($user->role) {
         {{ $slot }}
 
         @fluxScripts
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        @livewireChartsScripts
         <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@2.9.6/build/vanilla-calendar.min.css"
             rel="stylesheet">

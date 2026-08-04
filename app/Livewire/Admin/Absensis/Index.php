@@ -33,8 +33,11 @@ class Index extends Component
 
     public array $tableHeaders = [
         ['key' => 'nomor', 'label' => 'No', 'class' => 'w-1'],
-        ['key' => 'tanggal', 'label' => 'Tanggal'],
         ['key' => 'pegawai', 'label' => 'Pegawai'],
+        ['key' => 'tanggal', 'label' => 'Tanggal'],
+        ['key' => 'jenis_absen', 'label' => 'Tipe'],
+        ['key' => 'scan_masuk', 'label' => 'Scan Masuk'],
+        ['key' => 'scan_pulang', 'label' => 'Scan Keluar'],
         ['key' => 'status', 'label' => 'Status'],
         ['key' => 'keterangan', 'label' => 'Keterangan'],
     ];

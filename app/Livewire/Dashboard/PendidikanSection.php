@@ -24,7 +24,7 @@ class PendidikanSection extends Component
     ];
 
     public function mount(
-        ?string $kabKota = null,
+        ?string $kabKota,
         PegawaiStatisticService $service
     ) {
         $this->kabKota = $kabKota;

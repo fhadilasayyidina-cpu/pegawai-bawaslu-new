@@ -34,10 +34,13 @@ class AbsensiStatisticService
 
         return [
             'total' => $total,
-            'hadir' => (clone $query)->where('status', 'Hadir')->count(),
-            'izin' => (clone $query)->where('status', 'Izin')->count(),
-            'cuti' => (clone $query)->where('status', 'Cuti')->count(),
-            'tidak_hadir' => (clone $query)->where('status', 'Tidak Hadir')->count(),
+            'hadir' => (clone $query)->where('status', \App\Enums\StatusAbsensi::HADIR->value)->count(),
+            'hadir_wfo' => (clone $query)->where('status', \App\Enums\StatusAbsensi::HADIR->value)->where('jenis_absen', \App\Enums\JenisAbsen::WFO->value)->count(),
+            'hadir_wfh' => (clone $query)->where('status', \App\Enums\StatusAbsensi::HADIR->value)->where('jenis_absen', \App\Enums\JenisAbsen::WFH->value)->count(),
+            'izin' => (clone $query)->where('status', \App\Enums\StatusAbsensi::IZIN->value)->count(),
+            'sakit' => (clone $query)->where('status', \App\Enums\StatusAbsensi::SAKIT->value)->count(),
+            'cuti' => (clone $query)->where('status', \App\Enums\StatusAbsensi::CUTI->value)->count(),
+            'bolos' => (clone $query)->where('status', \App\Enums\StatusAbsensi::BOLOS->value)->count(),
         ];
     }
 }

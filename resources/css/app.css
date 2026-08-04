@@ -51,6 +51,7 @@
 }
 
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -159,7 +160,7 @@ select:focus[data-flux-control] {
 * Paginator - Traditional style
 * Because Laravel defaults does not match well the design of daisyUI.
 */
-.mary-table-pagination span[aria-current="page"] > span {
+.mary-table-pagination span[aria-current="page"]>span {
     @apply bg-primary text-base-100
 }
 
@@ -204,7 +205,7 @@ body {
 }
 
 .app-main-content {
-    max-width: 1680px;
+    width: 100%;
     margin: 0 auto;
     padding: 2rem clamp(1rem, 2.5vw, 2.75rem) 3rem;
 }
@@ -322,15 +323,28 @@ body {
     background: linear-gradient(180deg, #3b0c12, #21080c) !important;
 }
 
-.dark .brand-lockup__fallback { color: #f8d76b; }
-.dark .app-nav-active { color: #f8d76b !important; }
+.dark .brand-lockup__fallback {
+    color: #f8d76b;
+}
+
+.dark .app-nav-active {
+    color: #f8d76b !important;
+}
+
 .dark .app-main-content .bg-base-200,
 .dark .app-main-content .table,
-.dark .app-main-content .mary-table-wrapper { background: rgba(49, 8, 13, 0.82); }
+.dark .app-main-content .mary-table-wrapper {
+    background: rgba(49, 8, 13, 0.82);
+}
 
 @media (max-width: 640px) {
-    .app-main-content { padding: 1.25rem 1rem 2rem; }
-    .page-heading { padding-top: 0; }
+    .app-main-content {
+        padding: 1.25rem 1rem 2rem;
+    }
+
+    .page-heading {
+        padding-top: 0;
+    }
 }
 
 .dashboard-shell::before {
@@ -379,36 +393,67 @@ body {
     animation: statistic-card-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.statistic-card:nth-child(2) { animation-delay: 70ms; }
-.statistic-card:nth-child(3) { animation-delay: 140ms; }
-.statistic-card:nth-child(4) { animation-delay: 210ms; }
-.statistic-card:nth-child(5) { animation-delay: 280ms; }
+.statistic-card:nth-child(2) {
+    animation-delay: 70ms;
+}
+
+.statistic-card:nth-child(3) {
+    animation-delay: 140ms;
+}
+
+.statistic-card:nth-child(4) {
+    animation-delay: 210ms;
+}
+
+.statistic-card:nth-child(5) {
+    animation-delay: 280ms;
+}
 
 .statistic-value {
     display: inline-block;
     font-variant-numeric: tabular-nums;
 }
 
-.dashboard-shell h2 > span {
+.dashboard-shell h2>span {
     box-shadow: 0 0 0 5px rgba(229, 173, 37, 0.14);
 }
 
 @keyframes statistic-card-in {
-    from { opacity: 0; transform: translateY(18px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 @keyframes chart-card-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes chart-reveal {
-    from { transform: translateY(8px) scale(0.985); }
-    to { transform: translateY(0) scale(1); }
+    from {
+        transform: translateY(8px) scale(0.985);
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     .dashboard-chart-card,
     .dashboard-shell .card,
     .dashboard-shell [id$='-chart'],
