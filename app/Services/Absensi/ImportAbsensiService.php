@@ -22,6 +22,15 @@ class ImportAbsensiService
         return Storage::disk('public')->download('templates/id-absensi-template.xlsx');
     }
 
+    private function determineStatus(?string $scanMasuk, ?string $scanPulang): StatusAbsensi
+    {
+        if ($scanMasuk || $scanPulang) {
+            return StatusAbsensi::HADIR;
+        }
+
+        return StatusAbsensi::BOLOS;
+    }
+
     private function parseDate($tanggalRaw): Carbon
     {
         if ($tanggalRaw instanceof \DateTime) {
@@ -158,11 +167,7 @@ class ImportAbsensiService
                 $scanMasuk = $this->parseTime($scanMasukRaw);
                 $scanPulang = $this->parseTime($scanPulangRaw);
 
-                $status = ! empty($scanMasuk)
-                    ? StatusAbsensi::HADIR
-                    : StatusAbsensi::BOLOS;
-
-
+                $status = $this->determineStatus($scanMasuk, $scanPulang);
 
                 $pegawai = $pegawaiMap[trim((string) $noId)] ?? null;
 
