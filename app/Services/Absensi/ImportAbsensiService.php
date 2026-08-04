@@ -4,7 +4,7 @@ namespace App\Services\Absensi;
 
 use App\Enums\JenisAbsen;
 use App\Enums\StatusAbsensi;
-use App\Helpers\Absensi\AbsensiStatusHelper;
+use App\Support\Absensi\AbsensiStatusHelper;
 use App\Models\Absensi;
 use App\Models\Pegawai;
 use App\Support\ExcelHelper as SupportExcelHelper;
