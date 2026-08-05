@@ -111,9 +111,16 @@
                                         <flux:button icon="ellipsis-horizontal" variant="ghost" size="sm" />
                                         <flux:menu>
                                             <flux:menu.item
+                                                wire:click="openEditModal({{ $hariLibur->id }})"
+                                                icon="pencil-square"
+                                            >
+                                                Ubah
+                                            </flux:menu.item>
+                                            <flux:menu.item
                                                 wire:click="delete({{ $hariLibur->id }})"
                                                 wire:confirm="Apakah Anda yakin ingin menghapus hari libur ini?"
                                                 icon="trash"
+                                                variant="danger"
                                             >
                                                 Hapus
                                             </flux:menu.item>
@@ -173,7 +180,40 @@
         </form>
     </flux:modal>
 
-    <!-- Modal Import dari API -->
+    <!-- Modal Ubah Hari Libur -->
+    <flux:modal
+        name="edit-hari-libur-modal"
+        class="max-w-md"
+        wire:model="showEditModal"
+        @close="closeEditModal"
+    >
+        <form wire:submit="update" class="space-y-4">
+            <flux:heading size="lg">Ubah Hari Libur</flux:heading>
+
+            <flux:field label="Tanggal">
+                <flux:input type="date" wire:model="date" required />
+                @error('date') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </flux:field>
+
+            <flux:field label="Keterangan">
+                <flux:input
+                    wire:model="description"
+                    placeholder="Contoh: Hari Raya Idul Fitri"
+                    required
+                />
+                @error('description') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </flux:field>
+
+            <div class="flex justify-end gap-2 mt-4">
+                <flux:modal.close>
+                    <flux:button variant="ghost">Batal</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">Simpan Perubahan</flux:button>
+            </div>
+        </form>
+    </flux:modal>
+
+    <!-- Modal Import dari Storage JSON -->
     <flux:modal
         name="import-hari-libur-modal"
         class="max-w-md"
@@ -184,40 +224,37 @@
             <flux:heading size="lg">Import Hari Libur Nasional</flux:heading>
 
             <flux:text>
-                Import data hari libur nasional dari API libur.deno.dev. Data akan ditambahkan ke database.
+                Import data hari libur nasional dari file JSON di storage (contoh: <code>storage/app/DataLibur/2026.json</code>).
             </flux:text>
+
+            <flux:field label="Tahun">
+                <flux:input type="number" wire:model="importYear" placeholder="Contoh: 2026" required />
+                @error('importYear') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
+            </flux:field>
+
+            @if(session('error'))
+                <flux:callout variant="danger">{{ session('error') }}</flux:callout>
+            @endif
 
             @if(!empty($importResult))
                 <div class="space-y-2">
                     <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                        <flux:text class="text-green-700">Berhasil ditambahkan</flux:text>
-                        <flux:text class="text-green-700 font-bold">{{ $importResult['imported'] }}</flux:text>
+                        <flux:text class="text-green-700">Berhasil ditambahkan/diperbarui</flux:text>
+                        <flux:text class="text-green-700 font-bold">
+                            {{ ($importResult['imported'] ?? 0) + ($importResult['skipped'] ?? 0) }}
+                        </flux:text>
                     </div>
-
-                    @if($importResult['skipped'] > 0)
-                    <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
-                        <flux:text class="text-yellow-700">Sudah ada/dilewati</flux:text>
-                        <flux:text class="text-yellow-700 font-bold">{{ $importResult['skipped'] }}</flux:text>
-                    </div>
-                    @endif
-
-                    @if($importResult['failed'] > 0)
-                    <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
-                        <flux:text class="text-red-700">Gagal</flux:text>
-                        <flux:text class="text-red-700 font-bold">{{ $importResult['failed'] }}</flux:text>
-                    </div>
-                    @endif
                 </div>
             @endif
 
             <div class="flex justify-end gap-2 mt-4">
                 <flux:modal.close>
                     <flux:button variant="ghost">
-                        @if(!empty($importResult)) 'Tutup' @else 'Batal' @endif
+                        @if(!empty($importResult)) Tutup @else Batal @endif
                     </flux:button>
                 </flux:modal.close>
                 @if(empty($importResult))
-                    <flux:button wire:click="importFromApi" variant="primary" wire:loading.attr="disabled">
+                    <flux:button wire:click="importFromStorage" variant="primary" wire:loading.attr="disabled">
                         <span wire:loading.remove>Import Sekarang</span>
                         <span wire:loading>Memproses...</span>
                     </flux:button>
