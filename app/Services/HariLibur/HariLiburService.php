@@ -6,6 +6,7 @@ use App\Models\HariLibur;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class HariLiburService
@@ -60,6 +61,7 @@ class HariLiburService
     {
         $tahunString = $tahun->format('Y');
         $pathFile = "DataLibur/{$tahunString}.json"; // Hasil: DataLibur/2026.json
+        Log::debug("Importing holiday data from file: {$pathFile}");
 
         if (! Storage::exists($pathFile)) {
             return [
