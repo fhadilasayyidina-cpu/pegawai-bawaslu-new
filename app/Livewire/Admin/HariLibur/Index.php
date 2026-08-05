@@ -3,7 +3,7 @@
 namespace App\Livewire\Admin\HariLibur;
 
 use App\Models\HariLibur;
-use App\Services\ImportHariLiburService;
+use App\Services\HariLibur\HariLiburService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -15,13 +15,19 @@ class Index extends Component
 
     public bool $showCreateModal = false;
 
+    public bool $showEditModal = false;
+
     public bool $showImportModal = false;
+
+    public ?int $editingId = null;
 
     public array $importResult = [];
 
     public string $date = '';
 
     public string $description = '';
+
+    public string $importYear = '';
 
     public ?string $search = null;
 
@@ -41,28 +47,53 @@ class Index extends Component
         $this->resetErrorBag();
     }
 
+    public function openEditModal(int $id): void
+    {
+        $hariLibur = HariLibur::findOrFail($id);
+        $this->editingId = $id;
+        $this->date = $hariLibur->date->format('Y-m-d');
+        $this->description = $hariLibur->description;
+        $this->showEditModal = true;
+    }
+
+    public function closeEditModal(): void
+    {
+        $this->showEditModal = false;
+        $this->reset(['editingId', 'date', 'description']);
+        $this->resetErrorBag();
+    }
+
     public function openImportModal(): void
     {
         $this->showImportModal = true;
+        $this->importYear = (string) now()->year;
     }
 
     public function closeImportModal(): void
     {
         $this->showImportModal = false;
         $this->importResult = [];
+        $this->reset('importYear');
     }
 
-    public function importFromApi(): void
+    public function importFromStorage(): void
     {
-        $service = new ImportHariLiburService;
-        $this->importResult = $service->importFromApi();
+        $this->validate([
+            'importYear' => ['required', 'integer', 'min:2000', 'max:2099'],
+        ]);
 
-        $totalProcessed = $this->importResult['imported'] + $this->importResult['skipped'];
+        $service = new HariLiburService;
+        try {
+            $tahun = new \DateTime($this->importYear.'-01-01');
+            $this->importResult = $service->importDataLibur($tahun);
 
-        if ($totalProcessed > 0) {
-            session()->flash('status', "Selesai: {$this->importResult['imported']} ditambahkan, {$this->importResult['skipped']} dilewati.");
-        } else {
-            session()->flash('status', 'Import gagal. Coba lagi nanti.');
+            if ($this->importResult['success']) {
+                session()->flash('status', $this->importResult['message']);
+            } else {
+                session()->flash('error', $this->importResult['message']);
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', 'Gagal import: '.$e->getMessage());
         }
 
         $this->closeImportModal();
@@ -78,7 +109,8 @@ class Index extends Component
             'description' => ['required', 'string', 'max:255'],
         ]);
 
-        HariLibur::create([
+        $service = new HariLiburService;
+        $service->create([
             'date' => $this->date,
             'description' => $this->description,
             'is_imported' => false,
@@ -90,11 +122,33 @@ class Index extends Component
     }
 
     /**
+     * Update an existing holiday.
+     */
+    public function update(): void
+    {
+        $this->validate([
+            'date' => ['required', 'date', 'unique:hari_liburs,date,'.$this->editingId],
+            'description' => ['required', 'string', 'max:255'],
+        ]);
+
+        $service = new HariLiburService;
+        $service->update($this->editingId, [
+            'date' => $this->date,
+            'description' => $this->description,
+        ]);
+
+        $this->closeEditModal();
+
+        session()->flash('status', 'Hari libur berhasil diperbarui.');
+    }
+
+    /**
      * Delete a holiday.
      */
     public function delete(int $id): void
     {
-        HariLibur::findOrFail($id)->delete();
+        $service = new HariLiburService;
+        $service->delete($id);
 
         session()->flash('status', 'Hari libur berhasil dihapus.');
     }
